@@ -1,0 +1,32 @@
+.french_news  {
+	left:0px;
+	background: #66CC66;
+}
+.french_news_sport {
+	background: #6699CC;
+	left:210px;
+}
+.hun_news {
+	background: #660033;
+	color:#fff;
+	left:420px;
+}
+.hun_news dd {
+	color:#fff;
+}
+.hun_news a {
+	color:#66CC66;
+}
+#news dd {
+	font:10px,arial,sans-serif;
+}
+#news a {
+	font:12px,arial,sans-serif;
+}
+#news {
+	position:absolute;
+	display:block;
+	max-width:200px;
+	color: #000;
+	text-align:left;
+}

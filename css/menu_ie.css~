@@ -1,0 +1,49 @@
+body {
+	behavior: url(/htc/csshover.htc);
+	font-size: 100%;
+}
+
+#menu ul li a {height: 1%;} 
+
+#menu a, #menu h2 {
+	font: bold 0.7em/1.4em arial, helvetica, sans-serif;
+}
+
+
+#menu ul {text-align:left;};
+#menu ul li {
+		float: left; /* cure IE5.x "whitespace in lists" problem */
+		width: 100%;
+		margin:0px;
+		}
+#menu ul li a {
+		height: 1%; /* make links honour display: block; properly */
+		} 
+#menu a, #menu h2 {
+			font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
+		/* if required use em's for IE as it won't resize pixels */
+		}
+
+#menu ul ul {
+	list-style-type:none;
+	margin:0px;
+}
+h1 {
+			font: bold 1.7em/3.4em arial, helvetica, sans-serif; 
+}
+h2 {
+			font: bold 1.6em/3.2em arial, helvetica, sans-serif; 
+}
+#news {
+	z-index:-1;
+	width:270px;
+}
+.hun_news {
+	left:580px;
+}
+.hun_news a {
+	color:green;
+}
+#display_recipe {
+	z-index:-1;
+}

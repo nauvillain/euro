@@ -1,0 +1,247 @@
+body 
+{
+	background:#698B22;
+	font:10px lucida,sans-serif;
+}
+#content {
+	position:relative;
+	width:860px;
+	margin:0 auto;
+}
+#pagetop{
+	position:absolute;
+	top:0px;
+	height:100px;
+	width:859px;
+	margin: 0 auto;
+	background:white;
+}
+#pagetop img{
+	display:inline;
+	max-width:300px;
+}
+.p_center 
+{
+	text-align:center;
+}
+#menu {
+	position:absolute;
+	float:left;
+	background:#7d0508;
+	top:150px;
+	width:120px;
+	border:1px solid white;
+}
+#menu a {
+	text-decoration:none;
+	color:#fff;
+}
+#menu p {
+	margin:5px 5px 5px 10px;
+	}
+#menu p:hover {
+	color:white;
+}
+#menu a:hover {
+	color:white;
+	}
+#main {
+	width:620px;
+	float:right;
+	position:absolute;;
+	background:white;
+	right:40px;	
+	top:150px;
+	border:1px solid;  
+}
+#main table,tr,td,a {	font:10px lucida,sans-serif;
+	
+}
+#display_greetings {
+	position:absolute;	
+	top:5px;
+	right:2px;
+}
+#temp_items {
+	position:relative;
+	float:left;
+	top:0px;
+	left:2px;
+}
+#match_board {
+	position:relative;
+	width:450px;
+	margin: 0 auto;
+	height:15px;
+	padding:10px;
+}
+#mb_place_display{
+	position:absolute;
+	width:100px;	
+	top:5px;
+	left:5px;
+}
+#mb_match_display{
+
+	position:absolute;
+	top:5px;
+	left:105px;
+	width:320px;
+	height:25px;
+}
+#mb_teams_display {
+	width:250px;
+	font:bold 11px lucida,sans-serif;
+	position:absolute;
+	left:0px;
+}
+#mb_bet_display {
+	width:100px;
+	position:absolute;
+	right:0px;
+}
+#mb_bet_display img, #mb_teams_display img{
+	vertical-align:middle;
+	margin:0px 5px 0px 5px;}
+#title_main{
+	text-align:center;
+	position:relative;
+	top:10px;
+	height:30px;
+}
+.boldf {
+	font:bold 11px lucida,sans-serif;
+}
+.gray {
+	color:#7D0508;
+	font:10px lucida,sans-serif;
+}
+#temp_items {
+	position: absolute;
+	top: 5px;
+	left:5px;
+}
+
+#match_board_print {
+
+	display:block;
+	float:left;
+	text-align:center;
+	margin:10px;
+	font:10px lucida,sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	height:100px;
+	width:220px;
+}
+#euro_day {
+	position:relative;
+	clear:left;
+	display:block;
+	width:480px;
+	margin: 0 auto;
+	border: 0px solid;
+	padding:5px;
+}
+#euro_day_border {
+	float:left;
+	margin-top:5px;
+	border:3px ridge;  
+}
+#date_display {
+	font:bold 10px lucida,sans-serif;
+	color:#7D0508;
+}
+
+#main_login{
+	position:relative;
+	width:300px;
+	margin: 0 auto;
+	padding:10px;
+	text-align:center;
+}
+#main_login input {
+	font:11px lucida,sans-serif;
+	color:#7D0508;
+	float:right;
+}
+#main_login td {
+	
+	font:bold 11px lucida,sans-serif;
+}
+#main_rules {
+padding:10px;
+}
+#team_ranking table{
+	width:285px;
+        border:1px solid;
+       	border-color:#7D0508;
+	border-spacing:0px;
+}
+#team_ranking td {
+	padding:2px;
+        border-bottom:1px solid;
+        border-right:1px solid;
+       	border-color:#7D0508;
+}
+#team_ranking img{
+	vertical-align:middle;
+}
+#display_final_round table{
+	
+}
+#display_final_round td{
+	width:80px;
+}
+#menu_center {
+	position:relative;
+	width:200px;
+	margin:0px auto;
+	text-align:center;
+}
+#foot_mb_place_display{
+	width:200px;	
+}
+#foot_mb_match_display{
+
+	height:18px;
+}
+#foot_mb_teams_display {
+	position:relative;
+	width:250px;
+	height:20px;
+	font:bold 11px lucida,sans-serif;
+}
+#foot_mb_bet_display {
+	width:200px;
+	position:relative;
+}
+#foot_mb_bet_display img, #mb_teams_display img{
+	vertical-align:middle;
+	margin:0px 5px 0px 5px;
+}
+#foot_match_board {
+	position:relative;
+	width:250px;
+	margin: 0 auto;
+	height:35px;
+	padding:10px;
+}
+#foot_main {
+	position:relative;
+	width:600px;
+	margin: 0 auto;
+}
+#played {
+	position:absolute;
+	left:0px;
+	width:295px;
+	position:relative;
+}
+#upcoming {
+	position:absolute;
+	right:0px;	
+	width:295px;
+}

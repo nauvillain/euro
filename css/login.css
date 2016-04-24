@@ -1,0 +1,22 @@
+#login_content{
+	width:600px;
+	margin:0 auto;
+	margin-top:70px;
+	border:groove 1px;
+}
+#main_login{
+	position:relative;
+	width:300px;
+	margin: 0 auto;
+	padding:10px;
+	text-align:center;
+}
+#main_login input {
+	font:11px lucida,sans-serif;
+	color:#7D0508;
+	float:right;
+}
+#main_login td {
+	
+	font:bold 11px lucida,sans-serif;
+}

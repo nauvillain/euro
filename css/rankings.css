@@ -1,0 +1,21 @@
+.ranking_table  {
+	width:615px;
+	font-size:8pt ;
+	margin:0 auto;
+	white-space:nowrap;
+}
+.ranking_table  td{
+	width:300px;
+	
+}
+#rankings_previous_winners{
+        float:left;
+        width:150px;
+        font:14px bold lucida;
+}
+#rankings_previous_winners li{
+        list-style-type: none;
+        float:left;
+        margin-bottom:10px;
+}
+

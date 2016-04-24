@@ -1,0 +1,38 @@
+<?php
+
+function display_threads($days){
+
+	$active=find_active_threads($days);
+	while($row=mysql_fetch_array($active)){
+		//echo $row['id'];
+		
+		display_main_thread($row['id']);
+	}
+}
+
+function load_post($t_id){
+	echo "<>";
+}
+
+function find_active_threads($days){
+	$sql=mysql_query("SELECT id FROM forum WHERE DATE_SUB(CURDATE(),INTERVAL $days DAY)< last_mod AND thread='0' ORDER BY thread") or die(mysql_error());
+	return($sql);
+}
+
+function display_main_thread($t_id){
+	$sql=mysql_query("SELECT * FROM forum WHERE thread='$t_id'") or die(mysql_error());
+	$num_threads=mysql_num_rows($sql);
+	if($num_threads) {
+		echo "<ul>\n";
+		echo mysql_result($sql,$i,'content');
+		for($i=0;$i<$num_threads;$i++) {	
+			echo "<li>\n";
+			display_main_thread($sql,$i,'id');
+			echo "</li>\n";
+		}
+		echo "</ul>\n";
+	}
+	else return;
+	
+}
+?>

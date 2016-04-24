@@ -1,0 +1,718 @@
+body {
+	text-align: center;
+	/*background-image: url(/img/BannerTileBackground.gif);
+	background-repeat: repeat-x; 
+	/*	background:#B5B5B5;*/
+
+/*max-width:900px;
+background-image:url('/img/journal_bkg.jpg');
+background-repeat:repeat;*/
+background:#F6F9ED;
+}
+
+#menu {
+	width: 100%;
+	background-repeat: repeat-x; 
+/*	background: #eff;*/
+	color:#ffebe8;
+	display:block;
+	border:0px;
+}
+
+#menu ul {
+	display:block;
+	list-style: none;
+	margin: 0px;
+	padding:0;
+	float:left;
+	width: 8em;
+}
+
+#menu a {
+	font:  bold 11px/16px lucida, helvetica, sans-serif;
+	display: block;
+	border-width: 1px;
+	border-style: solid;
+	padding: 12px 3px 0px;
+	border-color: #ccc #888 #555 #bbb;
+	background: #329DAB;
+	margin: 0;
+}
+
+#menu h2 {
+	font: bold 11px/16px lucida, helvetica, sans-serif;
+	display: block;
+	border-width: 1px;
+	padding: 12px 3px 0px;
+	border-style: solid;
+	border-color: #ccc #888 #555 #bbb;
+	margin: 0;
+	color: #000;
+	background: #329DAB;
+/*	text-transform: uppercase;*/
+}
+
+#menu a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#menu img { 
+	padding:0;
+	margin:0;
+}
+
+#menu a:hover {
+	color: #000;
+	background:#FFD700;
+}
+
+#menu li {position: relative;} 
+
+#menu ul li ul {
+	position: absolute;
+	z-index: 500;
+	padding:1px 0px;
+	border-width:0px;
+}
+#menu ul li ul li a {
+	padding:5px 3px;
+	border-width:0px;
+	color:#000;
+	font: bold 9px lucida, helvetica, sans-serif;
+	background: #329DAB;
+	border-color:#fff;
+	z-index:600;
+}
+#menu ul li h2 {
+	border-width:1px;
+}
+
+#menu ul ul ul {
+	position: absolute;
+	top: 0;
+	left: 100%;
+}
+
+div#menu ul ul,
+div#menu ul li:hover ul ul,
+div#menu ul ul li:hover ul ul
+{display: none;}
+
+div#menu ul li:hover ul,
+div#menu ul ul li:hover ul,
+div#menu ul ul ul li:hover ul
+{display: block;}
+#header {
+	position:absolute;
+	background: #3b5998;
+	top:83px;
+	left:8px;
+	width:8em;
+	height:400px;
+}
+
+#header h1{
+	  text-align: left;
+	background: #3b5998;
+	  font: bold 11px/16px arial, helvetica, sans-serif;
+	  display: block;
+	  border-width: 1px;
+	  border-style: ridge;
+	  margin: 0;
+	  padding: 2px 3px;					
+	  color: #000;
+  }
+
+#header p {
+        font: bold 11px/16px arial, helvetica, sans-serif;
+	display:list-item;
+	text-align:center;
+	background: #3b5998;
+	line-height:550%;
+	list-style-type:none;
+	margin:0;
+	border-width:1px;
+	border-style:none;
+	padding: 2px 3px;
+}
+
+#header a  {
+	background: #3b5998;
+	color:#fff;
+}
+#main	{
+	position: absolute;
+	left: 138px;
+	top:110px;
+	width:750px;
+}
+#main,
+#main a,
+#main td,
+#main input { 
+	
+	font: 11px/16px arial, helvetica, sans-serif;
+}
+
+
+#main p {
+	line-height:100%;
+}
+#pagetop {
+	width:900px;
+}
+#pagetop input { 
+	font: 11px/16px arial, helvetica, sans-serif;
+}
+
+#pagetop ul {
+	
+	display:inline;
+	list-style: none;
+	list-style-type:none;
+	margin: 0;
+	padding: 0;
+	width: 10em;
+
+}
+#pagetop a, #pagetop h2 {
+	font: bold 11px/16px arial, helvetica, sans-serif;
+	list-style:none;
+	list-style-type:none;
+	display: block;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc #888 #555 #bbb;
+	margin: 0;
+	padding: 2px 3px;
+}
+
+
+#pagetop h2 {
+	color: #fff;
+	background: #000;
+	text-transform: uppercase;
+}
+
+.p_center {
+	position:relative;
+	left:360px;
+}
+
+.menu_center {
+	position:relative;
+	left:215px;
+}
+
+#main_image {
+	display:block;
+	position:relative;
+	left:150px;
+	top : 50px;
+	
+}
+
+.pos_menu {
+	position:relative;
+	top: 50px;
+}
+
+
+.pos_menu_content {
+	float:left;
+	z-index:1;
+}
+
+.greeting {
+	position: relative;
+	left:350px;
+}
+
+#forum {
+}
+#forum p {
+	line-height:100%;
+	text-align:left;
+}
+#forum ul {
+	line-height:100%;
+}
+#forum  li {
+	line-height:100%;
+	list-style-type: disc;
+}
+#forum h2 {
+	text-align:center;
+}
+.thread_post{
+	
+	}
+.thread_info{
+	font-style: italic;	
+	font-size:100%;
+	font-family:sans-serif;
+}
+#donation {
+	position:absolute;
+	top:840px;
+	text-align:center;
+	background: #3b5998;
+	float:left;
+	font: 11px/16px arial, helvetica, sans-serif;
+	display:block;	
+	border-width:0px;
+	border-color:green;
+	border-style:solid;
+	background:#fff;
+	line-height:20px;
+	width:894px;
+}
+#donation span{
+}
+
+#bd {
+	
+	display:block;
+	float:left;
+	background: #3b5998;
+	width:900px;
+/*	font:10px arial, sans-serif;*/
+}
+#recipe.ing {
+float:left;
+}	
+#recipe.image {
+float:right;
+}	
+#recipe.content {
+
+}	
+#recipe.titre{
+}
+#recipe.cats{
+display:block;
+}
+.team {
+	font: bold 11px/16px arial, helvetica, sans-serif;
+}
+#match_display {
+
+	display:block;	
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	height:100px;
+}
+#match_display p {
+	
+}
+#odds {
+
+	
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	padding:12px 3px;
+}
+
+#message_header {
+
+	
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#000;
+	border-style:solid;
+}
+#message_content {
+
+	
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#FFFFCC;
+	border:1px;
+	border-color:#000;
+	border-style:solid;
+	text-align:left;
+}
+#forum_pic {
+	float:right;
+}
+#print {
+	float:left;
+}
+#match_board {
+
+	display:block;
+	float:left;
+	margin:10px;
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	height:100px;
+	width:220px;
+}
+#match_bet {
+	float:right;
+	position:relative;
+	top:-40px;
+	right:10px;
+}
+#match_board_print {
+
+	display:block;
+	float:left;
+	text-align:center;
+	margin:10px;
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	height:100px;
+	width:220px;
+}
+#rankings {
+
+	display:block;
+	text-align:left;
+	margin:1px;
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:0px;
+	border-color:#009900;
+	border-style:solid;
+	color:#000;
+}
+#rankings h2{
+	
+	text-align:left;
+	display:block;
+	font: bold 16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border-color:#009900;
+	color:#000;
+}
+#rankings td{
+	background-color:#515151;
+	padding:2px 5px;
+	color:#fff;	
+}
+#rankings a{
+
+	color:#8EE5EE;
+	text-decoration: none;
+}
+#rankings a.first {
+	font:bold 16px arial, helvetica, sans-serif;
+	color: yellow;
+}
+#rules {
+text-align:left;
+	background-color:#515151;
+	padding:2px 10px;
+	color:#fff;	
+}
+
+#rules h2,#rules h4,#rules a {
+	color:#B4CDCD;	
+}
+
+#top_scorer_list {
+
+	
+	font:11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	padding:12px 3px;
+}
+#top_scorer_list td{
+	background-color:#515151;
+	padding:2px 10px;
+	color:#fff;	
+}
+#top_scorer_list a{
+	color:#8EE5EE;
+	text-decoration: none;
+}
+#forum {
+
+	display:block;
+	float:none;
+	text-align:left;
+	margin:1px;
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:0px;
+	border-color:#009900;
+	border-style:solid;
+}
+#team_rankings {
+	
+	background-color:#C0C0C0;
+	border:0px;
+	border-color:#009900;
+	border-style:solid;
+	color:#000;	
+}
+#team_rankings td{
+	background-color:#515151;
+	padding:2px 1px;
+	color:#fff;	
+}
+#message {
+
+	
+	font: 11px/16px arial, helvetica, sans-serif;
+	border:1px;
+	border-color:#000;
+	border-style:solid;
+	text-align:left;
+	background-color:#515151;
+	padding:2px 10px;
+	color:#8EE5EE;
+}
+#post_header {
+
+	
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#515151;
+	border:1px;
+	border-color:#000;
+	border-style:solid;
+	color:#8EE5EE;
+	text-decoration: none;
+}
+#post_header a {
+	color:#8EE5EE;
+	text-decoration: none;
+}
+#rankings_test {
+
+	display:block;
+	float:none;
+	text-align:left;
+	margin:1px;
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:white;
+	border:0px;
+	border-color:#009900;
+	border-style:solid;
+}
+#rankings_test td{
+	background-color:#B3EE3A;
+	padding:2px 10px;
+	color:red;	
+}
+#rankings_test a{
+
+	color:#000;
+	text-decoration: none;
+}
+#rankings_test a.first {
+	font:bold 16px arial, helvetica, sans-serif;
+	color: blue;
+}
+#bets_display {
+
+	display:block;
+	text-align:left;
+	margin:1px;
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:0px;
+	border-color:#009900;
+	border-style:solid;
+	color:#000;
+}
+#bets_display td{
+	background-color:#515151;
+	padding:1px 6px;
+	color:#fff;	
+	min-width:30px;
+}
+#bets_display p{
+}
+#second_round_match_bet {
+
+	height: 700px;
+	float: left;}
+#sr_bets {
+
+	float:left;
+	display:block;	
+	font: 11px/16px arial, helvetica, sans-serif;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	height:100px;
+	width:230px;
+	margin: 10px;
+}
+/*#news_item.slashdot dt,dd,p{
+	max-width:350px;
+}
+#news_item.french_news dt,dd,p {
+	max-width:270px;
+}*/
+#news dd {
+	font:10px/16px lucida,sans-serif;
+}
+#news a {
+	font:12px lucida,sans-serif;
+	color: #128;
+	text-decoration:none;
+}
+#news h3 {
+	text-align:center;
+	width:270px;
+	/*border-color:none;
+	border-right-style:solid;
+	border-left-style:solid;*/
+}
+#news_item {
+/*	background:#B5B5B5;
+/*	background:#A2CD5A;*/
+/*	border:thin solid green;*/
+	font:  11px/16px lucida, helvetica, sans-serif;
+	border-color:green;
+	border-bottom-style:solid;
+	border-bottom-width:thin;
+	padding:2px;
+}
+.french_news  {
+	position:relative;
+	font:  11px/16px lucida, helvetica, sans-serif;
+	/*background: #66CC66;*/
+	width:250px;
+	float:left;
+	clear:left;
+	text-align:left;
+}
+.slashdot {
+	/*background: #6699CC;
+	background: #99CCFF;*/
+	position:relative;
+	font:  11px/16px lucida, helvetica, sans-serif;
+	width:250px;
+	padding:5px;
+	float:left;
+	text-align:left;
+}
+.hun_news {
+	position:relative;
+	font:  11px/16px lucida, helvetica, sans-serif;
+	width:250px;
+	padding:5px;
+	float:left;
+	text-align:left;
+}
+.news_column{
+	font:bold 16 lucida;
+	padding:0 0 10px 0;
+}
+/*
+*/
+#news_spacing {
+	height:5px;
+	width:0px;
+}
+
+#ingredients {
+	float:left;
+	width:200px;	
+	text-align:left;
+}
+#languages {
+	float:right;
+	width:200px;
+	
+}
+#difficulty {
+	float:right;
+	width:200px;
+}
+#preparation {
+	float:left;
+	width:600px;
+}
+#recipe_photo {
+	float:right;
+	width:400px;
+	height:300px;
+}
+#recipe {
+	position:absolute;
+	top: 100px;
+	width:600px;
+	left:150px;
+}
+#left {
+	display:inline;
+}
+#right {
+	display:inline;
+	position:relative;
+	left:300px;
+}
+.search {
+	color:#fff;
+}
+#center {
+position:relative;
+margin: 0 auto;
+width:800px;
+
+}
+.no_dec{
+	text-decoration:none;
+	border:0;
+	outline:none;
+}
+
+.news_item_title{
+font:13px lucida;
+display:inline;
+width:245px;
+}
+.main_page_content{
+width:795px;
+position:relative;
+margin:0 auto;
+top:110px;
+}
+		.trigger{
+			cursor:pointer;
+		}		
+		.trigger:hover{
+			cursor:pointer;
+			background:#ddf;
+		}		
+		.expanded{
+			background:#ccf;
+			cursor:pointer;
+		}
+		.expanded:hover{
+			background:#eef;
+			cursor:pointer;
+		}
+		.show{
+     position:static;
+     display: table;
+		}
+		.hide{
+			position:absolute;
+			left:-999em;
+			height:1px;
+			width:100px;
+			overflow:hidden;
+		}

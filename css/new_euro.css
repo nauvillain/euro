@@ -1,0 +1,690 @@
+body {
+	width:1000px;
+	margin:0 auto;
+	font:11px arial;
+	background:#2a2a2a;
+	background:url('/img/kyiv_os.jpg');
+}
+#content {
+	height:1200px;
+
+}
+/* Top of the page*/
+#pagetop
+{
+	font-size:20px;
+	float:left;
+	width:600px;
+	margin-top:20px;
+}
+#pagetop a{
+	text-decoration:none;
+	margin-left:10px;
+	color:white;
+}
+#pagetop img{
+	margin:20px 0 0 30px;
+	width:200px;
+}
+#display_greetings {
+	width:350px;
+	right:20px;
+	text-align:right;
+	color:white;
+	display:inline;
+	float:right;
+}
+#display_greetings a{
+	color:white;
+}
+
+#menu_wrap {
+	float:left;
+	width:950px;
+	margin:0;
+	opacity:0.9;
+/*	filter:alpha(opacity=90); /* For IE8 and earlier */
+	padding:10px 0 0 0;
+	width:999px;
+	background:#e1e1e1;
+}
+#menu {	width:850px;
+	background:#e1e1e1;
+}
+#menu li{
+	display:block;
+	width:160px;
+	opacity:0.9;
+	float:left;
+	padding-bottom:0px;
+	margin-right:5px;	
+	font-weight:bold;
+	border-bottom:solid 1px;
+}
+#menu a {
+	text-decoration:none;
+	color:black;
+}
+
+/* page content */
+
+#foot_main{
+	position:relative;
+	opacity:0.9;
+	/*filter:alpha(opacity=90); /* For IE8 and earlier */
+	float:left;
+	width:999px;
+	background:#e1e1e1;
+	text-align:center;
+	min-height:400px;
+}
+#foot_main_team{
+	position:relative;
+	float:left;
+	width:999px;
+	text-align:center;
+	min-height:400px;
+}
+
+#temp_items{
+	width:200px;
+	margin-left:220px;
+	margin-top:50px;
+	margin-bottom:10px;
+	font-size:18px;
+}
+.standardfont {
+	font: 11px lucida, sans-serif;
+}
+.gray {
+	color:#7D0508;
+	font:10px lucida,sans-serif;
+}
+#played {
+	float:left;
+	width:470px;
+}
+.matches_played_table{
+	width:500px;
+	margin-left:20px;
+}
+.display_match_results{
+	height:110px;
+}
+.score {
+	font-weight:bold;	
+	font-size:12px;
+}
+.column_left{
+	text-align:center;
+	width:100px;
+}
+.column_right {
+	text-align:center;
+	width:100px;
+}
+#upcoming {
+	float:right;
+	width:480px;
+}
+.title_main{
+	margin:20px 120px 10px 106px;
+	font-weight:bold;	
+	width:140px;
+}
+
+.title_main a,.title_main_played a {text-decoration:none;color:black;}
+.title_main_played {
+	margin:20px 0px 25px 270px;
+	font-weight:bold;
+	width:100px;
+	
+}
+
+.foot_match_panel {
+	margin:0 auto;	
+	width:478px;
+	height:100px;
+}
+.foot_match_board {
+	float:left;
+	width:345px;
+}
+.foot_mb_place_display {
+	margin:15px 0 0 0 ;
+}
+.foot_mb_team_display {
+	margin:15px 0 10px 0 ;
+}
+.foot_mb_team_display a{
+	width:350px;
+}
+.separator {
+	float:left;
+	width:30px;	
+	display:inline;
+	font:bold 15px lucida;
+}
+.team_name_left {
+	float:left;
+	width:160px;
+	display:inline;
+	text-align:right;
+}
+.team_name_right{
+	float:left;
+	width:150px;
+	display:inline;
+	text-align:left;
+}
+.foot_mb_bet_display {
+	width:150px;
+	margin-bottom:10px;
+	height:30px;
+	float:right;
+	margin-top:20px;
+	margin-right:100px;}
+.team_display_normal {
+	font:bold 13px lucida,sans-serif;
+	text-decoration:none;
+	color:black;
+	}
+.team_display_big {
+	font:bold 16px lucida,sans-serif;
+	text-decoration:none;
+	color:black;
+}
+.team_display_small {
+	font:bold 10px lucida,sans-serif;
+	text-decoration:none;
+	color:black;
+}
+.team_display_medium {
+	font:bold 12px lucida,sans-serif;
+	text-decoration:none;
+	color:#202020;
+}
+.team_display_normal_nobold{
+	font:13px lucida,sans-serif;
+	text-decoration:none;
+	color:black;
+}
+.img_stadium {
+	float:right;
+	height:145px;
+	width:120px;
+}
+.img_stadium p{
+	width:30px;
+	float:left;
+}
+.img_stadium img{
+	width:20px;
+}
+.image_pad{
+	display:inline;
+	vertical-align:middle;
+	margin:0px 5px 5px 5px;
+	height:15px;
+}
+.divider img{
+	width:300px;
+}
+.divider_played {
+	width:400px;
+	margin-left:120px;
+}
+.divider_played img{
+	width:300px;
+}
+#connected{
+	float:left;
+	width:300px;
+	height:30px;
+}
+.display_match_results_rankings table {
+	margin-left:220px;
+	width:200px;
+	font:13px bold;
+}
+
+/*
+Forum
+*/
+#forum {
+	font:12px lucida,sans-serif;
+	text-align:left;
+	margin-left:100px;
+}
+
+.forum_content{
+	font:12px lucida,sans-serif;
+	margin-left:18px;
+	width:700px;
+	line-height:15px;
+	margin-top:8px;
+	font-size:11px;
+}
+.forum_thread_title{
+	font-weight:bold;
+	color:black;
+
+}
+.expanded{
+	color:#8B2323;
+	cursor:pointer;
+}
+.expanded:hover{
+	cursor:pointer;
+}
+.show{
+	position:static;
+	display: table;
+}
+.hide{
+	position:absolute;
+	left:-999em;
+	height:1px;
+	width:100px;
+	overflow:hidden;
+}
+.trigger{
+	color:#2B2B2B;
+	cursor:pointer;
+}
+.trigger:hover{
+	cursor:pointer;
+}		
+
+a.ajax_link {
+	text-decoration:underline;
+}
+a.ajax_link:link {
+	cursor:pointer;
+}
+a.ajax_link:visited {
+	cursor:pointer;
+}
+a.ajax_link:hover {
+	cursor:pointer;
+}
+a.ajax_link_submit {
+	text-decoration:underline;
+}
+a.ajax_link_submit:link {
+	cursor:pointer;
+}
+a.ajax_link_submit:visited {
+	cursor:pointer;
+}
+a.ajax_link_submit:hover {
+	cursor:pointer;
+}
+a.ajax_link_cancel {
+	text-decoration:underline;
+}
+a.ajax_link_cancel:link {
+	cursor:pointer;
+}
+a.ajax_link_cancel:visited {
+	cursor:pointer;
+}
+a.ajax_link_cancel:hover {
+	cursor:pointer;
+}
+/* Picks */
+
+#bets_table {
+	width:400px;
+	display:table;
+	margin:0 auto;
+	font:bold 11px lucida,sans-serif;
+}
+#bets_table_edit {
+	width:615px;
+	display:table;
+	margin:0 auto;
+	font:bold 11px lucida,sans-serif;
+}
+.bet_match_row {
+
+	display:table-row;
+	font: 11px lucida,sans-serif;
+	height:20px;
+	border:1px solid;	
+}
+.bet_desc {
+	display:table-cell;
+	width:5px;
+	border-top:1px solid;
+	color:#7D0705;
+}
+.bet_team1_display{
+	display:table-cell;
+	width:100px;
+	border-top:1px solid;
+	text-align:right;
+	}
+.bet_team2_display{
+	display:table-cell;
+	width:100px;
+	border-top:1px solid;
+}
+.bet_bet_display {
+	display:table-cell;
+	border-top:1px solid;
+	text-align:center;
+	width:100px;
+}
+.bet_bet_display input{
+	display:inline;
+	text-align:center;
+	font:bold 9px lucida,sans-serif;
+}
+.bet_score_display {
+	display:table-cell;
+	border-top:1px solid;
+	text-align:center;
+	width:100px;
+}
+.bet_score_display_edit {
+	display:table-cell;
+	border-top:1px solid;
+	width:55px;
+	text-align:center;
+}
+.bet_score_display_edit input{
+	width:10px;
+	display:inline;
+}
+/* change bet*/
+
+.cb_match_board {
+	position:relative;
+	width:600px;
+	padding:5px 0px 5px 0px;
+	margin: 0px auto;
+}
+.cb_mb_teams_display {
+	position:relative;
+	font:bold 16px lucida,sans-serif;
+	text-align:center;
+	padding:10px 0 5px 0;
+}
+.pick{	
+	display:inline;
+	width:158px;
+	padding:25px 0px 5px 0px;
+	text-align:right;
+	font:bold 11px lucida,sans-serif;
+}
+/*team_sheet*/
+.display_groups {
+	font: 15px lucida;
+	width: 70px;
+	float:left;
+	margin-left:150px;
+	text-align:left;
+	margin-top:50px;	
+}
+.display_groups a{
+	color:black;
+}
+#team_ranking table{
+	width:285px;
+        border:1px solid;
+       	border-color:#7D0508;
+	border-spacing:0px;
+	background:#f9f5f2;
+	font:11px lucida,sans-serif;
+}
+#team_ranking td {
+	padding:2px;
+        border-bottom:1px solid;
+        border-right:1px solid;
+       	border-color:#7D0508;
+}
+#team_ranking img{
+	vertical-align:middle;
+}
+/*teams*/
+
+#teams_list{
+	display:block;
+	position:relative;
+	height:100px;
+	font-size:12px;
+	
+}
+#big_table {
+	top:0px;
+	left:300px;
+	display:block;
+	width:450px;
+	margin:0 auto;	
+	color:black;
+	font:12px lucida;
+}
+#big_table td{
+	vertical-align:top;
+
+}
+#big_table a{
+	text-decoration:none;
+	color:black;
+}
+.teams_table {
+	width:115px;
+}
+#team_content{
+	float:left;
+	width:900px
+}
+#team_name{
+	font:26px lucida;
+	float:left;
+}
+#team_coach{
+	width:500px;
+	float:left;
+}
+#team_coach img{
+}
+#team_details{
+	position:relative;
+	float:left;
+}
+#team_logo{
+	height:10px;
+}
+#team_kit{
+	height:10px;
+}
+/*player profile*/
+
+.profile_results{
+	width:300px;
+	float:left;
+	margin-left:80px;
+}
+.profile_data{
+	float:right;
+	width:400px;
+	margin-right:50px;
+	margin-top:50px;
+}
+
+/*Results*/
+
+.euro_day {
+	position:relative;
+	clear:left;
+	display:block;
+	width:720px;
+	margin: 0 auto;
+	border: 0px solid;
+	padding:5px;
+
+}
+.euro_day_border {
+	float:left;
+	margin-top:5px;
+	width:700px;
+	border:0px ridge;  
+	display:table;
+}
+.match_euro_day {
+	position:relative;
+	clear:left;
+	display:block;
+	margin: 0 auto;
+	border: 0px solid;
+	padding:5px;
+
+}
+.match_euro_day_border {
+	position:relative;
+	clear:left;
+	display:block;
+	width:630px;
+	margin: 0 auto;
+	border: 1px solid;
+	padding:5px;
+
+}
+.date_display {
+	font:bold 10px lucida,sans-serif;
+	color:#7D0508;
+}
+.match_board {
+	position:relative;
+	width:700px;
+	padding:5px 0px 5px 0px;
+	margin: 0px auto;
+	display:table-row;
+}
+.mb_teams_display {
+	width:240px;
+	font:bold 11px lucida,sans-serif;
+	position:relative;
+	display:table-cell;
+}
+.mb_teams_display img{
+	position:relative;
+	display:table-cell;
+}
+.mb_team2_display {
+	width:150px;
+	font:bold 11px lucida,sans-serif;
+	position:relative;
+	display:table-cell;
+	vertical-align:middle;
+	text-align:left;	
+	height:15px;
+}
+.mb_team1_display {
+	width:150px;
+	font:bold 11px lucida,sans-serif;
+	display:table-cell;
+	position:relative;
+	text-align:right;
+	padding-right:4px;
+	vertical-align:middle;
+	height:15px;
+}
+.mb_bet_display {
+	width:20px;
+	display:table-cell;
+	vertical-align:middle;
+	height:15px;
+}
+.mb_bet_display img, #mb_teams_display img{
+	vertical-align:middle;
+	margin:0px 5px 0px 5px;
+	display:table-cell;
+	height:15px;
+}
+.foot_mb_match_display_result{
+	position:relative;
+	padding:5px 0px 5px 0px;
+}
+.mb_odds{
+	padding:5px 0px 5px 0px;
+	width:250px;
+}
+/*odds*/
+#odds{
+	text-align:center;	
+}
+#odds h4{
+
+	text-align:center;	
+	font:bold 11px lucida,sans-serif;
+}
+#odds table{
+	margin:0 auto;
+	background-color:#C0C0C0;
+	border:1px;
+	border-color:#009900;
+	border-style:solid;
+	padding:12px 3px;
+	text-align:center;
+}
+/*matches*/
+#final_round_chart{
+	margin-top:100px;
+	float:right;
+	width:420px;
+}
+#matches{
+	float:left;
+	width:550px;
+	margin-top:50px;
+
+}
+/*graphs*/
+#history_graph{
+	width:600px;
+	float:right;
+	margin-right:150px;
+}
+#history_graph_points{
+	width:800px;
+	margin:0 auto;
+}
+#graph_members,#graph_members table{
+	width:190px;
+	float:left;
+	text-align:left;
+	margin-left:10px;
+}
+#other_users{
+	position:absolute;
+	top:500px;
+	left:000px;
+	width:950px;
+}
+#other_users table{
+	text-align:left;
+}
+/*RSS feed live display*/
+.rss_live_feed_display{
+	margin-top:20px;
+	font:16px lucida;
+}
+#odds_matches_to_come{
+
+}
+
+#end_top_scorers{
+	float:left;
+	margin-top:15px;
+	width:400px;
+}
+.title_main_end_tournament{
+	margin-right:280px;
+	margin-top:10px ;
+	font-weight:bold;	
+	width:380px;
+	float:left;
+}

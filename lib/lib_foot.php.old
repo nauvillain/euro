@@ -1,0 +1,1107 @@
+<?php
+require 'conf.php';
+require 'config_foot.php';
+function connect_to_eurodb()
+{
+  global $db_database, $db_username, $db_password, $db_hostname;
+  mysql_pconnect($db_hostname,$db_username,$db_password) or die(mysql_error());
+  mysql_select_db($db_database) or mysql_error("Error connecting to the database :(");
+}
+
+
+function create_groups()
+{
+
+$result=mysql_query("SELECT * FROM euro_2008.teams ORDER BY team_id") or die(mysql_error());
+$num=mysql_num_rows($result);
+for ($i=0;$i<$num;$i++) {
+$pld[$i]=0;
+$ga[$i]=0;
+$gf[$i]=0;
+$pts[$i]=0;
+$wins[$i]=0;
+$ties[$i]=0;
+$defs[$i]=0;
+$team[$i]=mysql_result($result,$i,"team_name");
+$code[$i]=mysql_result($result,$i,"code");
+}
+
+
+$matches=mysql_query("SELECT id,t1, t2, g1, g2, played
+FROM matches WHERE played=1 ") or die(mysql_error());
+$num_matches_played=mysql_num_rows($matches);
+
+//count the points for each team
+
+for($j=0;$j<$num_matches_played;$j++){
+
+    $team1_id=mysql_result($matches,$j,"t1")-1;
+    $team2_id=mysql_result($matches,$j,"t2")-1;
+    $goals1=mysql_result($matches,$j,"g1");
+    $goals2=mysql_result($matches,$j,"g2");
+
+    $pld[$team1_id]+=1; $pld[$team2_id]+=1; $gf[$team1_id]+=$goals1;
+    $gf[$team2_id]+=$goals2; $ga[$team1_id]+=$goals2;
+    $ga[$team2_id]+=$goals1;
+
+    if($goals1>$goals2) { 	$pts[$team1_id]+=3;
+				$wins[$team1_id]+=1;
+				$defs[$team2_id]+=1;
+				} 
+    if($goals1<$goals2) { 	$pts[$team2_id]+=3;
+				$wins[$team2_id]+=1;
+                                $defs[$team1_id]+=1;
+} 
+    if($goals1==$goals2){ 	$pts[$team1_id]+=1; $pts[$team2_id]+=1;
+				$ties[$team1_id]+=1;$ties[$team2_id]+=1; 
+}
+
+}
+
+$letter=array("A","B","C","D");
+for($j=0;$j<sizeof($letter);$j++){
+	for($i=0;$i<4;$i++){ 
+		     $u=$i+4*$j;
+		     $arr[$letter[$j]][$i]["team"]=$team[$u];
+		     $arr[$letter[$j]][$i]["pld"]=$pld[$u];
+		     $arr[$letter[$j]][$i]["gf"]=$gf[$u];
+		     $arr[$letter[$j]][$i]["ga"]=$ga[$u];
+		     $arr[$letter[$j]][$i]["gd"]=$gf[$u]-$ga[$u];
+		     $arr[$letter[$j]][$i]["pts"]=$pts[$u];
+		     $arr[$letter[$j]][$i]["code"]=$code[$u];
+		     $arr[$letter[$j]][$i]["wins"]=$wins[$u];
+		     $arr[$letter[$j]][$i]["defs"]=$defs[$u];
+		     $arr[$letter[$j]][$i]["ties"]=$ties[$u];
+		     
+	}		     
+}
+return $arr;
+}
+
+
+function g_sort($array){		
+		foreach($array as $v2){
+			 $sortpts[]=$v2['pts'];
+			 $sortgd[]=$v2['gd'];
+			 $sortgf[]=$v2['gf'];
+		
+}
+		array_multisort($sortpts,SORT_DESC,$sortgd,SORT_DESC,$sortgf,SORT_DESC,$array);
+		unset($sortpts) ;
+		unset($sortgd);
+		unset($sortgf);
+return $array;
+}
+
+function show_team($letter,$num){
+
+	
+	
+	$res=mysql_query("SELECT * FROM teams WHERE group_name='$letter' ORDER BY pts DESC,gf-ga DESC,gf DESC LIMIT 1".($num?",$num":"")) or die(mysql_error());
+	$grp=mysql_fetch_array($res);
+	 if(group_over($letter)){
+		
+		$st['name']=$grp['team_name'];
+		$st['id']=$grp['team_id'];
+		}
+	 else { if(!$num) {$st['name']= "Winner ".$letter;} 
+	      else {$st['name']="Runner-up ".$letter;} }
+	return $st;
+}
+/*
+function return_team($letter,$grp,$num){
+
+	 $grp=g_sort($grp[$letter]);
+	 if(($grp[0]['pld']==3)&&($grp[1]['pld']==3)&&($grp[2]['pld']==3)&&($grp[3]['pld']==3)){
+		
+		return $grp[$num]['team'];
+		}
+	 else { if(!$num) {return "Winner ".$letter;} 
+	      else {return "Runner-up ".$letter;} }
+		
+}
+*/
+
+function show_standings($grp){
+	foreach($grp as $temp){
+		echo "<tr><td align=left><img src='img/$temp[code].gif'>&nbsp;&nbsp;".utf8_encode($temp[team]);"</td>";
+		echo "<td align=center>".$temp[pld]."</td>\n";
+		echo "<td align=center>".$temp[wins]."</td>\n";
+		echo "<td align=center>".$temp[ties]."</td>\n";
+		echo "<td align=center>".$temp[defs]."</td>\n";
+		echo "<td align=center>".$temp[gf]."</td>\n";
+		echo "<td align=center>".$temp[ga]."</td>\n";
+		echo "<td align=center>".$temp[gd]."</td>\n";
+		echo "<td align=center><b>".$temp[pts]."</b></td>\n";
+		echo "</tr>";
+	}
+
+}
+
+function winner($match_id){
+
+$query="SELECT * FROM matches WHERE id='$match_id'";
+$sql=mysql_query($query) or die(mysql_error());
+$played=mysql_result($sql,0,"played");
+
+if($played){
+
+	$goals1=mysql_result($sql,0,"g1");
+	$goals2=mysql_result($sql,0,"g2");
+	$team1=mysql_result($sql,0,"t1");
+	$team2=mysql_result($sql,0,"t2");
+
+	if($goals1>$goals2) return $team1;
+	if($goals2>$goals1) return $team2;
+}
+else return 0;
+}
+
+function find_team($team_id){
+
+	if($team_id!="not played yet"){
+
+		$query="SELECT team_name FROM teams WHERE team_id='$team_id'";
+		$res=mysql_query($query) or die(mysql_error());
+		$team=mysql_result($res,0);
+
+		return $team;
+	}
+else return "------------";
+}
+
+function get_player_name($id){
+
+	if($id){
+
+		$query="SELECT nickname,first_name FROM website.users WHERE id='$id'";
+		$res=mysql_query($query) or mysql(die);
+		$rez=mysql_result($res,0,"nickname");
+		if(!$rez) $rez=mysql_result($res,0,"first_name");
+		return $rez;
+	}
+
+}
+
+function check_uniqueness($field,$value){
+
+	$query="SELECT * FROM players WHERE $field='$value'";
+	$sql=mysql_query($query) or die(mysql_error());
+	$num=mysql_num_rows($sql);
+	if ($num) return false;
+	else return true;
+}
+
+function display_win1($group,$num,$total){
+	$t=show_team($group,$num);
+	echo "<tr>";
+	for ($i=0;$i<$total;$i++){
+
+		echo "<td>\n";
+		if ($i==0) echo "<b>".strToUpper($t['name'])."</b>";
+		echo "</td>\n"; 
+
+	}
+	echo "</tr>";
+}
+
+function display_win2($match_id,$stage,$total){
+
+echo "<tr>";
+for($i==0;$i<$total;$i++){
+
+echo "<td>";
+if($i==$stage-1) echo match_info($match_id);
+if($i==$stage) { 
+	echo "<b>".strtoUpper(find_team(winner($match_id))).find_score($match_id)."</b>";
+	}
+echo "</td>\n"; 
+
+}
+echo "</tr>";
+}
+function match_info($match_id){
+connect_to_eurodb();
+$query="select time,date,place from matches where id='$match_id'";
+$res=mysql_query($query) or die(mysql_error());
+$time=mysql_result($res,0,"time");
+$date=mysql_result($res,0,"date");
+$place=mysql_result($res,0,"place");
+$place=substr($place,0,3);
+$date=date("D M j",strtotime($date));
+$str=$date.", ".$place.".";
+return $str;
+}
+
+function loser($match_id){
+
+$query="SELECT * FROM matches WHERE id='$match_id'";
+$sql=mysql_query($query) or die(mysql_error());
+$played=mysql_result($sql,0,"played");
+
+if($played){
+
+$goals1=mysql_result($sql,0,"g1");
+$goals2=mysql_result($sql,0,"g2");
+$team1=mysql_result($sql,0,"t1");
+$team2=mysql_result($sql,0,"t2");
+
+if($goals1>$goals2) return $team2;
+if($goals2>$goals1) return $team1;
+}
+else return "not played yet";
+}
+function find_score($match_id){
+connect_to_eurodb();
+$query="select g1,g2,played from matches where id='$match_id'";
+$res=mysql_query($query) or die(mysql_error());
+$goals1=mysql_result($res,0,"g1");
+$goals2=mysql_result($res,0,"g2");
+$played=mysql_result($res,0,"played");
+if($played)$str="(".$goals1."-".$goals2.")";
+return $str;
+}
+
+function remaining_time($match_id){
+
+if (!$match_id) {
+	$start=mktime(18,0,0,6,7,2008);
+	$res=floor(($start-time())/86400);
+	return $res;
+}
+else	{
+	connect_to_eurodb();
+	$query="select time,date,place from matches where id='$match_id'";
+	$res=mysql_query($query) or die(mysql_error());
+	$time=mysql_result($res,0,"time");
+	$date=mysql_result($res,0,"date");
+	$now=time();
+	$match_date=$date+$time;
+	return date('m-d',$match_date-$now);
+}
+
+}
+function spacer($w,$h){
+	return "<img src='spacer.gif' width=$w height=$h>";
+}
+
+function init_points_array(){
+
+}
+
+function count_points($p_id){
+
+	$res=mysql_query("SELECT * from matches WHERE played=1") or die(mysql_error());
+	$num=mysql_num_rows($res);
+	$pts=0;
+	for($i=0;$i<$num;$i++){
+		$match_id=mysql_result($res,$i,'id');
+		$arr=get_match_details($match_id,$p_id);
+		$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])*($arr["weight"]);		
+		}
+	
+	return $pts;
+}
+function count_correct($p_id){
+
+	$res=mysql_query("SELECT * from matches WHERE played=1") or die(mysql_error());
+	$num=mysql_num_rows($res);
+	$pts=0;
+	for($i=0;$i<$num;$i++){
+		$match_id=mysql_result($res,$i,'id');
+		$arr=get_match_details($match_id,$p_id);
+		$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]);		
+		}
+	
+	return $pts;
+}
+
+function still_time($match_id) {
+
+	connect_to_eurodb();
+
+	$upcoming=mysql_query("SELECT id,t1,t2,date,place, time FROM
+			matches WHERE id=$match_id");
+
+	$time=mysql_result($upcoming,0,"time");
+	$date=mysql_result($upcoming,0,"date");
+	$date=date("l, F dS",strtotime($date));
+	$test=strtotime($date);
+	$test4=strtotime($time);
+	$seconds_that_day=$test4-mktime(0,0,0,date('m',$test4),date('d',$test4),date('Y',$test4));
+	$full_time=$test+$seconds_that_day;
+
+	if(time()<$full_time) return $full_time;
+	else return 0;
+}
+
+function sc($g1,$g2){
+
+	if($g1==$g2) $sc="D";
+	else {
+		if ($g1>$g2) $sc="1";
+		else $sc="2";
+	}
+	return $sc;
+}
+function correct_bet($g1,$g2,$g3,$g4){
+
+$exact="checkmark2.gif";
+$correct="checkmark3.gif";
+$wrong="x.gif";
+
+$a=sc($g1,$g2);
+$b=sc($g3,$g4);
+
+if(($g1==$g3)&&($g2==$g4)) return $exact;
+else {
+	if($a==$b) return $correct;
+	else return $wrong;
+}
+
+}
+
+function odds($match_id){
+
+connect_to_eurodb();
+
+$query="select * from bets where match_id=$match_id";
+$res=mysql_query($query) or die(mysql_error());
+$num_betters=mysql_num_rows($res);
+//echo "betters:$num_betters";
+$m1=0;
+$m2=0;
+$mD=0;
+	for ($i=0;$i<$num_betters;$i++){
+
+		$pick=mysql_result($res,$i,'pick');
+
+		if($pick==1) $m1++;
+		if($pick==2) $mD++;
+		if($pick==3) $m2++;
+
+	}
+if($m1)	$arr[0]=$num_betters/$m1;
+else $arr[0]=-1;
+if($mD)	$arr[1]=$num_betters/$mD;
+else $arr[1]=-1;
+if($m2)	$arr[2]=$num_betters/$m2;
+else $arr[2]=-1;
+
+	$query="UPDATE matches SET odds1='".$arr[0]."',odds2='".$arr[2]."',oddsD='".$arr[1]."' WHERE id='$match_id'";
+//	echo $query;
+	mysql_query($query) or die(mysql_error());
+	
+
+}
+function timestamp_access($login_id){
+
+mysql_query("UPDATE website.users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$login_id'") or die (mysql_error());
+}
+function display_greetings($login_id){
+	echo "<div id='display_greetings'>\n";
+	echo "Hello, <b>".get_user_info($login_id,"first_name")."</b>\n";
+	//echo "<br><a href='forget.php'><font size=1> click here if you are not ".get_user_info($login_id,"first_name")."</font></a>";
+	echo "\n</div>\n";
+}
+function display_total_users(){
+	echo "<div id='display_total_users'>\n";
+	if(still_time(1)){
+	echo "<b>".mysql_result(mysql_query("SELECT count(*) FROM website.users WHERE player=1"),0)." registered players!</b><br/><br/>\n";
+	echo "This <a href='euro-2008.xls'>Excel sheet</a> can help you see who'd qualify according to your picks\n"; 
+	}
+	//echo "<br><a href='forget.php'><font size=1> click here if you are not ".get_user_info($login_id,"first_name")."</font></a>";
+	echo "\n</div>\n";
+}
+function get_user_info($key,$field){
+
+$us=mysql_query("select ".$field." from website.users where id=$key");
+return mysql_result($us,0,$field);
+}
+function display_remaining_time(){
+echo "<div id='temp_items'>";
+if (still_time(1)>0) echo "".remaining_time(0)." day".(remaining_time(0)==1?"":"s")." to go!";
+echo "\n</div>";
+}
+function display_ranking($login_id){
+$us=mysql_query("select * from website.users where id='$login_id'");
+$ranking=mysql_result($us,0,'current_ranking');
+$tui=mysql_query("SELECT count(*) FROM website.users WHERE player=1");
+$num_players_total=mysql_result($tui,0);
+if (!still_time(2)) echo "<div id='ranking'> My current ranking: $ranking&nbsp;/&nbsp;$num_players_total\n</div>";
+}
+
+function display_top_left($login_id){
+	if(still_time(1)) ;
+	//display_remaining_time();
+	else  {
+		if(!still_time(2)) display_ranking($login_id);
+		}
+}
+function get_match_details($match_id,$login_id){
+	
+	$upcoming=mysql_query("SELECT id,t1,t2,g1,g2,date,place,descr,odds1,odds2,oddsD,time,played,no_tie,round_id FROM matches WHERE id='$match_id' ORDER BY id ASC") or die(mysql_error());
+	if($upcoming) {
+		$team1=mysql_result($upcoming,0,"t1");
+		$rez1=mysql_query("SELECT team_name,code FROM teams WHERE
+				$team1=teams.team_id");
+		$arr["team1"]=mysql_result($rez1,0,'team_name');
+		$arr["code1"]=mysql_result($rez1,0,'code');
+
+		$temp=mysql_query("SELECT pick,weight FROM euro_2008.bets WHERE match_id='$match_id'
+				AND player_id='$login_id'") or die(mysql_error());
+		$cond=mysql_num_rows($temp);
+		if($cond){
+			//$arr["goals_team1"]=mysql_result($temp,0,"bgt1");
+			//$arr["goals_team2"]=mysql_result($temp,0,"bgt2");
+			$arr["pick"]=mysql_result($temp,0,"pick");
+			$arr["weight"]=mysql_result($temp,0,"weight");
+		}
+
+		$team2=mysql_result($upcoming,0,"t2");
+		$rez2=mysql_query("SELECT team_name,code FROM teams WHERE
+				$team2=teams.team_id");
+		$arr["team2"]=mysql_result($rez2,0,'team_name');
+		$arr["code2"]=mysql_result($rez2,0,'code');
+		$arr["goals1"]=mysql_result($upcoming,0,"g1");
+		$arr["goals2"]=mysql_result($upcoming,0,"g2");
+		$arr["odds1"]=mysql_result($upcoming,0,"odds1");
+		$arr["odds2"]=mysql_result($upcoming,0,"odds2");
+		$arr["oddsD"]=mysql_result($upcoming,0,"oddsD");
+		$arr["time"]=mysql_result($upcoming,0,"time");
+		$arr["played"]=mysql_result($upcoming,0,"played");
+		$round_id=mysql_result($upcoming,0,"round_id");
+		if($round_id) $arr["descr"]=mysql_result(mysql_query("SELECT descr FROM rounds WHERE round_id='$round_id'"),0,"descr");
+		else $arr["descr"]='ind.';
+		$arr["summary"]=mysql_result($upcoming,0,"descr");
+		$arr["no_tie"]=mysql_result($upcoming,0,"no_tie");
+		$arr["date"]=mysql_result($upcoming,0,"date");
+		$date=date("l, F dS",strtotime($arr["date"]));
+		$place_id=mysql_result($upcoming,0,"place");
+		$rezp=mysql_query("SELECT * from euro_2008.places WHERE place_id='$place_id'") or die(mysql_error());
+		$arr["place"]=mysql_result($rezp,0,'city');
+		$test=strtotime($arr["date"]);
+		$test4=strtotime($arr["time"]);	
+		$seconds_that_day=$test4-mktime(0,0,0,date('m',$test4),date('d',$test4),date('Y',$test4));
+		$arr["full_time"]=$test+$seconds_that_day;
+		$arr["cond"]=$cond;
+		}
+return($arr);
+}
+function get_match_teams($match_id){
+	
+	$upcoming=mysql_query("SELECT id,t1,t2,g1,g2,played FROM matches WHERE id='$match_id' ORDER BY id ASC") or die(mysql_error());
+	$arr["team1"]=mysql_result($upcoming,0,"t1");
+	$arr["code1"]=mysql_result($rez1,0,'code');
+	$arr["team2"]=mysql_result($upcoming,0,"t2");
+	$arr["goals1"]=mysql_result($upcoming,0,"g1");
+	$arr["goals2"]=mysql_result($upcoming,0,"g2");
+	$arr["played"]=mysql_result($upcoming,0,"played");
+
+	return($arr);
+}
+
+function make_final_round_chart_euro($ROUNDS) {
+echo display_win1(A,0,$ROUNDS);
+echo display_win2(25,1,$ROUNDS); 		//2
+echo display_win1(B,1,$ROUNDS); 		//3
+
+echo display_win2(29,2,$ROUNDS); 		//4
+
+echo display_win1('A',1,$ROUNDS);		//5
+echo display_win2(26,1,$ROUNDS);		//6
+echo display_win1('B',0,$ROUNDS);		//7
+
+echo display_win2(31,3,$ROUNDS);		//8
+
+echo display_win1('C',0,$ROUNDS);		//9
+echo display_win2(27,1,$ROUNDS);		//10
+echo display_win1('D',1,$ROUNDS);		//11
+
+echo display_win2(30,2,$ROUNDS);		//12
+
+echo display_win1('C',1,$ROUNDS);		//13
+echo display_win2(28,1,$ROUNDS);		//14
+echo display_win1('D',0,$ROUNDS);		//15
+
+}
+function is_bet($match_id,$login_id) {
+$res=mysql_query("SELECT * FROM bets WHERE player_id='$login_id' AND match_id='$match_id'") or die (mysql_error());
+$num=mysql_num_rows($res);
+if($num) return 1;
+else return 0;}
+
+function fscore($val){
+if(empty($val)) $val="0";
+return $val;
+}
+function set_res($match_id,$g1,$g2){
+	if($g1>$g2) $res=1;
+	if($g2>$g1) $res=2;
+	if($g2==$g1) $res=0;
+
+	$wri=mysql_query("UPDATE matches SET (g1,g2,res) VALUES ($g1,$g2,$res)") or die(mysql_error());
+}
+function display_weight($weight,$rem_pts,$unbet,$last,$tot_matches){
+	if(!$weight) $weight=0;
+	echo "<div class='boldf' style='display:inline;'>Pts</div>";
+	echo "<div id='weights' class='weight'>\n";
+	for($i=1;$i<6;$i++){
+		echo "<input type='radio' name='weight' value='$i' ".($i==$weight?"checked":"")." onClick=\"javascript:comp_bet('".$rem_pts."','".$weight."','".$unbet."','".$last."','".$tot_matches."')\">$i&nbsp;";	
+	
+	}	
+	echo "</div>\n";
+	
+}
+function display_pick($pick,$arr_pick,$no_tie){
+
+	if(!$pick) $pick=2;	
+	echo "<div class='pick'>\n";
+	for($i=1;$i<4;$i++){
+		if(!(($i==2)&&$no_tie)) echo "<input type='radio' name='pick' value='$i' ".($i==$pick?"checked":"").">".$arr_pick[$i]."&nbsp;&nbsp;\n";	
+	}	
+	echo "</div>\n";
+	
+}
+function f_pick($pick,$t1,$t2){
+	if($pick==1) return $t1;
+	if($pick==2) return "Tie";
+	if($pick==3) return $t2;
+}
+function bet_result($pick,$g1,$g2) {
+
+	if(($g1>$g2)&&($pick==1)) return 1;
+	if(($g2>$g1)&&($pick==3)) return 1;
+	if(($g1==$g2)&&($pick==2)) return 1;
+
+	return 0;
+
+}
+function f_bet_result($result){
+	return "<img src='".($result?"checkmark3.gif":"b_drop.png")."' height=12px />\n";
+}
+function display_pick_row($pick,$arr_pick,$match_id,$class,$no_tie){
+
+	echo "<div class='$class'>\n";
+	for($i=1;$i<4;$i++){
+		if (!(($i==2)&&$no_tie))echo "<input type='radio' id='pick".$match_id."' name='pick".$match_id."' value='$i' ".($i==$pick?"checked":"")." onClick=\"check_row('".$match_id."')\">".$arr_pick[$i]."";	
+	}	
+	echo "</div>\n";
+	
+}
+function display_weight_row($weight,$match_id,$class){
+	echo "<div class='$class'>\n";
+	for($i=1;$i<6;$i++){
+		echo "<input type='radio' id='weight".$match_id."' name='weight".$match_id."' value='$i' ".($i==$weight?"checked":"")." onClick=\"comp_total('weight".$match_id."')\">$i";	
+	
+	}	
+	echo "</div>\n";
+	
+}
+function drop_down_euro_winner($team){
+	$res=mysql_query("SELECT team_id,team_name from teams ORDER by team_name") or die(mysql_error());
+	$num=mysql_num_rows($res);
+
+	echo "<select name='winning_team'>\n";
+	for ($i=0;$i<$num;$i++){
+		$team_id=mysql_result($res,$i,'team_id');
+		echo "<option  value='$team_id' ".($team_id==$team?"selected":"").">".mysql_result($res,$i,'team_name')."</option>\n";
+	}
+	echo "</select>\n";
+}
+function display_score_row($match_id,$class,$g1,$g2){
+
+	echo "<div class='$class'>\n";
+	for($i=0;$i<2;$i++){
+		echo "<div id='score$i' style='display:inline;'><input type='text' id='score".$i.$match_id."' name='score".$i.$match_id."' value='".($i==0?$g1:$g2)."' size=1></div>\n";	
+	}	
+	echo "</div>\n";
+	
+}
+function display_checkbox($match_id,$played){
+
+		echo "<input type='checkbox' name='scorec".$match_id."' ".($played?"checked":"")."' >\n";	
+	
+}
+function get_bet_details($res,$i){
+	$arrb["pick"]=mysql_result($res,$i,'pick');
+	$arrb["weight"]=mysql_result($res,$i,'weight');
+	$arrb["match_id"]=mysql_result($res,$i,'match_id');
+	$arrb["bet_id"]=mysql_result($res,$i,'bet_id');
+	return $arrb;
+	}
+function is_admin($id){
+	$res=mysql_query("SELECT id FROM website.users WHERE admin='1' AND id='$id'") or die(mysql_error());
+	return mysql_num_rows($res);
+}
+function clear_pick_weight($match_id,$type,$text){
+	echo "<input type='button' value='$text'
+	onclick=\"clearCheckbox('$type',$match_id)\"/>";
+}
+function update_matches_2ndr($team1,$team2,$match_id){
+
+  
+   if($team1){
+	   $query="UPDATE matches SET t1='$team1' WHERE id='$match_id'";
+  //echo "$query 2 ";
+   	   $res=mysql_query($query) or die(mysql_error());
+	   }
+
+   if($team2){
+	   $query="UPDATE matches SET t2='$team2' WHERE id='$match_id'";
+	   //echo "$query 3 ";
+	   $res=mysql_query($query) or die(mysql_error());
+   }
+
+}
+
+function init_team_data($fr_m){
+	$query="UPDATE teams SET winner=0,m_played=0,current_pos=0,W=0,D=0,L=0,gf=0,ga=0,pts=0 ";;
+//	echo $query.'<br/>';
+	mysql_query($query) or die(mysql_error());
+	$query="UPDATE groups SET over=0 ";;
+//	echo $query.'<br/>';
+	mysql_query($query) or die(mysql_error());
+	if($fr_m) {
+		$query="UPDATE matches SET t1=0,t2=0 WHERE id>'$fr_m' ";
+//		echo $query.'<br/>';
+		mysql_query($query) or die(mysql_error());
+	}	
+		
+}
+function reset_matches_played(){
+	$query="UPDATE matches SET played=0 ";
+//	echo $query.'<br/>';
+	mysql_query($query) or die(mysql_error());
+}
+function update_team_data($id,$gf,$ga,$pts_v,$pts_d){
+	$r=result_match($gf,$ga,$pts_v,$pts_d);
+	$query="UPDATE teams SET ".$r['rm']."=".$r['rm']."+1, gf=gf+".$gf.",ga=ga+".$ga."".($r['rp']?",pts=pts+".$r["rp"]:"").",m_played=m_played+1 WHERE team_id='$id'";
+//	echo $query.'<br/>';
+	mysql_query($query) or die(mysql_error());
+		
+}
+function result_match($gf,$ga,$pts_v,$pts_d){
+	if($gf>$ga) {
+		$arr["rm"]= "W";
+		$arr["rp"]=$pts_v;
+	}
+	if($ga>$gf) {
+		$arr["rm"]= "L";
+		$arr["rp"]="0";
+	}
+	if($ga==$gf) {
+		$arr["rm"]= "D";
+		$arr["rp"]=$pts_d;
+	}
+return $arr;
+}
+
+function display_all_groups($letter){
+echo "<table width='98%' cellspacing='10' cellpadding='' align='center'>";
+
+?>
+
+<table width="98%" cellspacing="10" cellpadding="" align="center">
+
+<?php
+echo "<tr>";
+for ($i=0;$i<sizeof($letter);$i++){
+
+if(floor(($i+1)/2)==($i+1)/2) $t=1;
+else $t=0;
+
+
+echo "<td> <b>Group ".$letter[$i]."</b><br><br>\n";
+echo "<div id='team_ranking'>";
+echo "<table cellspacing=0px>\n
+
+        <tr><td width=100 ><b> Team</b></td>\n
+        <td width=10><b>Pld</b></td>\n
+        <td width=8><b>W&nbsp;</b></td>\n
+        <td width=8><b>D&nbsp;</b></td>\n
+        <td width=8><b>L&nbsp;</b></td>\n
+        <td width=10><b>GF</b></td>\n
+        <td width=10><b>GA</b></td>\n
+        <td width=10><b>GD</b></td>\n
+        <td width=10><b>Pts</b></td>\n
+        </tr>\n";
+	$arr_teams=get_teams($letter[$i]);
+	for($j=0;$j<$arr_teams["count"];$j++){
+		echo "
+		<tr><td width=100 ><img src='img/".$arr_teams[$j]['code'].".gif' alt='".$arr_teams[$j]['code']."' />&nbsp;&nbsp;".utf8_encode($arr_teams[$j]['team'])."</td>\n
+		<td width=10>".$arr_teams[$j]['pld']."</td>\n
+		<td width=10>".$arr_teams[$j]['W']."</td>\n
+		<td width=10>".$arr_teams[$j]['D']."</td>\n
+		<td width=10>".$arr_teams[$j]['L']."</td>\n
+		<td width=10>".$arr_teams[$j]['gf']."</td>\n
+		<td width=10>".$arr_teams[$j]['ga']."</td>\n
+		<td width=10>".$arr_teams[$j]['gd']."</td>\n
+		<td width=10>".$arr_teams[$j]['pts']."</td>\n
+		</tr>\n";
+		
+	}
+	echo "</table></div></td>";
+	if($t==1) echo "</tr><tr>";
+}
+?>
+</tr>
+</table>
+<br>
+</div>
+<?php
+	}
+function get_teams($group){
+	$q=mysql_query("SELECT * FROM teams WHERE group_name='".$group."' ORDER by current_pos") or die(mysql_error());
+	$ro=mysql_num_rows($q);
+	
+	for($i=0;$i<$ro;$i++){
+		$arr_team[$i]['team']=mysql_result($q,$i,'team_name');
+		$arr_team[$i]['pld']=mysql_result($q,$i,'m_played');
+		$arr_team[$i]['W']=mysql_result($q,$i,'W');
+		$arr_team[$i]['D']=mysql_result($q,$i,'D');
+		$arr_team[$i]['L']=mysql_result($q,$i,'L');
+		$arr_team[$i]['gf']=mysql_result($q,$i,'gf');
+		$arr_team[$i]['ga']=mysql_result($q,$i,'ga');
+		$arr_team[$i]['gd']=$arr_team[$i]['gf']-$arr_team[$i]['ga'];
+		$arr_team[$i]['pts']=mysql_result($q,$i,'pts');
+		$arr_team[$i]['code']=mysql_result($q,$i,'code');
+		
+	}
+	$arr_team["count"]=$ro;	
+return $arr_team;
+}
+function display_odds($o1,$oD,$o2,$match_id){
+			 if($o1==-1) $o1="inf.";
+			 else $o1=round($o1,2);
+			 if($oD==-1) $oD="inf.";
+			 else $oD=round($oD,2);
+			 if($o2==-1) $o2="inf.";
+			 else $o2=round($o2,2);
+			
+			 echo "<b><a href='odds_all.php?match_id=$match_id'>odds</a>: <a href='odds_details.php?type=v1&match_id=$match_id'>".$o1."</a> / <a href='odds_details.php?type=draw&match_id=$match_id'>".$oD."</a> / <a href='odds_details.php?type=v2&match_id=$match_id'>".$o2."</a></b><br>";
+
+}
+function find_round($m){
+	$res=mysql_query("SELECT round_id FROM matches WHERE id='$m'") or die(mysql_error());
+	$round_id=mysql_result($res,0);
+	if($round_id) return log($round_id)/log(2);	
+}
+function next_match($m,$ro,$fr_m,$sr_l){
+	$t=$fr_m; 
+	for($i=$sr_l-1;$i>$ro;$i--){
+		$t+=pow(2,$i);
+	}
+	$ind=floor(($m-$t-1)/2);
+	$nt=$t+pow(2,$i)+1;
+	
+	return ($nt+$ind);
+}
+function get_current_phase(){
+	$query=mysql_query("SELECT round_id FROM matches WHERE played=0 ORDER by id") or die(mysql_error());
+	return mysql_result($query,0);
+}
+function format_phase($m_id,$phase,$rank,$team,$sr_l,$code,$disp){
+	//is being used by the display_matches function
+	//origin is either of the format A1:B2 or 25:26 which means winner match 25 / winner match 26
+	$query=mysql_query("SELECT origin FROM matches WHERE id='$m_id'");
+	$or=mysql_result($query,0);
+	$ind=$rank-1;
+	if($phase==pow(2,$sr_l-1)){
+		$str1=substr($or,3*$ind,1);
+		$nat1=substr($or,1+3*$ind,1);
+		$winn1="Winner";
+		$runn1="Runner-up";
+		if(group_over($str1)) {
+			$show['str']=find_team(get_team($str1,$nat1));
+			
+			if($disp) {
+				if(get_code($str1,$nat1))$show['code']=get_code($str1,$nat1);
+			}
+		}
+		else {
+			if($nat1==1) $show['str']=$winn1." grp $str1";	
+			if($nat1==2) $show['str']=$runn1." grp $str1";	
+			}
+		return $show; 
+	}
+	if($phase&&($phase<pow(2,$sr_l-1))){
+		//get match number
+		$str1=substr($or,3*$ind,2);
+		$winn1="Winner match $str1";
+		if(is_played($str1)) {
+			$winn1=winner($str1);
+			$code=mysql_result(mysql_query("SELECT code FROM teams WHERE team_id='$winn1'"),0);
+			$show['str']=get_team_name($winn1);
+			if($disp) $show['code']=$code;
+		}
+		else {
+			$show['str']=$winn1;
+			$show['code']='';
+		}
+		return $show;
+	}
+	if(!$phase){
+		$show['str']=$team;
+		$show['code']=$code;
+		return $show;	
+	}
+}
+function submit_winners($m_id,$phase,$sr_l){
+	//is being used by the display_matches function
+	//origin is either of the format A1:B2 or 25:26 which means winner match 25 / winner match 26
+	$query=mysql_query("SELECT origin FROM matches WHERE id='$m_id'");
+	$or=mysql_result($query,0);
+	if($phase==pow(2,$sr_l-1)){
+		$str1=substr($or,0,1);
+		$str2=substr($or,3,1);
+		$nat1=substr($or,1,1);
+		$nat2=substr($or,4,1);
+		$show['str1']=get_team($str1,$nat1);
+		$show['str2']=get_team($str2,$nat2);
+		return $show; 
+	}
+	if($phase&&($phase<pow(2,$sr_l-1))){
+		//get match number
+		$str1=substr($or,0,2);
+		$str2=substr($or,3,2);
+		$code=mysql_result(mysql_query("SELECT code FROM teams WHERE team_id='$winn1'"),0);
+		$show['str1']=winner($str1);
+		$show['str2']=winner($str2);
+		return $show;
+	}
+}
+function display_matches($m_id,$phase,$rank,$team,$sr_l,$code){
+
+	$arr=format_phase($m_id,$phase,$rank,$team,$sr_l,$code,$disp);
+	
+	if($rank==2) $str=($arr['str']?"<img src='img/".$arr["\"".$code"\""].".png' class='image_pad'>":"").$arr['str'];
+	if($rank==1) $str=$arr['str'].($arr['str']?"<img src='img/".$arr[$code].".png' class='image_pad'>":"");
+
+	return $str;
+}
+function get_phase($m){
+	$res=mysql_query("SELECT round_id FROM matches WHERE id='$m'") or die(mysql_error());
+	$phase= mysql_result($res,0,'round_id') ;
+	return $phase;
+}
+function get_group($m){
+	$res=mysql_query("SELECT group_name FROM teams WHERE team_id='$m'") or die(mysql_error());
+	$letter= mysql_result($res,0) ;
+	return $letter;
+}
+function is_played($m){
+	return mysql_result(mysql_query("SELECT played FROM matches WHERE id='$m'"),0);
+}
+function get_team_name($id){
+	return mysql_result(mysql_query("SELECT team_name FROM teams WHERE team_id='$id'"),0);
+	
+}
+function get_team($group,$pos){
+		
+	$res=mysql_query("SELECT team_id FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysql_error());
+	return mysql_result($res,0);
+}
+function get_code($group,$pos){
+		
+	$res=mysql_query("SELECT code FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysql_error());
+	return mysql_result($res,0,'code');
+}
+function group_over($group){
+	$res=mysql_query("SELECT over FROM groups WHERE letter='$group'");
+	return mysql_result($res,0);
+}
+function last_match(){
+
+	return mysql_result(mysql_query("SELECT id FROM matches WHERE round_id=1"),0);
+}
+function set_winner($team){
+	mysql_query("UPDATE teams SET winner=1 WHERE team_id='$team'") or die(mysql_error());
+}
+
+function get_picked_winner($login_id){
+	$query="SELECT winner FROM website.users WHERE id='$login_id'";
+	$res=mysql_query($query) or die(mysql_error());
+
+	return mysql_result($res,0);
+}
+
+function get_remaining_weights($login_id,$totalw,$m_id){
+	
+	if(!$m_id){
+		$res=mysql_query("SELECT sum(bets.weight) FROM bets,matches WHERE bets.player_id='$login_id' AND matches.id=bets.match_id AND matches.played=1") or die(mysql_error());
+		$rem_w=mysql_result($res,0);
+		
+		return ($totalw-$rem_w);
+		}
+	else {
+		$res=mysql_query("SELECT sum(bets.weight) FROM bets,matches WHERE bets.player_id='$login_id' AND matches.id=bets.match_id") or die(mysql_error());
+		$rem_w=mysql_result($res,0);
+		
+		$tm=mysql_result(mysql_query("SELECT count(*) FROM matches"),0);
+		//return($totalw);
+		$rem_1=num_unbet_matches($login_id,$tm);	
+		return($totalw-$rem_w-$rem_1);	
+	}
+}
+function get_weight($login_id,$m_id){
+	$res=mysql_query("SELECT weight FROM bets where player_id='$login_id' AND match_id='$m_id'");
+	if($res) $weight=mysql_result($res,0);
+	else $weight=0;
+	return $weight;
+}
+function check_bets($p_id){
+	
+	$res=mysql_query("SELECT id FROM matches WHERE played=1");
+	$num_played=mysql_num_rows($res);
+	for($i=0;$i<$num_played;$i++){
+		$m_id=mysql_result($res,$i,'id');
+		$weight=get_weight($p_id,$m_id);
+		if(!$weight) mysql_query("INSERT INTO bets SET player_id='$p_id',match_id='$m_id',weight='1',pick='0'");
+	}
+}
+function matches_played(){
+
+	$res=mysql_query("SELECT count(*) FROM matches WHERE played=1");
+	if($res) return mysql_result($res,0);
+	else return 0;
+}
+function num_unbet_matches($login_id,$tot){
+		$res1=mysql_query("SELECT count(*) FROM matches,bets WHERE bets.player_id='$login_id' AND matches.id=bets.match_id") or die(mysql_error());
+		$bet=mysql_result($res1,0);
+		$rem_1=$tot-$bet;
+		return $rem_1;
+}
+function is_new($login_id,$match_id){
+	$res=mysql_query("SELECT bet_id FROM bets WHERE match_id='$match_id' AND player_id='$login_id'");
+        if(mysql_num_rows($res)) return 0;
+	else return 1;	
+}
+function display_drop_down_scorer($top){
+	
+	echo "<table><tr><td>";
+	echo "<font color='red'>Top scorer:</font>    team";
+	echo "</td>\n";
+	echo "<td width='150px'>";
+	//check whether there is a top scorer
+	if ($top) {
+		//look for his team_id
+		$te=mysql_query("SELECT * FROM players WHERE id='$top'");
+		$cts=mysql_result($te,0,'id');
+		$team_ts=mysql_result($te,0,'team_id');
+	}
+	echo "<select name='top_sc' size='1' onChange='redirect(this.options.selectedIndex)'>";
+	 
+	$query="SELECT * FROM teams ORDER BY team_name";
+	$res=mysql_query($query);
+	$num_teams=mysql_num_rows($res);
+	//echo "num:$num_teams;";
+	//echo "fr:$first_code";
+
+	for($i=0;$i<$num_teams;$i++){
+		$team_name[$i]=mysql_result($res,$i,'team_name');
+		$team_id[$i]=mysql_result($res,$i,'team_id');
+		echo "<option ".($team_ts==$team_id[$i]?'selected':'')." value=1>".($team_name[$i])."</option>\n";
+	}
+
+	echo "</select>";
+	echo "</td>\n<td>&nbsp;Name:&nbsp;</td><td width='150px'>\n";
+	echo "<select name='stage2' size=1>";
+
+	//if there is a top scorer, display it
+
+	if ($top) $first_id=$team_ts;
+	else $first_id=mysql_result($res,0,'id');
+
+
+	$query="SELECT * FROM players WHERE team_id='$first_id'";
+	$resa=mysql_query($query);
+	$num_players=mysql_num_rows($resa);
+
+
+	for($i=0;$i<$num_players;$i++){
+		$player_name=mysql_result($resa,$i,'name');
+		$player_id=mysql_result($resa,$i,'id');
+		echo "<option ".($player_id==$top?"selected":"")." value='$player_id'>".($player_name)."</option>\n";
+	}
+	echo "\n</select>\n";
+	echo "</td></tr></table>\n";
+}
+
+function find_scorer($login_id){
+	$res=mysql_query("SELECT top_scorer FROM website.users WHERE id='$login_id'");
+	$top_id=mysql_result($res,0);
+	$res2=mysql_query("SELECT name FROM players WHERE id='$top_id'");
+	return mysql_result($res2,0);
+}
+function check_forum(){
+	if($_SERVER['SCRIPT_NAME']=='/euro2008/forum.php'){
+		echo "<ul class='menu_link'>\n";
+		echo "<li>All threads\n";
+		echo "</li>\n";
+		echo "</ul>\n";
+	}
+
+}
+function admin_links($login_id){
+	if(is_admin($login_id)) {
+		echo "<li><a href='update_matches.php' style='color:gray;'>Enter score</a></li>";
+		echo "<li><a href='create_user.php' style='color:gray;'>Create user</a></li>";
+		echo "<li><a href='adlist_users.php' style='color:gray;'>List users</a></li>";
+		echo "<li><a href='enter_player_adm.php' style='color:gray;'>Add scorer</a></li>";
+		echo "<li><a href='last_accessed.php' style='color:gray;'>Last accessed</a></li>";
+		}
+}
+
+function get_username($id){
+	$res=mysql_query("SELECT username FROM website.users WHERE id='$id'");
+	return mysql_result($res,0);
+}
+function get_nick($id){
+	$res=mysql_query("SELECT nickname FROM website.users WHERE id='$id'");
+	return mysql_result($res,0);
+}
+function update_last_login($id){
+
+      $sql = mysql_query("UPDATE website.users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$id'") or die (mysql_error());
+}
+
+function get_random_profile($login_id){
+	
+	$sql=mysql_query("SELECT id,nickname FROM website.users WHERE player=1 and id<>'$login_id'");
+	$num=mysql_num_rows($sql);
+	$ran=rand(0,$num-1);
+	$res['id']=mysql_result($sql,$ran,'id');
+	$res['nick']=mysql_result($sql,$ran,'nickname');
+
+	return $res;
+}
+function display_bet_history($id){
+
+	$hist=mysql_query("SELECT * FROM matches WHERE played=1 ORDER by id ASC");
+	
+	$num_m=mysql_num_rows($hist);
+
+	for($i=0;$i<$num_m;$i++){
+	
+		$m_id=mysql_result($hist,$i,'id');
+		$arr=get_match_details($m_id,$id);
+	//	echo $arr["team1"]." - ".$arr["team2"]." : ".bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])."<br/>";		
+		$hist1[$m_id]["t1"]=$arr["team1"];
+		$hist1[$m_id]["t2"]=$arr["team2"];
+		$hist1[$m_id]["res"]=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]);
+		$hist1[$m_id]["weight"]=$arr["weight"];
+		$hist1[$m_id]["pick"]=$arr["pick"];
+	}
+	return $hist1;
+}
+function bet_money($login_id){
+	$res=mysql_query("SELECT bet_money FROM website.users WHERE id='$login_id'");
+	return mysql_result($res,0);
+}
+function find_scorer_name($top_id){
+
+	$res2=mysql_query("SELECT name FROM players WHERE id='$top_id'");
+	return mysql_result($res2,0);
+}
+?>

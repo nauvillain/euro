@@ -1,0 +1,7 @@
+@media handheld {
+body {
+	float:none;
+	background:#000;
+}
+
+}

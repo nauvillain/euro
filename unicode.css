@@ -1,0 +1,9 @@
+.Unicode {
+	 font-family: Code2000, "TITUS Cyberbit Basic", "Doulos SIL",
+            "Chrysanthi Unicode", "Bitstream Cyberbit",
+            "Bitstream CyberBase", Thryomanes, Gentium, GentiumAlt,
+            "Lucida Grande", "Arial Unicode MS", "Microsoft Sans Serif",
+            "Lucida Sans Unicode";
+        font-family /**/:inherit; /* resets fonts for everyone but IE6 */
+
+}
