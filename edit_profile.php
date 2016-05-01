@@ -33,44 +33,44 @@ $user_language=mysql_result($result,0,"language");
   <table width="60%" border="0" cellspacing="0" cellpadding="4">
     <tr> 
       <td valign="top"><?php echo get_word_by_id(111);?></td>
-      <td><input name="first_name" type="text" id="first_name" value="<? echo $first_name; ?>"></td>
+      <td><input name="first_name" type="text" id="first_name" value="<?php echo $first_name; ?>"></td>
     </tr>
 
     <tr> 
       <td valign="top"><?php echo get_word_by_id(112);?></td>
-      <td><input name="last_name" type="text" id="last_name" value="<? echo $last_name; ?>"></td>
+      <td><input name="last_name" type="text" id="last_name" value="<?php echo $last_name; ?>"></td>
     </tr>
     <tr> 
       <td valign="top"><?php echo get_word_by_id(113);?></td>
-      <td><input name="nickname" type="text" id="nickname" size=50 value="<? echo $nickname; ?>"></td>
+      <td><input name="nickname" type="text" id="nickname" size=50 value="<?php echo $nickname; ?>"></td>
     </tr>
     <tr> 
       <td valign="top"><?php echo get_word_by_id(114);?></td>
 
-      <td><input name="age" type="text" id="age" value="<? echo $age; ?>"></td>
+      <td><input name="age" type="text" id="age" value="<?php echo $age; ?>"></td>
     </tr>
 
     <tr> 
       <td valign="top"><?php echo get_word_by_id(115);?></td>
 
-      <td><input name="city" type="text" id="city" value="<? echo $city; ?>"></td>
+      <td><input name="city" type="text" id="city" value="<?php echo $city; ?>"></td>
     </tr>
     <tr> 
       <td valign="top"><?php echo get_word_by_id(116);?></td>
 
-      <td><input name="fav_player" type="text" id="fav_player" size=60 value="<? echo $fav_player; ?>"></td>
+      <td><input name="fav_player" type="text" id="fav_player" size=60 value="<?php echo $fav_player; ?>"></td>
     </tr>
     <tr> 
       <td valign="top"><?php echo get_word_by_id(117);?></td>
 
 
-      <td><input name="fav_team" type="text" id="fav_team" value="<? echo $fav_team; ?>"></td
+      <td><input name="fav_team" type="text" id="fav_team" value="<?php echo $fav_team; ?>"></td
     </tr>
     <tr> 
       <td valign="top"><?php echo get_word_by_id(118);?></td>
 
 
-      <td><input name="country" type="text" id="country" value="<? echo $country; ?>"></td>
+      <td><input name="country" type="text" id="country" value="<?php echo $country; ?>"></td>
     </tr>
     <tr>
       <td valign="top"><?php echo get_word_by_id(119);?></td>
@@ -87,7 +87,7 @@ $user_language=mysql_result($result,0,"language");
     <tr> 
       <td valign="top"><?php echo get_word_by_id(120);?></td>
 
-      <td><textarea name="comments" id="comments"><? echo $comments; ?></textarea></td>
+      <td><textarea name="comments" id="comments"><?php echo $comments; ?></textarea></td>
     </tr>
     <tr>
       <td valign="top">&nbsp;</td>

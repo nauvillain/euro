@@ -21,7 +21,7 @@ for ($i = 0; $i <$matches_showed; $i++) {
 	$loc=setloc();
 	setlocale(LC_ALL,$loc);
 //print_r($arr);
-		$res_title1=extractrsstitle($title[$arr['m_id']]);
+	/* $res_title1=extractrsstitle($title[$arr['m_id']]);
 if($res_title1['score']){
 	if(get_english_team_name($arr['t_id1'])==$res_title1['t1']) $strlive1=$res_title1['g1'];
 	if(get_english_team_name($arr['t_id2'])==$res_title1['t1']) $strlive2=$res_title1['g1'];
@@ -31,7 +31,7 @@ if($res_title1['score']){
 else {
 	if(is_being_played($match_id)) $strlive1=$strlive2=0;
 	else $strlive1=$strlive2="";
-}
+}*/
 
 		echo "\n<div class='foot_match_panel'>\n";
 			$place=get_word_by_id($DB::qry("SELECT trans FROM places WHERE place_id='".$arr['place_id']."'",3));

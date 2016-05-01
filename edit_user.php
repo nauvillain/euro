@@ -99,52 +99,52 @@ $rez=mysql_query($query) or mysql_die();
   <table width=60%  border="1" cellspacing="0" cellpadding="4">
 <tr>
       <td align="left" valign="top">Username</td>
-      <td><input name="username" type="text" id="username" value="<? echo $username; ?>"></td>
+      <td><input name="username" type="text" id="username" value="<?php echo $username; ?>"></td>
     </tr>
     <tr>
       <td align="left" valign="top">First Name</td>
-      <td><input name="first_name" type="text" id="first_name" value="<? echo $first_name; ?>"></td>
+      <td><input name="first_name" type="text" id="first_name" value="<?php echo $first_name; ?>"></td>
     </tr>
 
     <tr>
       <td valign="top">Last Name</td>
-      <td><input name="last_name" type="text" id="last_name" value="<? echo $last_name; ?>"></td>
+      <td><input name="last_name" type="text" id="last_name" value="<?php echo $last_name; ?>"></td>
     </tr>
     <tr>
       <td valign="top">Age</td>
-      <td><input name="age" type="text" id="age" value="<? echo $age; ?>"></td>
+      <td><input name="age" type="text" id="age" value="<?php echo $age; ?>"></td>
     </tr>
     <tr>
       <td valign="top">Nickname</td>
 
-      <td><input name="nickname" type="text" id="nickname" value="<? echo $nickname; ?>"></td>
+      <td><input name="nickname" type="text" id="nickname" value="<?php echo $nickname; ?>"></td>
     </tr>
 
-<input name="id" type="hidden"  value="<? echo $id; ?>">
+<input name="id" type="hidden"  value="<?php echo $id; ?>">
     <tr>
       <td valign="top">City</td>
 
-      <td><input name="city" type="text" id="city" value="<? echo $city; ?>"></td>
+      <td><input name="city" type="text" id="city" value="<?php echo $city; ?>"></td>
     </tr>
     <tr>
       <td valign="top">Country</td>
 
-      <td><input name="country" type="text" id="country" value="<? echo $country; ?>"></td>
+      <td><input name="country" type="text" id="country" value="<?php echo $country; ?>"></td>
     </tr>
     <tr>
       <td valign="top">E-mail address</td>
 
-      <td><input name="email" type="text" id="email" size=60 value="<? echo $email; ?>"></td>
+      <td><input name="email" type="text" id="email" size=60 value="<?php echo $email; ?>"></td>
     </tr>
     <tr>
       <td valign="top">Player</td>
 
-      <td><input name="player" type="text" id="player" value="<? echo $player; ?>"></td>
+      <td><input name="player" type="text" id="player" value="<?php echo $player; ?>"></td>
     </tr>
  
     <tr>
       <td valign="top">Comments</td>
-      <td><textarea name="comments" id="comments"><? echo $comments; ?></textarea></td>
+      <td><textarea name="comments" id="comments"><?php echo $comments; ?></textarea></td>
     </tr>
     <tr>
       <td valign="top">&nbsp;</td>

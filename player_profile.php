@@ -108,7 +108,7 @@ if($player==1){
 					<tr>
 					<td><b><a href='rankings.php' class='no_dec'> Ranking</a></b>	</td><td><b>	<?php echo get_ranking($id); ?></b>	</td></tr>
 					<td><b><a href='rankings.php' class='no_dec'> Points</a></b>	</td><td><b>	<?php echo round($pts,2); ?></b>	</td></tr>
-				<?
+				<?php
 					}
 				echo "<tr>
 					<td>
@@ -162,6 +162,9 @@ if($player==1){
 	
 else echo "This id is not a player's id.";
 ?>
+
 </div>
+
 <?php
+
 ?>

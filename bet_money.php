@@ -28,7 +28,7 @@ $money=mysql_result($result,0,'bet_money');
   <table width="60%" border="0" cellspacing="0" cellpadding="4">
     <tr> 
       <td valign="top">I want to bet money (10 euros)</td>
-      <td><input name="checkbox" type="checkbox" id="checkbox" value=1 <? echo ($money==1?"checked='checked'":""); ?>></td>
+      <td><input name="checkbox" type="checkbox" id="checkbox" value=1 <?php echo ($money==1?"checked='checked'":""); ?>></td>
     </tr>
 
     <tr>

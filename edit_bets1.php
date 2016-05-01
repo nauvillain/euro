@@ -157,7 +157,7 @@ var group=new Array(groups)
 	
 
 	for (i=0; i<groups; i++) group[i]=new Array();
-	<?	
+	<?php
 		$teams=mysql_query("SELECT team_id FROM teams ORDER BY team_name");
 		$num_teams=mysql_num_rows($teams);
 		for($i=0;$i<$num_teams;$i++){
@@ -258,16 +258,4 @@ $rem_matches=mysql_num_rows($rem);
 </table>
       </div>
 </form>
-<script type="text/javascript">
-<!--
-<?php
-for($i=0;$i<$rem_matches;$i++){
-	$id=mysql_result($rem,$i,'id');
-	echo "comp_total('weight".$id."')\n";
-}
-?>
-//-->
-</script>
 <div id='errors'><div id='error1'></div></div>
-<?php
-?>
