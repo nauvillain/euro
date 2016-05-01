@@ -87,7 +87,7 @@ function remove_check_sign(id){
 	
 	var elm=document.getElementById('full_row'+id);
 	var image=elm.firstChild;
-	image.src='/img/b_drop.png';
+	image.src='b_drop.png';
 }
 function warn_player(id){
 	alert('Stop right there! You do not have enough points left for the remaining matches\n OR you have exceeded the maximum allowed.	\nPlease adjust the coefficients before submitting.','error1');
