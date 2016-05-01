@@ -390,7 +390,7 @@ a.ajax_link_cancel:hover {
 .bet_score_display_edit {
 	display:table-cell;
 	border-top:1px solid;
-	width:55px;
+	width:105px;
 	text-align:center;
 }
 .bet_score_display_edit input{
@@ -687,4 +687,11 @@ a.ajax_link_cancel:hover {
 	font-weight:bold;	
 	width:380px;
 	float:left;
+}
+#main_hist{
+	width:400px;
+}
+.all_picks{
+	width:100px;
+	display:inline-block;
 }

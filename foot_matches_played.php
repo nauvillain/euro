@@ -12,7 +12,7 @@ if($num) echo "\n<div class='title_main_played' ><a href='results.php'>".toUpper
 else {
 	echo "<div id='temp_items'>";
 	display_remaining_time();
-	display_total_users();
+	display_total_users($login_id);
 	echo "\n</div>";
 	}
 if(is_being_played(1)){

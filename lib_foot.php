@@ -554,14 +554,23 @@ for($i=0;$i<sizeof($language_array);$i++) {
 	}
 	echo "\n</div>\n";
 }
-function display_total_users(){
+function display_total_users($login_id){
 global $language;
 
 	echo "<div class='standardfont'>\n";
 	if(still_time(1)){
 		echo "<br/><b>".mysql_result(mysql_query("SELECT count(*) FROM users WHERE player=1"),0)." ".get_word_by_id(84)."</b><br/>\n";
-	echo "<i>".get_word_by_id(151)."&nbsp;";
-	echo "<a href='edit_bets1.php'>".get_word_by_id(152)."</a></i><br/><br/>";
+		$top_scorer=find_scorer($login_id);
+		$winner=find_winner_bet($login_id);
+		if($top_scorer) echo get_word_by_id(109).": ".$top_scorer;
+		if($winner) echo "<br/> ".get_word_by_id(91).": ".$winner;
+		if($top_scorer&&$winner) {
+			echo "<p/><a href='edit_bets1.php'>".get_word_by_id(108)."</a></i><br/><br/>";
+		}
+		else { 
+			echo "<br/><i>".get_word_by_id(151)."&nbsp;";
+			echo "<a href='edit_bets1.php'>".get_word_by_id(152)."</a></i><br/><br/>";
+		}
 /*	switch($language) {
 			case 'en': echo "This <a href='pronosafter.xls'>Excel sheet</a> can help you see who'd qualify according to your picks\n";
 			break; 
@@ -950,7 +959,7 @@ function display_score_row($match_id,$class,$g1,$g2){
 
 	echo "<div class='$class'>\n";
 	for($i=0;$i<2;$i++){
-		echo "<div id='score$i' style='display:inline;'><input type='text' id='score".$i.$match_id."' name='score".$i.$match_id."' value='".($i==0?$g1:$g2)."' size=1></div>\n";	
+		echo "<div id='score$i' style='display:inline;width:40px;'><input style='display:inline;width:20px;' type='text' id='score".$i.$match_id."' name='score".$i.$match_id."' value='".($i==0?$g1:$g2)."' size=1></div>\n";	
 	}	
 	echo "</div>\n";
 	
@@ -1401,8 +1410,37 @@ global $language;
 }
 function get_team($group,$pos){
 		
-	$res=mysql_query("SELECT team_id FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysql_error());
-	return mysql_result($res,0);
+	if(($pos==1)||($pos==2)) {
+		$res=mysql_query("SELECT team_id FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysql_error());
+		$team=mysql_result($res,0);
+	}
+	if($pos==3) $team=find_best_third($group);
+	return $team;
+}
+function find_best_third($group){
+	global $big_euro_3rd_place;
+	$temp=array("A"=>0,"B"=>1,"C"=>2,"D"=>3);
+
+	//collect teams in 3rd place
+	$result=mysql_query("SELECT group_name FROM teams WHERE current_pos=3 ORDER by pts DESC,(gf-ga) DESC,gf DESC") or die(mysql_error);
+	while($row=mysql_fetch_array($result,MYSQL_NUM)){
+		if(strlen($combo)<4) $combo=$combo.$row[0];
+	}
+   	//create the string like 'BDCF' that determines the groups which contain the best 3rds
+	$combo=sort_string($combo); //sort the groups in alphabetical order, like BCDF
+	//print_r($combo);
+	$ind=$big_euro_3rd_place[$combo][$temp[$group]]; // find the group that contains the 3rd that is qualified
+	$team=mysql_query("SELECT team_id FROM teams WHERE current_pos=3 and group_name='$ind'") or die(mysql_error);
+	$team_id=mysql_result($team,0);
+	return $team_id;
+
+	//
+}
+function sort_string($string){
+	$stringParts = str_split($string);
+	sort($stringParts);
+	return implode('', $stringParts); // abc
+
 }
 function get_code($group,$pos){
 		
@@ -1542,7 +1580,14 @@ function find_scorer($login_id){
 	$top_id=mysql_result($res,0);
 	$res2=mysql_query("SELECT name FROM players WHERE id='$top_id'");
 	if(mysql_num_rows($res2)) return mysql_result($res2,0);
-	else return "None chosen yet.";
+	else return 0;
+}
+function find_winner_bet($login_id){
+	$res=mysql_query("SELECT winner FROM users WHERE id='$login_id'");
+	$top_id=mysql_result($res,0);
+	$res2=mysql_query("SELECT team_name FROM teams WHERE team_id='$top_id'");
+	if(mysql_num_rows($res2)) return mysql_result($res2,0);
+	else return 0;
 }
 function check_forum(){
 	if($_SERVER['SCRIPT_NAME']=='/euro2008/forum.php'){

@@ -6,7 +6,8 @@ echo "<div id='foot_main'>\n";
 $last_team=$_REQUEST['last_team'];
 ?>
 <form name='form1' method='post' onLoad=\"document.getElementById('scorer').focus()\"  action='submit_foot_player_adm.php'>
-<input name='player' id='player' type='text' size=30>
+<textarea name='player' id='player' type='text' rows=40>
+</textarea>
 <input name='team' id='team' type='text' value='<?php echo $last_team;?>' size=5>
 <input type=submit name='submit' type='submit' value='submit scorer'>
 </form>
