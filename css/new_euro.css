@@ -695,3 +695,6 @@ a.ajax_link_cancel:hover {
 	width:100px;
 	display:inline-block;
 }
+.boldf {
+	font-weight:bold;
+}
