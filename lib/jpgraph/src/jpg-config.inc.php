@@ -36,7 +36,7 @@
 //
 //------------------------------------------------------------------------
 // define('CACHE_DIR','/tmp/jpgraph_cache/');
- define('TTF_DIR','/volume1/web/france/lib/jpgraph/jpgraph-3.5.0b1/src/fonts/');
+ define('TTF_DIR','/usr/share/fonts/truetype');
 // define('MBTTF_DIR','/usr/share/fonts/truetype/');
 
 //-------------------------------------------------------------------------
