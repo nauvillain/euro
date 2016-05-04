@@ -39,7 +39,7 @@ while(list($key,$val)=each($_REQUEST)){
 //set the legend
 $graph->legend->SetPos(0,0);
 //$graph->xaxis->SetLabelAngle(45)
-$graph->xaxis->SetFont(FF_ARIAL,FS_NORMAL,7); 
+$graph->xaxis->SetFont(FF_DV_SANSSERIF,FS_NORMAL,7); 
 $graph->xaxis->SetLabelAngle($angle);
 $graph->xaxis->SetTickLabels($match_labels);
 //add background image

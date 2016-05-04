@@ -45,7 +45,9 @@ else {
 			echo "<div class='foot_mb_team_display'>";
 			$phase=get_phase($match_id);
 			echo "<div class='team_name_left'>\n";
-			echo display_matches($match_id,$phase,1,$t1,$arr["code1"])."</div>\n<div class='separator'>".$strlive1." - ".$strlive2."</div>\n<div class='team_name_right'>".display_matches($match_id,$phase,2,$t2,$arr["code2"])."</div>\n";
+	//		echo display_matches($match_id,$phase,1,$t1,$arr["code1"])."</div>\n<div class='separator'>".$strlive1." - ".$strlive2."</div>\n<div class='team_name_right'>".display_matches($match_id,$phase,2,$t2,$arr["code2"])."</div>\n";
+			
+			echo display_matches($match_id,$phase,1,$t1,$arr["code1"])."</div>\n<div class='separator'>"."</div>\n<div class='team_name_right'>".display_matches($match_id,$phase,2,$t2,$arr["code2"])."</div>\n";
 			echo "</div>\n";
 			echo "<div class='foot_mb_bet_display'>";
 			if (is_bet($match_id,$login_id)) {

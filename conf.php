@@ -53,7 +53,7 @@
 	$graph_color=array('yellow','red','gray','green','navy','orange','purple','red','cyan','darkgray');
 	$plot_mark=array('yellow','navy','red','purple','cyan','gray');
 
-	$coef_round=array('0'=>'1','4'=>'1.25','2'=>'1.5','1'=>'2');
+	$coef_round=array('0'=>'1','8'=>1.5,'4'=>'2','2'=>'3','1'=>'4');
 
 	$big_euro_3rd_place=array(
 		"ABCD"=>array("C","D","A","B"),
