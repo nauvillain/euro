@@ -11,7 +11,7 @@ require 'class/autoload.php';
 $DB = DB::Open();
 $matches_played=matches_played();
 $x_axis_length=floor(400+$matches_played*300/$last_match);
-
+//echo "x:".$x_axis_length;
 //new graph
 $graph = new Graph($x_axis_length,400);
 //$graph = new Graph(550,350);
@@ -48,10 +48,11 @@ $graph->xaxis->SetTickLabels($match_labels);
 // Create a multigraph
 //----------------------
 $mgraph = new MGraph();
+$mgraph->SetBackgroundImage('img/uefatrophy.jpg');
 $mgraph->SetImgFormat('jpeg',60);
 $mgraph->SetMargin(2,2,2,2);
 $mgraph->SetFrame(true,'darkgray',2);
-$mgraph->SetBackgroundImage('img/uefatrophy.jpg');
-$mgraph->AddMix($graph,0,0,90);
-$mgraph->Stroke();
+$mgraph->AddMix($graph,0,0,50);
+//$mgraph->Stroke();
+$graph->Stroke();
 ?>
