@@ -20,7 +20,7 @@ body {
 #pagetop a{
 	text-decoration:none;
 	margin-left:10px;
-	color:white;
+	color:black;
 }
 #pagetop img{
 	margin:20px 0 0 30px;
@@ -30,12 +30,12 @@ body {
 	width:350px;
 	right:20px;
 	text-align:right;
-	color:white;
+	color:grey;
 	display:inline;
 	float:right;
 }
 #display_greetings a{
-	color:white;
+	color:grey;
 }
 
 #menu_wrap {
