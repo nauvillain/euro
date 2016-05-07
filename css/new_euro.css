@@ -3,7 +3,8 @@ body {
 	margin:0 auto;
 	font:11px arial;
 	background:#2a2a2a;
-	background:url('/img/kyiv_os.jpg');
+	background:url('../img/sdf.jpg');
+	background-size:100% 100%;
 }
 #content {
 	height:1200px;
