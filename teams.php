@@ -62,8 +62,8 @@ if($team_id){
 		}
 		echo "</table>\n</div>\n";
 	}
-	else echo "<tr><td>players not entered yet</td></tr>";
-		echo "</table>\n</div>\n";
+	else {	echo "<tr><td>players not entered yet</td></tr>";
+			echo "</table>\n</div>\n";}
 //		echo "<div id='team_logo'>";
 	//	echo "<img src='img/".$log."_t.gif' alt='code'/>&nbsp;<br/>\n";
 //		echo "</div>";

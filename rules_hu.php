@@ -9,6 +9,15 @@ A verseny szabályai rendkívül egyszerűek:<br>
 <p>
 Az első kör megkezdése előtt ki kell választanod a <b>Győztest</b>. 10 pont bónusz jár érte, ha eltalálod. Megengedett, hogy a meccsekre a Világkupa Győztesed ellen fogadj.
 Az első kör megkezdése előtt ki kell választanod a <b>Legtöbb gólt rúgó játékost</b> is. 5 extra pontot kapsz ha eltalálod.
+<table align='center'>
+<?php
+echo "<tr><td>1st round</td><td>*".$coef_round['0']." </td></tr>\n";
+echo "<tr><td>Round of 16</td><td>*".$coef_round['8']."</td></tr>\n";
+echo "<tr><td>Quarter finals</td><td>* ".$coef_round['4']."</td></tr>\n";
+echo "<tr><td>Semi finals</td><td>*".$coef_round['2']."</td></tr>\n";
+echo "<tr><td>Finals</td><td>* ".$coef_round['1']."</td></tr>\n";
+?>
+</table>
 
 <h4>Ha problémád akadna…</h4>
 

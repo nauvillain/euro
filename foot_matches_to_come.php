@@ -35,7 +35,7 @@ else {
 
 		echo "\n<div class='foot_match_panel'>\n";
 			$place=get_word_by_id($DB::qry("SELECT trans FROM places WHERE place_id='".$arr['place_id']."'",3));
-			echo "<div class='img_stadium'><p><img src='img/st".$arr["place_id"].".png' alt='".$arr['place']."' />".$place."</p></div>\n";
+			echo "<div class='img_stadium'><p><a href='".$stadium[$arr["place_id"]]."' style='text-decoration:none;' target='new_window'><img src='img/st".$arr["place_id"].".png' alt='".$arr['place']."' />".$place."</a></p></div>\n";
 	echo "<div class='foot_match_board'>";
 		if(still_time(1)) $date_format="%A - %d %B";
 		else $date_format="%A";

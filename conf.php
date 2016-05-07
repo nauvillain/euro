@@ -46,7 +46,7 @@
 	$column_meta=array("current_points"=>'Pts.',"current_ranking"=>"#");
 
 	$server_time_zone=-5;
-	$tournament_time_zone=0;
+	$tournament_time_zone=1;
 
 	$tournament_has_started=array("en"=>"Here we go!","fr"=>"C'est parti!","hu"=>"Gyerünk!");
 
@@ -71,5 +71,17 @@
 		"BCEF"=>array("E","C","B","F"),
 		"BDEF"=>array("E","D","B","F"),
 		"CDEF"=>array("C","D","F","E"));
+
+	$stadium=array(
+		1=>"https://en.wikipedia.org/wiki/Nouveau_Stade_de_Bordeaux",
+		2=>"https://en.wikipedia.org/wiki/Stade_Bollaert-Delelis",
+		3=>"https://en.wikipedia.org/wiki/Stade_Pierre-Mauroy",
+		4=>"https://en.wikipedia.org/wiki/Parc_Olympique_Lyonnais",
+		5=>"https://en.wikipedia.org/wiki/Stade_V%C3%A9lodrome",
+		6=>"https://en.wikipedia.org/wiki/Allianz_Riviera",
+		7=>"https://en.wikipedia.org/wiki/Parc_des_Princes",
+		8=>"https://en.wikipedia.org/wiki/Stade_de_France",
+		9=>"https://en.wikipedia.org/wiki/Stade_Geoffroy-Guichard",
+		10=>"https://en.wikipedia.org/wiki/Stade_Toulousain");
 
 ?>

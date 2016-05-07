@@ -4,7 +4,16 @@
 Vous pariez sur le résultat d'un match, ce avant qu'il commence.
 <br>
 <h4>Points</h4>
-<p>En cas de pari correct, vous recevez les points correspondant à la cote du match en question.</p>
+<p>En cas de pari correct, vous recevez les points correspondant à la cote du match en question, multipliés par un coefficient selon la phase du tournoi</p>
+<table align='center'>
+<?php
+echo "<tr><td>Premier tour</td><td>".$coef_round['0']." </td></tr>\n";
+echo "<tr><td>Huitièmes de finale</td><td>".$coef_round['8']."</td></tr>\n";
+echo "<tr><td>Quarts de finale</td><td> ".$coef_round['4']."</td></tr>\n";
+echo "<tr><td>Demi-finales</td><td>".$coef_round['2']."</td></tr>\n";
+echo "<tr><td>Finales</td><td> ".$coef_round['1']."</td></tr>\n";
+?>
+</table>
 
 <p>Avant le coup d'envoi du premier match, vous devez choisir un <b> Champion</b>. Vous recevez un bonus de 10 points en cas de pari correct.
 Pendant le second tour, si votre vainqueur final est toujours dans la compétition, vous <i> êtes autorisé </i> à parier contre celui-ci.</p>

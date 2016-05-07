@@ -37,7 +37,7 @@ function display_dash(){
 	echo "<div class='hist_dash'>-</div>\n";
 }
 function team_link($id){
-	echo "<a href='teams.php?id=".$id."'>&nbsp;".get_team_name($id)."</a>\n";
+	echo "<a href='teams.php?id=".$id."'>&nbsp;".strtoupper(get_team_name($id))."</a>\n";
 }
 function get_class1($ma){
 	$winner=winner($ma['m_id']);
@@ -72,23 +72,23 @@ $team_id=$_REQUEST['id'];
 ?>
 <div id='main_hist' class='middle'>
 <?php
-mysql_set_charset(utf8);
-show_flag(get_country_code($team_id));
-echo team_link($team_id);
-?>
-<h4 class='middle'>
-<?php 
-echo get_word_by_id(36);?>
-</h4>
-<?php
-display_history($team_id);
-display_all_groups(get_group($team_id));
-echo "<div id='team_ranking_all'>";
-$gp=array(get_group($team_id));
-$gr=array_diff($groups,$gp);
-$gr=array_values($gr);
-display_all_groups($gr);
-echo "</div>\n";
+	mysql_set_charset(utf8);
+	show_flag(get_country_code($team_id));
+	echo team_link($team_id);
+	?>
+	<h4 class='middle'>
+	<?php 
+	echo get_word_by_id(36);?>
+	</h4>
+	<?php
+	display_history($team_id);
+	display_all_groups(get_group($team_id));
+	echo "<div id='team_ranking_all'>";
+	$gp=array(get_group($team_id));
+	$gr=array_diff($groups,$gp);
+	$gr=array_values($gr);
+	display_all_groups($gr);
+	echo "</div>\n";
 ?>
 &nbsp;
 </div>
