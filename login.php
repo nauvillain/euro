@@ -18,31 +18,32 @@ css('login.css');
 <div id='foot_main'>
 <div id='login_content'>
 
-<div id='main_login'>
+<div id='main_login' class="middle">
 <form  id="form1" method="post" action="login1.php?url=<?php echo $url;?>">
  <p>Please enter your username and password!</p>
-  <table width=70% cellspacing="0" cellpadding="0" height="67" border=0 align=center>
-    <tr> 
-      <td><b>Username </b></td>
-      <td> 
-        <input type="text" name="username">
-
-      </td>
-    </tr>
-    <tr> 
-      <td>Password</td>
-      <td> 
-        <input type="password" name="password">
-      </td>
-    </tr>
-  </table>
-  <p><b>
-    <input type="submit" name="Submit" value="Login">
- </p>
-<p><input type="checkbox" name="public" value="false">&nbsp; click here if you are using a public/shared computer</p>
+	  <div class="line">
+		<div class='login left'>
+			Username
+		</div>
+		<div class='login right'>
+			<input type="text" name="username" class="login right">
+		</div>
+	  </div>
+	  <div class="line">
+        <div class='login left'>
+			Password
+		</div>
+	    <div class='login right'>
+			<input type="password" name="password" class="login right">
+		</div>
+	  </div>
+	  <div class="line">
+	    <div class='login right'>
+			<input type="submit" name="Submit" value="Login" class="login right">
+		</div>
+	  </div>
+	  
 </form>
 </div>
 </div>
 </div>
-<?php
-?>

@@ -17,7 +17,7 @@ else {
 	sqlutf();
 	?>
 
-	<?
+	<?php
 	if(isset($_REQUEST['group'])) {
 		$graph_placement=1;
 		echo "<div id='graph_members'>\n";
@@ -98,13 +98,12 @@ else {
 	}*/
 	?>
 	</form>
-	<?
+	<?php
 	if($graph_placement==1)	echo "\t<div id='history_graph'>\n";
 	else	echo "\t<div id='history_graph_points'>\n";
 	echo "\t<img src='point_history_graph.php?$str'/>\n";
-	echo "\t</div'>\n";
+	echo "\t</div>\n";
 	
 }
-echo "</div'>\n";
-
+echo "</div>\n";
 ?>

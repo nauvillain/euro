@@ -1561,7 +1561,7 @@ function display_drop_down_scorer($top){
 	else $first_id=mysql_result($res,0,'id');
 
 
-	$query="SELECT * FROM players WHERE team_id='$first_id'";
+	$query="SELECT * FROM players WHERE team_id='$first_id' ORDER BY substring_index(TRIM(name), ' ', -1) ";
 	$resa=mysql_query($query);
 	$num_players=mysql_num_rows($resa);
 

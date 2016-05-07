@@ -16,7 +16,7 @@ function bets_on(){
 	$flag="";
 	for($i=0;$i<$num;$i++){
 		$m_id=mysql_result($res,$i,'id');
-		if(still_time($m_id)) $result.=$flag.$m_id;
+		if(still_time($m_id)&&(!is_played($m_id))) $result.=$flag.$m_id;
 		$flag=",";
 	}
 	return($result);

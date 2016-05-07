@@ -452,9 +452,9 @@ a.ajax_link_cancel:hover {
 #teams_list{
 	display:block;
 	position:relative;
-	height:100px;
+	height:130px;
 	font-size:12px;
-	
+	float:left;	
 }
 #big_table {
 	top:0px;
@@ -486,7 +486,7 @@ a.ajax_link_cancel:hover {
 }
 #team_coach{
 	width:500px;
-	float:left;
+	float:right;
 }
 #team_coach img{
 }
@@ -695,6 +695,30 @@ a.ajax_link_cancel:hover {
 	width:100px;
 	display:inline-block;
 }
-.boldf {
+.boldf{
 	font-weight:bold;
+}
+
+.left{
+	float:left;
+}
+.right{
+	float:right;
+}
+#main_login {
+	width:300px;
+	margin:0 auto;
+	top:200px;
+}
+.login {
+	width:100px;
+	display:block;
+}
+.line {
+	height:40px;
+}
+.players_list{
+	float:left;
+	width:200px;
+	margin-left:30px;
 }

@@ -51,7 +51,7 @@ if($team_id){
 	echo "<div id='team_name'>".$team_name."</div>\n";
 	$log=$DB::qry("SELECT code FROM teams WHERE team_id='$team_id'",3);
 //	echo "<div id='team_banner' style='background:url(img/".$log."_b.jpg) no-repeat;'>".$team_name."</div>";
-	echo "<div class=players_list><table>";
+	echo "<div class=players_list><table>\n<tr><td align='left' class='boldf'>".get_word_by_id(209)."</td></tr>\n<td></td>";
 	//check if players have been entered for that team
 	if($players_list){
 		//sqlutf();
