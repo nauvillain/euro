@@ -1,8 +1,3 @@
-body {
-	behavior: url(/htc/csshover.htc);
-	font-size: 100%;
-}
-
 #menu ul li a {height: 1%;} 
 
 #menu a, #menu h2 {
@@ -12,7 +7,7 @@ body {
 
 #menu ul {text-align:left;
 	list-style-type:none;
-	margin:0px;};
+	margin:0px;}
 #menu ul li {
 		float: left; /* cure IE5.x "whitespace in lists" problem */
 		width: 100%;
