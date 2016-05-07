@@ -162,7 +162,7 @@ var group=new Array(groups)
 		$num_teams=mysql_num_rows($teams);
 		for($i=0;$i<$num_teams;$i++){
 			$tmp_team_id=mysql_result($teams,$i,'team_id');
-			$query="SELECT * from players WHERE players.team_id='".$tmp_team_id."'";
+			$query="SELECT * from players WHERE players.team_id='".$tmp_team_id."' ORDER BY substring_index(TRIM(name), ' ', -1)";
 			$resc=mysql_query($query);
 			if($resc) $num_scorers=mysql_num_rows($resc);
 			else $num_scorers=0;
