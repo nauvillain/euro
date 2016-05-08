@@ -1862,7 +1862,7 @@ function back(){
 function css($link){
 global $docroot;
 echo "<link rel='stylesheet' type='text/css'
-href='$docroot/css/".$link."' />";
+href='css/".$link."' />";
 }
 
 function get_ranking($id){

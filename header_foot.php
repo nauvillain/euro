@@ -2,11 +2,12 @@
 connect_to_eurodb();
 
 function item($url,$word_id){
-echo "<li><a href='$url'>".toUpper(get_word_by_id($word_id))."</a></li>";
+echo "<li><a href='$url'>".toUpper(get_word_by_id($word_id))."</a></li>\n";
 //echo "<li>&nbsp;</li>\n";
 }
 
 ?>
+<nav>
 <div id='menu_wrap'>
 
 <ul id='menu'>
@@ -45,6 +46,7 @@ if(isset($login_id)){
 ?>
 </ul>
 </div>
+</nav>
 <?php
 ?>
 

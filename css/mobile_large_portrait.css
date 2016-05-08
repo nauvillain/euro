@@ -1,10 +1,6 @@
-@media handheld {
 body {
 	float:none;
-	background:#000;
-}
-#login_content{
-	font-size:36px;
+	background:#fff;
 }
 .left{
 	float:left;
@@ -13,16 +9,20 @@ body {
 	float:right;
 }
 #main_login {
-	margin:0 auto;
-	top:200px;
+	font-size:40px;
+	position:relative;
+	width:1000px;
+	margin: 0 auto;
+	padding:10px;
+	text-align:center;
 }
 .login {
-	width:800px;
+	width:1080px;
 	display:block;
-	font-size:36px;
+	font-size:40px;
 }
 .line {
-	height:40px;
+	height:140px;
 }
 
-}
+

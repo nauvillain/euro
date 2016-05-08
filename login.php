@@ -12,7 +12,7 @@ require 'head_foot.php';
 require 'javascript.php';
 //menus
 require 'header_foot.php';
-css('login.css');
+//css('login.css');
 	$url=$_REQUEST['url'];
 ?>
 <div id='foot_main'>
@@ -25,8 +25,8 @@ css('login.css');
 		<div class='login left'>
 			Username
 		</div>
-		<div class='login right'>
-			<input type="text" name="username" class="login right"/>
+		<div class='login right '>
+			<input type="text" name="username" class="login right big"/>
 		</div>
 	  </div>
 	  <div class="line">

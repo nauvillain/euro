@@ -26,13 +26,16 @@ var isMobile = {
 $(document).ready(function() {
 
 
-		$("head").append("<link rel='stylesheet' type='text/css' href='css/menu.css' />");
 //		$('head').append('<link rel="stylesheet" type="text/css" href="css/new_euro.css" />');
 
+	//window.alert(isMobile.any());
 		if(isMobile.any()){
-		$('head').append('<link rel="stylesheet" type="text/css" href="css/mobile_large_landscape.css" type="text/css" media="@media (min-device-width: 1025px) and (orientation: landscape)" />');
+		$('head').append('<link rel="stylesheet" type="text/css" href="css/mobile_large_portrait.css" " />');
+		$('head').append('<link rel="stylesheet" type="text/css" href="css/styles.css" " />');
+		$('head').append('<script href="js/script.css" />');
 	}
 	else{
+		$("head").append("<link rel='stylesheet' type='text/css' href='css/menu.css' />");
 		$('head').append('<link rel="stylesheet" type="text/css" href="css/new_euro.css" />');
 	}
 

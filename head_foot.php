@@ -16,10 +16,8 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js\"></script>
 <link rel=\"shortcut icon\" href=\"/".$icon."\"/>\n";
 require 'js/select_css.js';
-echo "<link rel=\"stylesheet\" type=\"text/css\"
-href=\"css/menu_ie.css\" />
-<![endif]-->
-<!-- Background white, links blue (unvisited), navy (visited), red (active) --> </head>\n";
+//echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/menu_ie.css\" />
+echo "<!-- Background white, links blue (unvisited), navy (visited), red (active) --> </head>\n";
 echo "<body>\n";
 
 
