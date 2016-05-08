@@ -40,7 +40,7 @@ if ($res!=0&&!is_played($match_id)){
 
 	echo "</div>";
 	echo "<input type=hidden name='match_id' id='match_id' value='$match_id'><br/>";
-	echo "<div style='margin:0 auto;width:80px;'><input type=submit name='Submit' value='Submit'>";
+	echo "<div id='bet_submit' style='margin:0 auto;'><input type=submit name='Submit' value='Submit' >";
 	echo "</div>";
 	echo "</form>";
 	echo "<br/>";

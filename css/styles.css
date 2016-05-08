@@ -11,6 +11,25 @@ body {
 	color: #555;
 }
 
+input[type=checkbox] {
+ width: 44px; height: 44px;
+  -webkit-border-radius: 22px; -moz-border-radius: 22px; border-radius: 22px;
+   border: 1px solid #bbb;
+   }
+
+button[type=submit] {
+	 -webkit-appearance: none; -moz-appearance: none;
+	 display: block;
+	 margin: 1.5em 0;
+	 font-size: 1em; line-height: 2.5em;
+	 color: #333;
+	 font-weight: bold;
+	 height: 2.5em; width: 100%;
+	 background: #fdfdfd; background: -moz-linear-gradient(top, #fdfdfd 0%, #bebebe 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#bebebe)); background: -webkit-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: -o-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: -ms-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: linear-gradient(to bottom, #fdfdfd 0%,#bebebe 100%);
+	 border: 1px solid #bbb;
+	 -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;
+}
+
 a {
 
 	color: #4C9CF1;
@@ -204,11 +223,11 @@ li {
 	font:20px lucida,sans-serif;
 }
 #played {
-	width:470px;
+	width:100%;
 }
 .matches_played_table{
-	width:500px;
-	margin-left:20px;
+	width:100%;
+	float:left;
 }
 .display_match_results{
 	height:110px;
@@ -219,17 +238,17 @@ li {
 }
 .column_left{
 	text-align:center;
-	width:100px;
+	width:20%;
 }
 .column_right {
 	text-align:center;
-	width:100px;
+	width:20%;
 }
 #upcoming {
-	width:480px;
+	width:100%;
 }
 .title_main{
-	margin:20px 120px 10px 106px;
+	margin:20 auto;
 	font-weight:bold;	
 	width:140px;
 }
@@ -245,6 +264,7 @@ li {
 .foot_match_panel {
 	margin:0 auto;	
 	height:100px;
+	clear:left;
 }
 .foot_match_board {
 	float:left;
@@ -271,13 +291,11 @@ li {
 	text-align:right;
 }
 .team_name_right{
-	float:left;
 	width:150px;
 	display:inline;
 	text-align:left;
 }
 .foot_mb_bet_display {
-	width:150px;
 	margin-bottom:10px;
 	height:30px;
 	float:right;
@@ -289,7 +307,7 @@ li {
 	color:black;
 	}
 .team_display_big {
-	font:bold 16px lucida,sans-serif;
+	font:bold 46px lucida,sans-serif;
 	text-decoration:none;
 	color:black;
 }
@@ -309,8 +327,8 @@ li {
 	color:black;
 }
 .img_stadium {
-	height:145px;
-	visibility:hidden;
+	height:1px;
+	float:right;
 }
 .img_stadium p{
 	display:block;
@@ -498,22 +516,33 @@ a.ajax_link_cancel:hover {
 
 .cb_match_board {
 	position:relative;
-	width:600px;
+	width:100%;
 	padding:5px 0px 5px 0px;
 	margin: 0px auto;
 }
 .cb_mb_teams_display {
 	position:relative;
-	font:bold 16px lucida,sans-serif;
 	text-align:center;
 	padding:10px 0 5px 0;
+	line-height:4em;
 }
 .pick{	
 	display:inline;
-	width:158px;
-	padding:25px 0px 5px 0px;
+	width:30%;
+	padding:25px 40px 5px 40px;
 	text-align:right;
-	font:bold 11px lucida,sans-serif;
+	line-height:2em;
+	font-size:2em;
+}
+.pick input[type=radio] {
+  border:0px;
+	width:44px;
+   height:2em;
+   display:inline;
+   }
+#bet_submit,
+#bet_submit input {
+	font-size:2em;
 }
 /*team_sheet*/
 .display_groups {

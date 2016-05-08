@@ -36,12 +36,14 @@ if($num){
 ;		$p=$coef_round[$round];
 		$odds=display_odds($arr["odds1"],$arr["oddsD"],$arr["odds2"],$match_id);
 					echo "\n<tr>";
-					echo "<td>".$odds."</td><td><img src='img/".$arr["code1"].".png' class='image_pad' alt='".$arr["code1"]."'/></td>\n<td class='column_left'>".$t1."</td>";
+		echo "<td><img src='img/".$arr["code1"].".png' class='image_pad' alt='".$arr["code1"]."'/></td>\n<td class='column_left'>".$t1."</td>";
 					echo "<td class='score'> ".fscore($arr["goals1"])."&nbsp;-&nbsp;".fscore($arr["goals2"])."</td>\n";
 
 					echo "<td class='column_right'>".$t2."</td>\n";
 					echo "<td><img src='img/".$arr["code2"].".png' class='image_pad' alt='".$arr["code2"]."'/></td>\n";
-					echo "<td> ".f_bet_result(bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]))." ".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".round($coef[$pick_index]*$p,2):"&nbsp;-&nbsp;")."</td></tr>\n";
+					echo "<td> ".f_bet_result(bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]))." ".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".round($coef[$pick_index]*$p,2):"&nbsp;-&nbsp;")."</td>\n";
+		echo "<td>".$odds."</td>\n";
+					echo "</tr>\n";
 					//if($temp) echo "<font color=red>My bet:&nbsp;&nbsp".$arr["gt1"]."-".$arr["gt2"]."<img src='img/".$arr["code2"].".gif'></font><br>\n";
 	//				display_odds($arr["odds1"],$arr["oddsD"],$arr["odds2"],$match_id);
 				//echo "\n</div>";
