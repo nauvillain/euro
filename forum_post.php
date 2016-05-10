@@ -7,7 +7,7 @@ require_once 'conf.php';
 require 'lib/lib_gen.php';
 require 'lib_foot.php';
 
-require 'lib/lib_forum.php';
+require 'lib_forum.php';
 
 //$temp=$_GET['text'];
 //$temp = preg_replace("/(http:\/\/[^\s]+)/","<a href=\"$1\">$1</a>",$temp);
