@@ -2,9 +2,8 @@ body {
 	width:1000px;
 	margin:0 auto;
 	font:11px arial;
-	background:#2a2a2a;
-	background:url('../img/sdf.jpg');
-	background-size:100% 100%;
+	background:#2a2a2a url('../img/sdf.jpg') no-repeat;
+	background-size:100%;
 }
 #content {
 	height:1200px;
@@ -28,15 +27,15 @@ body {
 	width:200px;
 }
 #display_greetings {
-	width:350px;
+	width:380px;
 	right:20px;
 	text-align:right;
-	color:grey;
+	color:white;
 	display:inline;
 	float:right;
 }
 #display_greetings a{
-	color:grey;
+	color:white;
 }
 
 #menu_wrap {
@@ -714,6 +713,7 @@ a.ajax_link_cancel:hover {
 .login {
 	width:100px;
 	display:block;
+	color:white;
 }
 .line {
 	height:40px;
