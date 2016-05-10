@@ -36,7 +36,7 @@ else{
 			changes. Please contact the webmaster.';
 		} 
 	else {
-	     echo "The user ".$username." (".$nickname." from ".$city."), password: $password  has been added.<br>http://vilnico.homelinux.net/euro2008/";
+	     echo "The user ".$username." (".$nickname." from ".$city."), password: $password  has been added.<br>http://euro.zitaoravecz.net/";
 	     }
 	}
 	else{

@@ -111,8 +111,8 @@ for($i=0;$i<$len;$i++){
         echo "<td>\n";
                 //echo $rank_counter."- </td><td>";
 		echo ($code?display_when_live("<img src='img/$code.png' width=15px>"):"")."</td><td>";
-                echo "<a href='player_profile.php?id=$p_id' style='color:blue;text-decoration:none;font-size:10pt;'>";
-                echo ($p_id==$login_id?"<div style='font-weight:800;font-size:14px;'>":"");
+		echo "<a href='player_profile.php?id=$p_id' class='display_rank_table'>";
+		echo ($p_id==$login_id?"<div class='display_rank_table_me'>":"");
 		echo "&nbsp;".substr($name,0,18).($p_id==$login_id?"</div>":"")."</a></td>\n";
         echo "<td>".round($score,2)."</td></tr>\n";
         $j++;

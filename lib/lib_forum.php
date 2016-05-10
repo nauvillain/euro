@@ -43,7 +43,7 @@ function display_main_thread($t_id,$title,$root,$min){
 		$div_bold_end="</div>";
 	}
 	else {
-		$div_bold="<div class='forum_content'>";
+		$div_bold="<div class='forum_content dont-break-out'>";
 		$div_bold_end="</div>";
 	}
 	//if it's a main thread, put a frame
@@ -55,9 +55,10 @@ function display_main_thread($t_id,$title,$root,$min){
 	echo "</div>\n";
 	//echo "<li>\n";
 	//display post content
-	echo "<div  name='contents_$t_id' class='forum_content'>\n";
+	echo "<div  name='contents_$t_id' class='forum_content dont-break-out'>\n";
 	echo $div_bold;
-	echo urldecode(nl2br(mysql_result($m_sql,0,'content')));
+	$post_content=urldecode(nl2br(mysql_result($m_sql,0,'content'));
+	echo $post_content;
 	echo $div_bold_end;
 	$id=mysql_result($m_sql,0,'id');
 	//display actions linked to the post
@@ -158,4 +159,13 @@ function utf8_to_unicode_code($utf8_string){
 function conv($str){
 	return iconv("UTF8","ISO-8859-1",$str);
 }
+function shortenurl($url)
+{
+ if ( strlen($url) > 45) {
+  return substr($url, 0, 30)."[...]".substr($url, -15);
+ } else {
+  return $url;
+ }
+}
+
 ?>

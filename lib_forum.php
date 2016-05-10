@@ -43,7 +43,7 @@ function display_main_thread($t_id,$title,$root,$min){
 		$div_bold_end="</div>";
 	}
 	else {
-		$div_bold="<div class='forum_content'>";
+		$div_bold="<div class='forum_content dont-break-out'>";
 		$div_bold_end="</div>";
 	}
 	//if it's a main thread, put a frame

@@ -2,27 +2,11 @@ body {
 	float:none;
 	background:#fff;
 }
-.left{
-	float:left;
-}
-.right{
-	float:right;
-}
 #main_login {
-	font-size:40px;
 	position:relative;
-	width:1000px;
 	margin: 0 auto;
 	padding:10px;
 	text-align:center;
-}
-.login {
-	width:1080px;
-	display:block;
-	font-size:40px;
-}
-.line {
-	height:140px;
 }
 
 

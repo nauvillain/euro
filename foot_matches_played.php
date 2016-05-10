@@ -36,7 +36,7 @@ if($num){
 ;		$p=$coef_round[$round];
 		$odds=display_odds($arr["odds1"],$arr["oddsD"],$arr["odds2"],$match_id);
 					echo "\n<tr>";
-		echo "<td><img src='img/".$arr["code1"].".png' class='image_pad' alt='".$arr["code1"]."'/></td>\n<td class='column_left'>".$t1."</td>";
+		echo "<td ><img src='img/".$arr["code1"].".png' class='image_pad' alt='".$arr["code1"]."'/></td>\n<td class='column_left'>".$t1."</td>";
 					echo "<td class='score'> ".fscore($arr["goals1"])."&nbsp;-&nbsp;".fscore($arr["goals2"])."</td>\n";
 
 					echo "<td class='column_right'>".$t2."</td>\n";

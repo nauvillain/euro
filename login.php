@@ -15,7 +15,6 @@ require 'header_foot.php';
 //css('login.css');
 	$url=$_REQUEST['url'];
 ?>
-<div id='foot_main'>
 <div id='login_content'>
 
 <div id='main_login' class="middle">
@@ -25,25 +24,24 @@ require 'header_foot.php';
 		<div class='login left'>
 			Username
 		</div>
-		<div class='login right '>
-			<input type="text" name="username" class="login right big"/>
+		<div class='login '>
+			<input type="text" name="username" class="left login big centre"/>
 		</div>
 	  </div>
 	  <div class="line">
         <div class='login left'>
 			Password
 		</div>
-	    <div class='login right'>
-			<input type="password" name="password" class="login right"/>
+	    <div class='login'>
+			<input type="password" name="password" class="left login big centre"/>
 		</div>
 	  </div>
 	  <div class="line">
 	    <div class='login right'>
-			<input type="submit" name="Submit" value="Login" class="login right">
+			<input type="submit" name="Submit" value="Login" class="left login right">
 		</div>
 	  </div>
 	  
 </form>
-</div>
 </div>
 </div>
