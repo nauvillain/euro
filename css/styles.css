@@ -34,7 +34,6 @@ a {
 
 	color: #4C9CF1;
 	text-decoration: none;
-	font-weight: bold;
 
 }
 
@@ -68,7 +67,7 @@ header {
 	margin: 20px;
 	float: left;
 	width: 200px;
-	height: 40px;
+	height: 100px;
 	background: url(../img/logo.png) no-repeat center;
 	display: block;
 
@@ -76,18 +75,17 @@ header {
 
 nav {
 
-	float: right;
-	padding: 20px;	
-
-}
+padding:20px;
+float:right;
+width:100px;}
 
 #menu_wrap {
 
-	display: hidden;
-	width: 40px;
-	height: 40px;
+	width: 100px;
+	height: 100px;
 	background: #4C8FEC url(../img/menu-icon.png) center;
-
+	background-size:cover;
+	right:100px;
 }
 
 a:hover#menu_wrap {
@@ -110,6 +108,7 @@ li {
 	padding: 10px;
 	line-height: 2em;
 	font-size:2em;
+	width:40%;
 }
 
 .current {
@@ -168,10 +167,11 @@ li {
 }
 #pagetop
 {
-	font-size:20px;
+	font-size:2em;
 	float:left;
-	width:600px;
+	width:40%;
 	margin-top:20px;
+	padding:20px 0 0px 20px;
 }
 #pagetop a{
 	text-decoration:none;
@@ -183,11 +183,12 @@ li {
 	width:200px;
 }
 #display_greetings {
-	width:450px;
-	right:20px;
+	width:40%;
+	right:120px;
 	text-align:right;
 	color:grey;
 	display:inline;
+	float:left;
 }
 #foot_main{
 	position:relative;
@@ -225,16 +226,17 @@ li {
 #played {
 	width:100%;
 }
-.matches_played_table{
+.matches_played_table {
 	width:100%;
 	float:left;
+	font-size:30px;
 }
 .display_match_results{
 	height:110px;
 }
 .score {
 	font-weight:bold;	
-	font-size:22px;
+	font-size:1em;
 }
 .column_left{
 	text-align:center;
@@ -248,7 +250,7 @@ li {
 	width:100%;
 }
 .title_main{
-	margin:20 auto;
+	margin:20px 0px 25px 270px;
 	font-weight:bold;	
 	width:140px;
 }
@@ -276,7 +278,7 @@ li {
 	margin:15px 0 10px 0 ;
 }
 .foot_mb_team_display a{
-	width:250px;
+	width:70%;
 }
 .separator {
 	float:left;
@@ -286,12 +288,12 @@ li {
 }
 .team_name_left {
 	float:left;
-	width:160px;
+	width:30%;
 	display:inline;
 	text-align:right;
 }
 .team_name_right{
-	width:150px;
+	width:30%;
 	display:inline;
 	text-align:left;
 }
@@ -302,7 +304,7 @@ li {
 	margin-top:20px;
 	margin-right:100px;}
 .team_display_normal {
-	font:bold 23px lucida,sans-serif;
+	font-size:30px;
 	text-decoration:none;
 	color:black;
 	}
@@ -317,7 +319,7 @@ li {
 	color:black;
 }
 .team_display_medium {
-	font:bold 22px lucida,sans-serif;
+	font-size:30px;
 	text-decoration:none;
 	color:#202020;
 }
@@ -328,10 +330,10 @@ li {
 }
 .img_stadium {
 	height:1px;
-	float:right;
 }
 .img_stadium p{
-	display:block;
+	display:inline;
+	padding:20px 0 0 30px;
 }
 .img_stadium img{
 	width:20px;
@@ -341,6 +343,7 @@ li {
 	vertical-align:middle;
 	margin:0px 5px 5px 5px;
 	height:15px;
+	width:15px;
 }
 .divider img{
 	width:300px;
@@ -373,12 +376,11 @@ Forum
 }
 
 .forum_content{
-	font:12px lucida,sans-serif;
+	font:30px lucida,sans-serif;
 	margin-left:18px;
 	width:700px;
 	line-height:15px;
 	margin-top:8px;
-	font-size:11px;
 }
 .forum_thread_title{
 	font-weight:bold;
@@ -446,6 +448,25 @@ a.ajax_link_cancel:visited {
 }
 a.ajax_link_cancel:hover {
 	cursor:pointer;
+}
+.dont-break-out {
+
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
 }
 /* Picks */
 
@@ -832,16 +853,18 @@ a.ajax_link_cancel:hover {
 	float:right;
 }
 #main_login {
-	width:300px;
+	width:80%;
 	margin:0 auto;
-	top:200px;
+	top:100px;
 }
 .login {
-	width:100px;
 	display:block;
+	padding:50px 0;
+	width:80%;
 }
 .line {
-	height:40px;
+	height:2em;
+	text-align:left;
 }
 .players_list{
 	float:left;
@@ -849,10 +872,55 @@ a.ajax_link_cancel:hover {
 	margin-left:30px;
 }
 #main_login input {
-	font:11px lucida,sans-serif;
 	color:#7D0508;
+	font-size:2em;
+}
+#main_login p {
+float:left;}
+
+.centre {
+	margin: 0 auto;
+}
+.left{
+	float:left;
+}
+.right{
 	float:right;
 }
-#main_login td {
-	font:bold 11px lucida,sans-serif;
+/*rankings*/
+
+
+.ranking_table  {
+	width:615px;
+	font-size:30px ;
+	margin:0 auto;
+	white-space:nowrap;
+}
+.ranking_table  td{
+	width:300px;
+	font-size:30px;	
+}
+.ranking_table  td>a{
+	width:300px;
+	font-size:30px;	
+}
+#rankings_previous_winners{
+        float:left;
+        width:150px;
+        font:14px bold lucida;
+}
+#rankings_previous_winners li{
+        list-style-type: none;
+        float:left;
+        margin-bottom:10px;
+}
+
+.display_rank_table a{
+			color:blue;
+			text-decoration:none;
+			font-size:30px;
+}
+.display_rank_table_me {
+			font-weight:800;
+			font-size:30px;
 }
