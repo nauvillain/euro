@@ -23,7 +23,10 @@ $sort=$_GET['sort'];
 
 $selected=array('minutes'=>$minutes,'type'=>$chrono,'sort'=>$sort);
 
-if(!$sort) $sort='asc';
+if(!$sort){
+	if ($chrono=='threads') $sort='desc';
+	else $sort='asc';
+}
 	//echo "<img src='forum.gif'>";
 	$times=array("30","120","240","1440","7200");
 	$labels_en=array("last half-hour","last 2 hours","last 4 hours","last day","5 days");

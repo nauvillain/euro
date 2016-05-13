@@ -3,10 +3,11 @@
 function display_threads($min,$sort){
 
 	$active=find_active_threads($min,$sort);
-	if(!mysql_num_rows($active)) return;
+	$num=mysql_num_rows($active);
+	if(!$num) return;
+	//echo "num:$num";
 	while($row=mysql_fetch_array($active)){
 		 display_main_thread($row['id'],$row['title'],0,$min);
-	
 	}
 	return 1;
 
@@ -30,7 +31,9 @@ else {
 		$limit=" WHERE (last_mod > NOW()-INTERVAL $archive_forum MINUTE) ";
 
 }
-	$m_sql=mysql_query("SELECT * FROM forum ".$all.$limit."ORDER BY id $sort") or die(mysql_error());
+	$forum_query="SELECT * FROM forum ".$all.$limit."ORDER BY id $sort";
+	$m_sql=mysql_query($forum_query) or die(mysql_error());
+	//echo "query:$forum_query";
 	$num_rows=mysql_num_rows($m_sql);
 	for($i=0;$i<$num_rows;$i++){
 	//display_main_thread_flat($row['id'],$row['title'],0,$min);
@@ -54,7 +57,7 @@ else {
 		$thread_title=mysql_result($result,0,'title');
 		$thread_author=mysql_result($result,0,'user_name');
 		
-		echo "<div id='t_".$row_id."' name='titles_".$row_id."'>\n";
+		echo "<div id='t_".$row_id."' name='titles_".$row_id."' class='forum_title'>\n";
 		//" (".mysql_result($m_sql,0,'user_name').")";
 		//($new_items?", $new_items new":"").
 		echo " -- <div class='post_date_flat'>".$str_post_date."</div>";
@@ -112,10 +115,12 @@ if($min){
 	$limit="";
 }
 else {
-		$limit=" WHERE (last_mod > NOW()-INTERVAL $archive_forum MINUTE) ";
+		$limit=" WHERE (last_mod > NOW()-INTERVAL $archive_forum MINUTE ) ";
 
 }
-	$m_sql=mysql_query("SELECT * FROM forum ".$all.$limit."ORDER BY id $sort") or die(mysql_error());
+	$thread_query="SELECT id,content,title FROM forum ".$all.$limit." AND thread='0' ORDER BY id $sort";
+//	echo 'thread_query:'.$thread_query;
+	$m_sql=mysql_query($thread_query) or die(mysql_error());
 	return($m_sql);
 }
 function find_active_threads_old($min,$sort){

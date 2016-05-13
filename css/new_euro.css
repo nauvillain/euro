@@ -270,7 +270,6 @@ Forum
 	float:left;
 	width:700px;
 	line-height:15px;
-	margin-top:8px;
 	font-size:11px;
 }
 .forum_content_new{
@@ -291,6 +290,12 @@ Forum
 	font-weight:bold;
 	color:black;
 
+}
+#reply_thread{
+	margin-bottom:15px;
+}
+.forum_title{
+	margin-top:15px;
 }
 .expanded{
 	color:#8B2323;
