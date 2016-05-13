@@ -84,4 +84,6 @@
 		9=>"https://en.wikipedia.org/wiki/Stade_Geoffroy-Guichard",
 		10=>"https://en.wikipedia.org/wiki/Stade_Toulousain");
 
+	$archive_forum="900000";
+
 ?>

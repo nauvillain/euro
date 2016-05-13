@@ -19,7 +19,7 @@ item('results.php',36);
 item('team_ranking.php',37);
 item('stage2.php',40);
 item('teams.php',39);*/
-item('forum.php?minutes=1440',41);
+item('forum.php?minutes=1440&type=threads',41);
 /*
 item('final_winner_top_scorer_list.php',48);
 item('display_user_tree.php',79);

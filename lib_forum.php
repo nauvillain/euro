@@ -1,8 +1,8 @@
 <?php
 
-function display_threads($min){
+function display_threads($min,$sort){
 
-	$active=find_active_threads($min);
+	$active=find_active_threads($min,$sort);
 	if(!mysql_num_rows($active)) return;
 	while($row=mysql_fetch_array($active)){
 		 display_main_thread($row['id'],$row['title'],0,$min);
@@ -12,12 +12,121 @@ function display_threads($min){
 
 }
 
+function display_threads_flat($min,$sort){
+global $archive_forum;
+//	echo "brazil:$min";
+if($min){
+	if($min==$archive_forum){ 
+		$brazil = " < ";
+		$limit="";
+	}
+	else {
+		$brazil= " >= ";
+	}
+	$all="WHERE (last_mod ".$brazil." NOW()-INTERVAL $min MINUTE) ";
+	$limit="";
+}
+else {
+		$limit=" WHERE (last_mod > NOW()-INTERVAL $archive_forum MINUTE) ";
+
+}
+	$m_sql=mysql_query("SELECT * FROM forum ".$all.$limit."ORDER BY id $sort") or die(mysql_error());
+	$num_rows=mysql_num_rows($m_sql);
+	for($i=0;$i<$num_rows;$i++){
+	//display_main_thread_flat($row['id'],$row['title'],0,$min);
+		$row_id=mysql_result($m_sql,$i,'id');
+		$row_last_mod=mysql_result($m_sql,$i,'last_mod');
+		$row_thread=mysql_result($m_sql,$i,'thread');
+		$row_user_id=mysql_result($m_sql,$i,'user_id');
+		$row_user_name=mysql_result($m_sql,$i,'user_name');
+		$parent_thread=find_parent_thread($row_id);
+		$str_post_date=format_date($row_last_mod);
+		$div_bold="<div class='forum_content_new dont-break-out'>\n";
+		$div_bold_end="</div>";
+		$bold_class='boldf';
+		if($parent_thread==$row_id){
+			$re="";}
+		else {
+			$re="Re: ";
+		}
+		//get parent title & author
+		$result=mysql_query("SELECT title,user_name FROM forum WHERE id='$parent_thread'") or die(mysql_error());
+		$thread_title=mysql_result($result,0,'title');
+		$thread_author=mysql_result($result,0,'user_name');
+		
+		echo "<div id='t_".$row_id."' name='titles_".$row_id."'>\n";
+		//" (".mysql_result($m_sql,0,'user_name').")";
+		//($new_items?", $new_items new":"").
+		echo " -- <div class='post_date_flat'>".$str_post_date."</div>";
+			//($parent_thread!=$row_id?"":get_word_by_id(107))." "
+		echo "</div>\n";
+		//echo "<li>\n";
+		//display post content
+		echo "<div  name='contents_".$row_id."' class='forum_content_flat'>\n";
+		echo "<div class='$bold_class'>$re $thread_title </div>"; 
+		echo "[<a href='player_profile.php?id=".$row_user_id."'>".$row_user_name."</a>] \n";
+		$conttt=mysql_result($m_sql,$i,'content');
+		$conttt=str_replace('+',"&#43;",$conttt);
+		$conttt=str_replace('-',"&#45;",$conttt);
+		$conttt=str_replace('"',"&#34;",$conttt);
+		$conttt=str_replace('$',"&#36;",$conttt);
+		$conttt=str_replace('*',"&#42;",$conttt);
+		echo $div_bold;
+		
+		echo urldecode(nl2br($conttt))."";
+		echo $div_bold_end;
+		//display actions linked to the post
+		display_options($parent_thread,$row_id);
+			
+	}	
+	return 1;
+
+}
+
+
+function find_parent_thread($id){
+
+	$sql=mysql_query("SELECT thread FROM forum WHERE id='$id'") or die(mysql_error());
+	$thread=mysql_result($sql,0);
+	if($thread==0) return($id);
+	else {
+		return find_parent_thread($thread);
+	}
+}
+
 function load_post($t_id){
 	echo "<>";
 }
 
-function find_active_threads($min){
-	$sql=mysql_query("SELECT id,content,title FROM forum WHERE".($min?" DATE_SUB(NOW(),INTERVAL $min MINUTE)< last_mod AND":"")." thread='0' ORDER BY last_mod desc") or die(mysql_error());	
+function find_active_threads($min,$sort){
+	global $archive_forum;
+if($min){
+	if($min==$archive_forum){ 
+		$brazil = " < ";
+		$limit="";
+	}
+	else {
+		$brazil= " >= ";
+	}
+	$all="WHERE (last_mod ".$brazil." NOW()-INTERVAL $min MINUTE) ";
+	$limit="";
+}
+else {
+		$limit=" WHERE (last_mod > NOW()-INTERVAL $archive_forum MINUTE) ";
+
+}
+	$m_sql=mysql_query("SELECT * FROM forum ".$all.$limit."ORDER BY id $sort") or die(mysql_error());
+	return($m_sql);
+}
+function find_active_threads_old($min,$sort){
+	global $archive_forum;
+	if($min==$archive_forum) {
+		$brazil=" DATE_SUB(NOW(),INTERVAL 500000 MINUTE) > last_mod AND";	
+	}
+	else $brazil="";
+	if($min!=0) $length=" DATE_SUB(NOW(),INTERVAL $min MINUTE) < last_mod AND";
+	else $length="";
+	$sql=mysql_query("SELECT id,content,title FROM forum WHERE".$brazil.$length." thread='0' ORDER BY last_mod $sort") or die(mysql_error());	
 	return($sql);
 }
 
@@ -39,7 +148,7 @@ function display_main_thread($t_id,$title,$root,$min){
 	else $class_js="trigger";
 	//format the font if the post is new
 	if($new&&$par_id){
-		$div_bold="<div class='forum_content_new'>\n";
+		$div_bold="<div class='forum_content_new dont-break-out'>\n";
 		$div_bold_end="</div>";
 	}
 	else {
@@ -151,6 +260,14 @@ global $language;
 		$f=round($time/86400);
 		$unit=get_word_by_id(145);	
 	}
+	if(($time<31536000)&&($time>=86400*30)) {
+		$f=round($time/86400/30);
+		$unit=get_word_by_id(212);	
+	}
+	if($time>31536000) {
+		$f=round($time/31536000);
+		$unit=get_word_by_id(213);	
+	}
 		switch($language){
 			case 'en': if($unit!="day") $u=$f." ".$unit." ago";
 				else $u="yesterday";
@@ -158,7 +275,7 @@ global $language;
 				break;
 			case 'fr':
 			$u="il y a ".$f." ".$unit;
-			if($f>1) $u="il y a ".$f." ".$unit."s";
+			if($f>1) $u="il y a ".$f." ".$unit.($unit=="mois"?"":"s");
 			break;
 			case 'hu': $u=$f." ".$unit." ezelőtt";
 			break;
@@ -181,4 +298,5 @@ function utf8_to_unicode_code($utf8_string){
 function conv($str){
 	return iconv("UTF8","ISO-8859-1",$str);
 }
+
 ?>

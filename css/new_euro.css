@@ -20,7 +20,6 @@ body {
 #pagetop a{
 	text-decoration:none;
 	margin-left:10px;
-	color:black;
 }
 #pagetop img{
 	margin:20px 0 0 30px;
@@ -145,34 +144,35 @@ body {
 	margin:0 auto;	
 	width:478px;
 	height:100px;
+	padding-top:10px;
 }
 .foot_match_board {
 	float:left;
 	width:345px;
 }
 .foot_mb_place_display {
-	margin:15px 0 0 0 ;
+	width:150px;
+	margin-left:50px;
 }
 .foot_mb_team_display {
-	margin:15px 0 10px 0 ;
+	margin:0 auto;
+	width:380px;
+	height:15px;
+	padding-top:15px;
 }
 .foot_mb_team_display a{
-	width:350px;
 }
 .separator {
-	float:left;
 	width:30px;	
 	display:inline;
 	font:bold 15px lucida;
 }
 .team_name_left {
-	float:left;
-	width:160px;
+	width:150px;
 	display:inline;
 	text-align:right;
 }
 .team_name_right{
-	float:left;
 	width:150px;
 	display:inline;
 	text-align:left;
@@ -211,7 +211,7 @@ body {
 }
 .img_stadium {
 	float:right;
-	height:145px;
+	height:13px;
 	width:120px;
 }
 .img_stadium p{
@@ -264,6 +264,28 @@ Forum
 	line-height:15px;
 	margin-top:8px;
 	font-size:11px;
+}
+.forum_content_flat{
+	font:12px lucida,sans-serif;
+	float:left;
+	width:700px;
+	line-height:15px;
+	margin-top:8px;
+	font-size:11px;
+}
+.forum_content_new{
+	margin-left:12px;
+	width:480px;
+	line-height:18px;
+	/*font-weight:bold;*/
+	background:#EBECE4;
+}
+.forum_content_new_flat{
+	margin-left:12px;
+	width:480px;
+	line-height:18px;
+	font-weight:bold;
+	background:#EBECE4;
 }
 .forum_thread_title{
 	font-weight:bold;
@@ -605,6 +627,9 @@ a.ajax_link_cancel:hover {
 	height:15px;
 }
 .foot_mb_match_display_result{
+	width:400px;
+}
+.foot_mb_match_display_result{
 	position:relative;
 	padding:5px 0px 5px 0px;
 }
@@ -740,3 +765,11 @@ a.ajax_link_cancel:hover {
 			font-weight:800;font-size:14px;
 		}
 
+.post_date {
+	display:inline;
+	color:gray;
+}
+.post_date_flat {
+	display:inline;
+	color:gray;
+}

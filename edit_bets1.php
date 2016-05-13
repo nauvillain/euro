@@ -207,7 +207,7 @@ for($i=0;$i<$num_first;$i++){
 		echo $arr["team2"];
 	echo "</td>\n";
 	echo "<td class='bet_bet_display'>";
-		if(still_time($match_id)&&!$arr["played"]) echo clear_pick_weight($match_id,'pick','clear pick');
+		if(still_time($match_id)&&!$arr["played"]) echo clear_pick_weight($match_id,'pick','clear');
 	echo "</td>\n";
 	echo "<td class='bet_bet_display'>\n";
 		if($arr["played"]) echo f_pick($arr["pick"],$arr["code1"],$arr["code2"]);
@@ -241,7 +241,7 @@ $rem_matches=mysql_num_rows($rem);
 		echo "<td  COLSPAN='7'> </td><td>";
 		switch($language){
 			case 'en':
-      		echo "<input type='submit' name='Submit' value='Submit'>
+      		echo "<input id='bet_submit' type='submit' name='Submit' value='Submit'>
 		</td><td></td>\n";
 			break;
 			case 'fr':

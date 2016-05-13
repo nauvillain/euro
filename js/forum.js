@@ -132,7 +132,7 @@ function addPost(id) {
 		newDiv.name='titles';
 //		create the Div containing the new text
 		var newDiv=document.createElement('div');
-		newDiv.className='forum_content dont-break-out';	
+		newDiv.className='forum_content';	
 		newDiv.name='contents';
 		newDiv.id=id;
 		currentDiv.appendChild(newDiv);	

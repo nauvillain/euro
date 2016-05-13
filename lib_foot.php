@@ -546,11 +546,11 @@ mysql_query("UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE 
 function display_greetings($login_id){
 global $language_array,$language;
 	echo "<div id='display_greetings'>\n";
-	echo get_word_by_id(38)." <b>".toUpper(get_user_info($login_id,"first_name"))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>\n";
-	echo "<a href='rules.php'>".toUpper(get_word_by_id(87))."</a>&nbsp;/&nbsp;<a href='help.php'>".toUpper(get_word_by_id(88))."</a>&nbsp;/&nbsp;<a href='logout.php'>".toUpper(get_word_by_id(86))."</a>&nbsp;&nbsp;&nbsp;";
+	echo get_word_by_id(38)." <b>".toUpper(get_user_info($login_id,"first_name"))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></br>\n";
+	echo "<a href='rules.php'>".toUpper(get_word_by_id(87))."</a> /  <a href='help.php'>".toUpper(get_word_by_id(88))."</a>/<a href='logout.php'> ".toUpper(get_word_by_id(86))."</a> -- ";
 	//echo "<br><a href='forget.php'><font size=1> click here if you are not ".get_user_info($login_id,"first_name")."</font></a>";
 for($i=0;$i<sizeof($language_array);$i++) {
-		if ($language!=$language_array[$i]) 	echo "<a href='set_language.php?langi=".$language_array[$i]."'>".toUpper($language_array[$i])."</a>&nbsp;";
+		if ($language!=$language_array[$i]) 	echo "   <a href='set_language.php?langi=".$language_array[$i]."'>".toUpper($language_array[$i])."</a>&nbsp;&nbsp;&nbsp;";
 	}
 	echo "\n</div>\n";
 }
@@ -1596,6 +1596,19 @@ function check_forum(){
 		echo "</li>\n";
 		echo "</ul>\n";
 	}
+
+}
+function make_forum_link($arr,$text,$selected){
+
+	$res=count(array_intersect($arr,$selected));
+//	print_r($res);
+	if($res==count($arr)) $class="class='boldf'";
+	else $class="";
+	foreach($arr as $key=>$val){
+		$str=$str.$key."=".$val."&";
+	}
+
+	echo "<a href='forum.php?$str' $class>$text</a>\n";
 
 }
 function admin_links($login_id){

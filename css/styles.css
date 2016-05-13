@@ -183,12 +183,15 @@ li {
 	width:200px;
 }
 #display_greetings {
-	width:40%;
+	width:400px;;
 	right:120px;
-	text-align:right;
 	color:grey;
 	display:inline;
 	float:left;
+	height:50px;
+}
+#display_greetings a{
+	width:50px;
 }
 #foot_main{
 	position:relative;
@@ -210,10 +213,8 @@ li {
 }
 
 #temp_items{
-	width:200px;
-	margin-left:120px;
-	margin-top:50px;
-	margin-bottom:10px;
+	width:600px;
+	margin:0 auto;
 	font-size:38px;
 }
 .standardfont {
@@ -250,14 +251,14 @@ li {
 	width:100%;
 }
 .title_main{
-	margin:20px 0px 25px 270px;
+	margin:0 auto;
 	font-weight:bold;	
-	width:140px;
+	width:600px;
 }
 
 .title_main a,.title_main_played a {text-decoration:none;color:black;}
 .title_main_played {
-	margin:20px 0px 25px 270px;
+	margin:0 auto;
 	font-weight:bold;
 	width:100px;
 	
@@ -265,20 +266,23 @@ li {
 
 .foot_match_panel {
 	margin:0 auto;	
-	height:100px;
+	height:250px;
 	clear:left;
+	width:600px;
 }
 .foot_match_board {
-	float:left;
+	margin:0 auto;
+	width:590px;
 }
 .foot_mb_place_display {
-	margin:15px 0 0 0 ;
+	display:inline;
+	width:300px;
+	height:50px;
+	float:left;
 }
 .foot_mb_team_display {
-	margin:15px 0 10px 0 ;
 }
 .foot_mb_team_display a{
-	width:70%;
 }
 .separator {
 	float:left;
@@ -286,16 +290,34 @@ li {
 	display:inline;
 	font:bold 15px lucida;
 }
+.image_pad img{
+	display:inline;
+	width:20px;
+}
 .team_name_left {
 	float:left;
-	width:30%;
 	display:inline;
 	text-align:right;
+	width:200px;
 }
-.team_name_right{
-	width:30%;
+.team_name_left a{
+	width:170px;
+	display:inline;
+}
+.team_name_right {
 	display:inline;
 	text-align:left;
+	float:right;
+	width:200px;
+}
+
+.team_name_right img{
+	width:20px;
+	display:inline;
+}
+.team_name_right a{
+	width:170px;
+	display:inline;
 }
 .foot_mb_bet_display {
 	margin-bottom:10px;
@@ -305,6 +327,12 @@ li {
 	margin-right:100px;}
 .team_display_normal {
 	font-size:30px;
+	text-decoration:none;
+	color:black;
+	}
+.team_display_normal a{
+	font-size:30px;
+	width:200px;
 	text-decoration:none;
 	color:black;
 	}
@@ -329,14 +357,17 @@ li {
 	color:black;
 }
 .img_stadium {
-	height:1px;
+	width:249px;
+	height:50px;
+	float:right;
 }
-.img_stadium p{
+.img_stadium a{
+	width:100px;
 	display:inline;
-	padding:20px 0 0 30px;
 }
 .img_stadium img{
 	width:20px;
+	display:inline;
 }
 .image_pad{
 	display:inline;
@@ -373,6 +404,7 @@ Forum
 	font:22px lucida,sans-serif;
 	text-align:left;
 	margin-left:100px;
+	line-height:1em;
 }
 
 .forum_content{
@@ -381,6 +413,15 @@ Forum
 	width:700px;
 	line-height:15px;
 	margin-top:8px;
+	line-height:1.4em;
+}
+.forum_content_flat{
+	font:30px lucida,sans-serif;
+	width:700px;
+	line-height:15px;
+	margin-top:8px;
+	line-height:1em;
+	line-height:1.4em;
 }
 .forum_thread_title{
 	font-weight:bold;
@@ -390,6 +431,13 @@ Forum
 .expanded{
 	color:#8B2323;
 	cursor:pointer;
+	line-height:1.5em;
+}
+.post_date{
+	font-size:12px;
+}
+.post_date_flat{
+	font-size:12px;
 }
 .expanded:hover{
 	cursor:pointer;
@@ -471,22 +519,25 @@ a.ajax_link_cancel:hover {
 /* Picks */
 
 #bets_table {
-	width:400px;
+	width:100%;
+	line-height:1em;
 	display:table;
 	margin:0 auto;
-	font:bold 11px lucida,sans-serif;
 }
 #bets_table_edit {
 	width:615px;
 	display:table;
 	margin:0 auto;
-	font:bold 11px lucida,sans-serif;
+}
+#bets_table_edit tr>td>input['submit']{
+	font-size:30px;
+	width:100px;
 }
 .bet_match_row {
 
 	display:table-row;
-	font: 11px lucida,sans-serif;
-	height:20px;
+	font: 30px lucida,sans-serif;
+	height:30px;
 	border:1px solid;	
 }
 .bet_desc {
@@ -515,13 +566,13 @@ a.ajax_link_cancel:hover {
 .bet_bet_display input{
 	display:inline;
 	text-align:center;
-	font:bold 9px lucida,sans-serif;
+	font:bold 25px lucida,sans-serif;
 }
-.bet_score_display {
+.bet_score_display td{
 	display:table-cell;
 	border-top:1px solid;
 	text-align:center;
-	width:100px;
+	width:200px;
 }
 .bet_score_display_edit {
 	display:table-cell;
@@ -660,6 +711,9 @@ a.ajax_link_cancel:hover {
 	margin-right:50px;
 	margin-top:50px;
 }
+.profile_data img{
+	width:200px;
+}
 
 /*Results*/
 
@@ -755,6 +809,10 @@ a.ajax_link_cancel:hover {
 	position:relative;
 	padding:5px 0px 5px 0px;
 }
+.foot_mb_match_display{
+	width:400px;
+	margin:0 auto;
+}
 .mb_odds{
 	padding:5px 0px 5px 0px;
 	width:250px;
@@ -762,11 +820,13 @@ a.ajax_link_cancel:hover {
 /*odds*/
 #odds{
 	text-align:center;	
+	margin:20px 0 10px 0;
 }
 #odds h4{
 
 	text-align:center;	
-	font:bold 11px lucida,sans-serif;
+	font:25px lucida,sans-serif;
+	margin:0 0 8px 0;
 }
 #odds table{
 	margin:0 auto;
@@ -839,7 +899,7 @@ a.ajax_link_cancel:hover {
 	width:400px;
 }
 .all_picks{
-	width:100px;
+	width:300px;
 	display:inline-block;
 }
 .boldf{
