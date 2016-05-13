@@ -45,7 +45,6 @@ a:hover {
 
 img {
 
-	width:25px;
 }
 
 
@@ -204,12 +203,15 @@ li {
 	min-height:400px;
 	z-index:-1;
 }
+#content{
+}
 #foot_main_team{
 	position:relative;
 	float:left;
 	width:999px;
 	text-align:center;
 	min-height:400px;
+	z-index:-1;
 }
 
 #temp_items{
@@ -634,7 +636,7 @@ a.ajax_link_cancel:hover {
        	border-color:#7D0508;
 	border-spacing:0px;
 	background:#f9f5f2;
-	font:11px lucida,sans-serif;
+	font:30px lucida,sans-serif;
 }
 #team_ranking td {
 	padding:2px;
@@ -650,22 +652,24 @@ a.ajax_link_cancel:hover {
 #teams_list{
 	display:block;
 	position:relative;
-	height:130px;
-	font-size:12px;
-	float:left;	
+	height:230px;
+	font-size:30px;
+	float:left;
+	line-height:1em;
+	width:100%;
 }
 #big_table {
 	top:0px;
 	left:300px;
 	display:block;
-	width:450px;
+	width:890px;
 	margin:0 auto;	
 	color:black;
-	font:12px lucida;
+	font:30px lucida;
 }
 #big_table td{
 	vertical-align:top;
-
+	width:15%;
 }
 #big_table a{
 	text-decoration:none;
@@ -678,15 +682,14 @@ a.ajax_link_cancel:hover {
 	float:left;
 	width:900px
 }
-#team_name{
-	font:26px lucida;
-	float:left;
-}
 #team_coach{
-	width:500px;
+	width:300px;
 	float:right;
+	margin-left:100px;
+	margin-top:100px;
 }
 #team_coach img{
+	top:200px;
 }
 #team_details{
 	position:relative;
@@ -897,6 +900,8 @@ a.ajax_link_cancel:hover {
 }
 #main_hist{
 	width:400px;
+	margin:0 auto;
+	padding-top:20px;
 }
 .all_picks{
 	width:300px;
@@ -928,8 +933,9 @@ a.ajax_link_cancel:hover {
 }
 .players_list{
 	float:left;
-	width:200px;
-	margin-left:30px;
+	padding-top:100px;
+	width:450px;
+	z-index:-1;
 }
 #main_login input {
 	color:#7D0508;
@@ -983,4 +989,32 @@ float:left;}
 .display_rank_table_me {
 			font-weight:800;
 			font-size:30px;
+}
+.team_sheet_title {
+	top:20px;
+}
+.team_sheet_title img{
+	width:150px;
+}
+#team_content{
+	float:left;
+	width:100%;
+}
+#team_name{
+	font:bold 50px lucida;
+	width:150px;
+	height:50px;
+	color:black;
+	margin:0 auto;
+}
+.players_list{
+}
+.players_list table{
+	float:right;
+}
+.players_list td{
+	font:30px lucida;
+	background:#2a2a2a;
+	color:white;
+	padding:5px;
 }

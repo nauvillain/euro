@@ -24,8 +24,7 @@ $sort=$_GET['sort'];
 $selected=array('minutes'=>$minutes,'type'=>$chrono,'sort'=>$sort);
 
 if(!$sort){
-	if ($chrono=='threads') $sort='desc';
-	else $sort='asc';
+	$sort='desc';
 }
 	//echo "<img src='forum.gif'>";
 	$times=array("30","120","240","1440","7200");

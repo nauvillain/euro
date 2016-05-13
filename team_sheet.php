@@ -62,7 +62,7 @@ function display($text,$class,$team_id,$side){
 }
 
 function show_flag($code){
-	echo "<img src='img/".$code.".png' height='25px' />\n";
+	echo "<img src='img/".$code.".png' class='team_sheet_title'/>\n";
 }
 ?>
 <div id='foot_main'>
