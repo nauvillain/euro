@@ -8,6 +8,9 @@ $email= $_REQUEST['email'];
 $username=$_REQUEST['username'];
 $contact=$_REQUEST['contact'];
 $language=$_REQUEST['lan'];
+$player=$_REQUEST['player'];
+
+if($player=='on')$player=1;
 connect_to_eurodb();
 echo "<div id='foot_main'>\n";
 sqlutf();
@@ -18,7 +21,7 @@ if ($id){
 //		$id=mysql_result($sq,0);
 //	}
 
-	$query="UPDATE users SET username='".$username."',player=1".($pw!=""?",password=password(\"".$pw."\")":"").",contact='$contact'".($email?",email='$email'":"").",language='$language' WHERE id='$id'";
+	$query="UPDATE users SET username='".$username."'".($pw!=""?",password=password(\"".$pw."\")":"").",contact='$contact'".($email?",email='$email'":"").",language='$language',player='$player' WHERE id='$id'";
 	echo $query;
 	$result=mysql_query($query);
 	$name="SELECT username from users WHERE id='$id'";

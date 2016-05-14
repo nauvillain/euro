@@ -36,6 +36,7 @@ if ($id){
 	$contact=mysql_result($result,0,"contact");
 	$language=mysql_result($result,0,"language");
 	$email=mysql_result($result,0,"email");
+	$player=mysql_result($result,0,"player");
 	
 	echo "<table width=40% border=0  cellspacing=2	 cellpadding=0>\n
 	<tr><td><font color=green>";
@@ -52,6 +53,7 @@ if ($id){
 	echo "<input name='username' type='text' size='30' value='$username'>";
 	echo "<input name='pass' type='password' size='30'>";
 	echo "<input name='email' type='text' size='30' value='$email'>";
+	echo "<input name='player' type='checkbox'  ".($player?"checked":"").">";
 	echo "<table>\n";
 	drop_down_contact($contact);
 	drop_down_language($language,$id);
