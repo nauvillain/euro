@@ -205,13 +205,41 @@ function display_main_thread($t_id,$title,$root,$min){
 }
 
 function display_options($t_id,$id){
-		
+global $login_id;	
+require_once("dbcontroller.php");
+
+	$db_handle = new DBController();	
 	echo "<div id='reply_thread' style='display:inline';>\n";
 	$div_id=$t_id."_".$id;
 	echo "<div id='".$div_id."' style='display:inline';>\n";
 	echo "<a  class='ajax_link' onClick=\"javascript:addPost('".$div_id."')\" >".get_word_by_id(105);
 	echo "</a>\n";
-	echo "</div>\n";
+	
+	//handle the likes
+	$query ="SELECT likes FROM forum WHERE id = '$id'";
+	$post = $db_handle->runQuery($query);
+	$likes=$post[0]['likes'];
+	echo "<div class='like'>\n";
+		echo "<div id='post_$id'>\n"; 
+			echo "<input type='hidden' id='likes-$id' value='$likes'>\n";
+			$query ="SELECT * FROM likes WHERE user_id = '$login_id' and post_id ='$id'";
+			$count = $db_handle->numRows($query);
+			$str_like = "like";
+			if(!empty($count)) {
+				$str_like = "unlike";
+			}
+			?>
+			<div class="btn-likes"><input type="button" title="<?php echo ucwords($str_like); ?>" class="<?php echo $str_like; ?>" onClick="addLikes(<?php echo $id; ?>,'<?php echo $str_like; ?>')" /></div>
+			<div class="label-likes">
+			<?php if(!empty($likes)) { 
+						echo $likes . " Like".($likes==1?"":"s");
+			 } ?>
+			</div>
+			</div>
+		<div class="desc"><?php echo $desc; ?></div>
+
+
+	<?php		
 	echo "</div>\n";
 }
 function update_thread_timestamp($id){
