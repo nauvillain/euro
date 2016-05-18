@@ -530,8 +530,7 @@ a.ajax_link_cancel:hover {
 
 .profile_results{
 	width:300px;
-	float:left;
-	margin-left:80px;
+	margin:0 auto;
 }
 .profile_data{
 	float:right;
