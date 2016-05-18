@@ -223,7 +223,7 @@ require_once("dbcontroller.php");
 		$likes=$post[0]['likes'];
 	}
 	else $likes=0;
-	echo "<div class='like'>\n";
+	echo "<div class='like_unlike'>\n";
 		echo "<div id='post_$id'>\n"; 
 			echo "<input type='hidden' id='likes-$id' value='$likes'>\n";
 			echo "<input type='hidden' class='forum_post_id' value='$id'>\n";

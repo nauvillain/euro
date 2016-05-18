@@ -1028,7 +1028,8 @@ float:left;}
 
 .like {
 	background:url('../img/like.png') no-repeat;
-	
+	width:20px;
+	height:20px;
 	}
 
 .unlike {
@@ -1037,7 +1038,7 @@ float:left;}
 	}
 
 .label-likes {
-	font-size:12px;
+	font-size:30px;
 	color:#2F529B;
 	height:20px;
 	float:left;
