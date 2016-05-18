@@ -1619,7 +1619,7 @@ function admin_links($login_id){
 
 		echo "<li><a href='create_user.php' style='color:gray;'>Create user</a></li>";
 		echo "<li><a href='adlist_users.php' style='color:gray;'>List users</a></li>";
-		echo "<li><a href='adlist_players.php' style='color:gray;'>List players</a></li>";
+//		echo "<li><a href='adlist_players.php' style='color:gray;'>List players</a></li>";
 		echo "<li><a href='enter_player_adm.php' style='color:gray;'>Add scorer</a></li>";
 		echo "<li><a href='init_all.php' style='color:gray;'>reset tournament</a></li>";
 		echo "<li><a href='last_accessed.php' style='color:gray;'>Last accessed</a></li>";

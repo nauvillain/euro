@@ -267,6 +267,7 @@ Forum
 	line-height:15px;
 	margin-top:8px;
 	font-size:11px;
+	background:#EBECE4;
 }
 .forum_content_flat{
 	font:12px lucida,sans-serif;
@@ -274,6 +275,7 @@ Forum
 	width:700px;
 	line-height:15px;
 	font-size:11px;
+	background-color:#C0C0C0;
 }
 .forum_content_new{
 	margin-left:12px;

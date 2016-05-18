@@ -592,7 +592,7 @@ text-align:left;
 	text-align:left;
 }
 .news_column{
-	font:bold 16 lucida;
+	font:bold 16px lucida;
 	padding:0 0 10px 0;
 float:left;
 	display:block;
@@ -737,7 +737,7 @@ left:860px;
 	background: white url(/gradient.jpg) repeat-x;
 	height:2000px;
 	top:0px;
-	padding:3 0;
+	padding:30px;
 }
 #loading {
 	top:400px;

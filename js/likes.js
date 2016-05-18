@@ -35,5 +35,5 @@ function addLikes(id,action) {
 	}
 	}
 	});
-}
+};
 

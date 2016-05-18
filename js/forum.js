@@ -138,3 +138,36 @@ function addPost(id) {
 		currentDiv.appendChild(newDiv);	
 		current_div.innerHTML=current_div.innerHTML;
 	}
+$('a.like').click(function() {
+    // triggered when like link is clicked
+
+    // get the id of this link
+    var id = $(this).attr('id');
+
+    // make the AJAX request to the PHP script that updates the database table
+
+    $.ajax({
+        type: "GET",
+        url: update_likes.php,
+        dataType: 'html',
+        data: ({ id: id }), // first id is the name, second is the actual id variable we just created
+        beforeSend: function(data) {
+            // you can do stuff in here before you send the data, display spinner gif etc
+            alert('sending!');
+        },
+        success: function(data) {
+            // same here but when the ajax request is successful
+            // the data variable is coming from the echo of your PHP script
+            alert(data);
+        },
+        complete: function(data) {
+            // yet again but on completion
+            alert('complete!');
+        }
+
+    });
+
+    // stops the browser following the link (href) in the a tag
+    return false;
+
+});

@@ -87,7 +87,7 @@ if(!$sort){
 
 	echo "<div id='forum'>";
 	echo "<div id='new_thread'><div id='0_0'><a href='#' onclick=\"javascript:addPost('0_0')\">".get_word_by_id(96)."</a></div></div>\n";
-	echo "<br/><br/>\n";
+	echo "<br/>\n";
 if($chrono=='threads') {
 	$threads=display_threads($minutes,$sort);
 }

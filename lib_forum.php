@@ -45,7 +45,7 @@ else {
 		$parent_thread=find_parent_thread($row_id);
 		$str_post_date=format_date($row_last_mod);
 		$div_bold="<div class='forum_content_new dont-break-out'>\n";
-		$div_bold_end="</div>";
+		$div_bold_end="</div>\n";
 		$bold_class='boldf';
 		if($parent_thread==$row_id){
 			$re="";}
@@ -80,6 +80,7 @@ else {
 		echo $div_bold_end;
 		//display actions linked to the post
 		display_options($parent_thread,$row_id);
+		echo $div_bold_end;
 			
 	}	
 	return 1;
@@ -163,7 +164,7 @@ function display_main_thread($t_id,$title,$root,$min){
 	//if it's a main thread, put a frame
 	$username=mysql_result($m_sql,0,'user_name');
 	$userid=mysql_result($m_sql,0,'user_id');
-	if(!$par_id)echo "<div style='margin-bottom:15px;'>\n";	
+	if(!$par_id)echo "<div style='margin-bottom:15px;line-height:2em;'>\n";	
 	echo "<div id='t_$t_id' name='titles_$t_id' class='$class_js'>\n";
 	echo ($root?"Re:":"<span class='forum_thread_title'>".$title."</span>");
 	//" (".mysql_result($m_sql,0,'user_name').")";
@@ -216,12 +217,16 @@ require_once("dbcontroller.php");
 	echo "</a>\n";
 	
 	//handle the likes
-	$query ="SELECT likes FROM forum WHERE id = '$id'";
-	$post = $db_handle->runQuery($query);
-	$likes=$post[0]['likes'];
+	$query ="SELECT likes FROM post_meta WHERE post_id = '$id'";
+	if($db_handle->numRows($query)){
+		$post = $db_handle->runQuery($query);
+		$likes=$post[0]['likes'];
+	}
+	else $likes=0;
 	echo "<div class='like'>\n";
 		echo "<div id='post_$id'>\n"; 
 			echo "<input type='hidden' id='likes-$id' value='$likes'>\n";
+			echo "<input type='hidden' class='forum_post_id' value='$id'>\n";
 			$query ="SELECT * FROM likes WHERE user_id = '$login_id' and post_id ='$id'";
 			$count = $db_handle->numRows($query);
 			$str_like = "like";
@@ -237,6 +242,7 @@ require_once("dbcontroller.php");
 			</div>
 			</div>
 		<div class="desc"><?php echo $desc; ?></div>
+			</div>
 
 
 	<?php		
