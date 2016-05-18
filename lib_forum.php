@@ -243,6 +243,34 @@ require_once("dbcontroller.php");
 			</div>
 		<div class="desc"><?php echo $desc; ?></div>
 			</div>
+<?php 
+	//handle the dislikes
+	$query ="SELECT dislikes FROM post_meta WHERE post_id = '$id'";
+	if($db_handle->numRows($query)){
+		$post = $db_handle->runQuery($query);
+		$dislikes=$post[0]['dislikes'];
+	}
+	else $dislikes=0;
+	echo "<div class='like_unlike'>\n";
+		echo "<div id='post_$id'>\n"; 
+			echo "<input type='hidden' id='dislikes-$id' value='$dislikes'>\n";
+			echo "<input type='hidden' class='forum_post_id' value='$id'>\n";
+			$query ="SELECT * FROM dislikes WHERE user_id = '$login_id' and post_id ='$id'";
+			$count = $db_handle->numRows($query);
+			$str_dislike = "dislike";
+			if(!empty($count)) {
+				$str_dislike = "undislike";
+			}
+			?>
+			<div class="btn-dislikes"><input type="button" title="<?php echo ucwords($str_dislike); ?>" class="<?php echo $str_dislike; ?>" onClick="addDislikes(<?php echo $id; ?>,'<?php echo $str_dislike; ?>')" /></div>
+			<div class="label-dislikes">
+			<?php if(!empty($dislikes)) { 
+						echo $dislikes . " Dislike".($dislikes==1?"":"s");
+			 } ?>
+			</div>
+			</div>
+		<div class="desc"><?php echo $desc; ?></div>
+			</div>
 
 
 	<?php		
