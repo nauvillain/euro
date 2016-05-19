@@ -81,6 +81,7 @@ else {
 		//display actions linked to the post
 		display_options($parent_thread,$row_id);
 		echo $div_bold_end;
+		echo $div_bold_end;
 			
 	}	
 	return 1;
@@ -236,11 +237,13 @@ require_once("dbcontroller.php");
 			}
 			?>
 			<div class="btn-likes"><input type="button" title="<?php echo ucwords($str_like); ?>" class="<?php echo $str_like; ?>" onClick="addLikes(<?php echo $id; ?>,'<?php echo $str_like; ?>')" /></div>
+			
 			<div class="label-likes">
 			<?php if(!empty($likes)) { 
 						echo $likes . " Like".($likes==1?"":"s");
 			 } ?>
 			</div>
+			<div class="click">List</div>
 			</div>
 		<div class="desc"><?php echo $desc; ?></div>
 			</div>
@@ -270,6 +273,7 @@ require_once("dbcontroller.php");
 						echo $dislikes . " Dislike".($dislikes==1?"":"s");
 			 } ?>
 			</div>
+			<div class="click">List</div>
 			</div>
 		<div class="desc"><?php echo $desc; ?></div>
 			</div>

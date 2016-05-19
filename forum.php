@@ -14,7 +14,7 @@ echo "<script type='text/javascript' src='js/forum.js'>\n";
 echo "</script>\n";
 connect_to_eurodb();
 echo "<script type='text/javascript' src='js/domcollapse.js'></script>\n";
-echo "<script type='text/javascript' src='js/likes.js'></script>\n";
+//echo "<script type='text/javascript' src='js/likes.js'></script>\n";
 
 echo "<div id='foot_main'>";
 //echo "<div id='sa_menu_title' style='top:-30px;left:275px;'><img src='img/forum.gif'/></div>\n";

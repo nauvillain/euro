@@ -33,10 +33,12 @@ $(document).ready(function() {
 		$('head').append('<link rel="stylesheet" type="text/css" href="css/mobile_large_portrait.css" " />');
 		$('head').append('<link rel="stylesheet" type="text/css" href="css/styles.css" " />');
 		$('head').append('<script href="js/script.css" />');
+		$('head').append('<script type="text/javascript" src="js/likes_mobile.js" />');
 	}
 	else{
 		$("head").append("<link rel='stylesheet' type='text/css' href='css/menu.css' />");
 		$('head').append('<link rel="stylesheet" type="text/css" href="css/new_euro.css" />');
+		$('head').append('<script type="text/javascript" src="js/likes.js" />');
 	}
 
 });

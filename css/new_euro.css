@@ -979,3 +979,8 @@ a.ajax_link_cancel:hover {
 .desc {clear:both;color:#999;}
 
 .dislikes .highlight, .dislikes .selected {color:#F4B30A;text-shadow: 0 0 1px #F48F0A;}
+
+.click{
+	visibility:hidden;
+	float:left;
+}

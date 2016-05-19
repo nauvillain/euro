@@ -1047,3 +1047,38 @@ float:left;}
 .desc {clear:both;color:#999;}
 
 .likes .highlight, .likes .selected {color:#F4B30A;text-shadow: 0 0 1px #F48F0A;}
+/*dislikes*/
+
+.btn-dislikes {
+	float:left; 
+	cursor:pointer;
+	}
+
+.btn-dislikes input[type="button"]{width:50px;height:50px;border:0;cursor:pointer;}
+
+.dislike {
+	background:url('../img/dislike.png') no-repeat;
+	background-size:100%;}
+
+.undislike {
+	background-image:url('../img/undislike.png');
+	background-repeat:no-repeat;
+	background-size:100%;}
+
+.label-dislikes {
+	font-size:30px;
+	color:#F23B14;
+	height:20px;
+	float:left;
+	width:150px;
+	margin-left:5px;
+	}
+
+.desc {clear:both;color:#999;}
+
+.dislikes .highlight, .dislikes .selected {color:#F4B30A;text-shadow: 0 0 1px #F48F0A;}
+
+.click{
+	float:left;
+	visibility:hidden;	
+}
