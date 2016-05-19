@@ -74,3 +74,24 @@ function addDislikes(id,action) {
 	}
 	});
 };
+$(document).ready(function(){
+$('.like_unlike').hover(function(){
+	post_id=$(this).find('input.forum_post_id').val();
+	type=$(this).find('input.like_type').val();
+	if(type=='like') like_type='list_likes.php';
+	else like_type='list_dislikes.php';
+
+	$.ajax({
+	url: like_type,
+	data:'post_id='+post_id,
+	type: "POST",
+	success: function(data){
+		$('#post_'+post_id).append(data);
+		if(type=='dislike') $('#post_'+post_id).find("span").css({"margin-left":"180px","width":"300px"});
+	}
+	});
+	
+}, function(){
+		$('#post_'+post_id).find("span").remove();
+	
+})});
