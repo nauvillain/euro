@@ -15,7 +15,21 @@ $imgname=$_FILES['imgfile']['name'];
 $final_filename=$login_id.'_full.jpg';
 $uploaded=$_REQUEST['uploaded'];
 
+
+
 if($uploaded){
+
+	switch ($_FILES['upfile']['error']) {
+        case UPLOAD_ERR_OK:
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            throw new RuntimeException('No file sent.');
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            throw new RuntimeException('Exceeded filesize limit.');
+        default:
+            throw new RuntimeException('Unknown errors.');
+    }
 
 	if (is_uploaded_file($imgfile))
 	{
@@ -30,19 +44,26 @@ if($uploaded){
 	   
 	}
 
+	$newfile = "$uploaddir/".$login_id.".jpg";
 	/*== where storing tmp img file ==*/
 	$tmpimg = tempnam($tmp_uploaddir,"MKPH");
-	$newfile = "$uploaddir/".$login_id.".jpg";
 	$ext=substr($imgname,-strlen (strrchr($imgname,'.'))+1);
 
 	/*== CONVERT IMAGE TO PNM ==*/
 	if (strtolower($ext) == "jpg"||strtolower($ext)=="jpeg") { system("djpeg $imgfile >$tmpimg"); } 
 	else { echo("Extension Unknown. Please only upload a JPEG image."); exit(); } 
 
+//	print_r($_FILES);
+//	echo "login: $login_id ; $newfile";
+	echo "new_file".$newfile;
 	/*== scale image using pnmscale and output using cjpeg ==*/
 	system("pnmscale -ysize 160 $tmpimg | cjpeg -smoo 10 -qual 70 >$newfile");
 echo "Your image has been uploaded";
 echo "<p><a href='index.php' style='float:right'>Main page</a></p>";
 }
+else {
+//echo 'Here is some more debugging info:';
+//print_r($_FILES);
 
+}
 ?>

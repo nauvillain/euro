@@ -1690,7 +1690,8 @@ function display_bet_history($id){
 		
 		}
 	}
-	return $hist1;
+	if($num_m) return $hist1;
+	else return 0;
 }
 function bet_money($login_id){
 	$res=mysql_query("SELECT bet_money FROM users WHERE id='$login_id'");
