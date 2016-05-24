@@ -39,6 +39,7 @@ if ($res!=0&&!is_played($match_id)){
 	
 
 	echo "</div>";
+echo "<div class='change_bet_bottom'><br/>1=".get_team_name($arr['t_id1']).", X=".get_word_by_id(103).", 2=".get_team_name($arr['t_id2'])."</div>\n";
 	echo "<input type=hidden name='match_id' id='match_id' value='$match_id'><br/>";
 	echo "<div id='bet_submit' style='margin:0 auto;'><input type=submit name='Submit' value='Submit' >";
 	echo "</div>";
@@ -58,7 +59,7 @@ if ($res!=0&&!is_played($match_id)){
 */
 	}
 else{
-	echo "<div id='foot_main'><br/>it's too late to bet!</div>";
+	echo "<div class='change_bet_bottom'><br/>it's too late to bet!</div>";
 }
 echo "</div>";
 ?>

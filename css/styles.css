@@ -218,6 +218,7 @@ li {
 	width:600px;
 	margin:0 auto;
 	font-size:38px;
+	padding-top:25px;
 }
 .standardfont {
 	font: 21px lucida, sans-serif;
@@ -339,7 +340,7 @@ li {
 	color:black;
 	}
 .team_display_big {
-	font:bold 46px lucida,sans-serif;
+	font:bold 36px lucida,sans-serif;
 	text-decoration:none;
 	color:black;
 }
@@ -598,25 +599,24 @@ a.ajax_link_cancel:hover {
 	position:relative;
 	text-align:center;
 	padding:10px 0 5px 0;
-	line-height:4em;
+	line-height:3em;
 }
 .pick{	
 	display:inline;
-	width:30%;
-	padding:25px 40px 5px 40px;
-	text-align:right;
+	padding:25px 0px 5px 0px;
+	text-align:center;
 	line-height:2em;
 	font-size:2em;
 }
 .pick input[type=radio] {
   border:0px;
-	width:44px;
-   height:2em;
+	width:24px;
+   height:6em;
    display:inline;
    }
 #bet_submit,
 #bet_submit input {
-	font-size:2em;
+	font-size:1.5em;
 }
 /*team_sheet*/
 .display_groups {
@@ -1081,4 +1081,14 @@ float:left;}
 .click{
 	float:left;
 	visibility:hidden;	
+}
+.change_bet_bottom{
+	width:1000px;
+	line-height:2em;
+	font-size:2em;
+}
+.display_greetings_cb{
+	font-weight:500;
+	font-size:20px;
+	padding-bottom:30px;
 }
