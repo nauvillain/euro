@@ -1,5 +1,7 @@
 <?php
 require 'php_header.php';
+//needs netpbm, netpbm-progs, libnetpbm, libnetpbm-dev, libjpeg-progs 
+
 ?>
 <div id='foot_main'>
 <p>This upload feature only works with JPG files with a jpg or jpeg extension.</p>
