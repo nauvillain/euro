@@ -571,6 +571,7 @@ global $language;
 			echo "<br/><i>".get_word_by_id(151)."&nbsp;";
 			echo "<a href='edit_bets1.php'>".get_word_by_id(152)."</a></i><br/><br/>";
 		}
+	echo "<br>Money pool - 10 € - via Paypal to vilnico@gmail.com, or in person, before the start of the tournament";
 /*	switch($language) {
 			case 'en': echo "This <a href='pronosafter.xls'>Excel sheet</a> can help you see who'd qualify according to your picks\n";
 			break; 
