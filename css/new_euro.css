@@ -983,4 +983,5 @@ a.ajax_link_cancel:hover {
 .click{
 	visibility:hidden;
 	float:left;
+	margin-top:10px;
 }
