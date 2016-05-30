@@ -60,7 +60,7 @@ if($uploaded){
 	echo "new_file".$newfile;
 	/*== scale image using pnmscale and output using cjpeg ==*/
 	system("pnmscale -ysize 160 $tmpimg | cjpeg -smoo 10 -qual 70 >$newfile");
-echo "Your image has been uploaded";
+echo "Your image has been uploaded. Make sure to refresh your profile page on the next visit.";
 echo "<p><a href='index.php' style='float:right'>Main page</a></p>";
 }
 else {
