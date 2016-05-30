@@ -122,8 +122,8 @@ if($player==1){
 					echo "</td></tr>\n";
 				if((!still_time(1))||($id==$login_id)||is_played(1)) {
 				echo "<tr>
-				<td><b>Euro Winner:</b></td><td><b> ".strtoupper($winner)."</b></td>
-				</tr>";
+				<td><b>".get_word_by_id(91)."</b></td><td><b> ".strtoupper($winner)."</b></td>
+				</tr>"; //winner
 				echo "<tr>
 					<td><b>Top scorer:</td><td> ".$scorer."</b></td>
 				</tr>";
