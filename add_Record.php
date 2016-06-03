@@ -23,7 +23,7 @@ if($nickname==""){ echo "<p>You must enter a nickname!</p>";
 else{
 	// Enter info into the Database.
 	connect_to_eurodb();
-	$query="SELECT * FROM users WHERE nickname= '$nickname' OR username='$username'";
+	$query="SELECT * FROM users WHERE (nickname= '$nickname' OR username='$username') AND player=1";
 	$rez=mysql_query($query) or die(mysql_error());
 	$num=mysql_num_rows($rez);
 	if($num==0){
