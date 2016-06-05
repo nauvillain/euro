@@ -57,7 +57,7 @@ else {
 		$thread_title=mysql_result($result,0,'title');
 		$thread_author=mysql_result($result,0,'user_name');
 		
-		echo "<div id='t_".$row_id."' name='titles_".$row_id."' class='forum_title'>\n";
+		echo "<div id='t_".$row_id."' name='titles_".$row_id."' class='forum_title' style='margin-top:18px;'>\n";
 		//" (".mysql_result($m_sql,0,'user_name').")";
 		//($new_items?", $new_items new":"").
 		echo " -- <div class='post_date_flat'>".$str_post_date."</div>";
@@ -166,7 +166,7 @@ function display_main_thread($t_id,$title,$root,$min){
 	$username=mysql_result($m_sql,0,'user_name');
 	$userid=mysql_result($m_sql,0,'user_id');
 	if(!$par_id)echo "<div style='margin-bottom:15px;line-height:2em;'>\n";	
-	echo "<div id='t_$t_id' name='titles_$t_id' class='$class_js'>\n";
+	echo "<div id='t_$t_id' name='titles_$t_id' class='$class_js reply_div'>\n";
 	echo ($root?"Re:":"<span class='forum_thread_title'>".$title."</span>");
 	//" (".mysql_result($m_sql,0,'user_name').")";
 	//($new_items?", $new_items new":"").
@@ -211,9 +211,9 @@ global $login_id;
 require_once("dbcontroller.php");
 
 	$db_handle = new DBController();	
-	echo "<div id='reply_thread' style='display:inline';>\n";
+	echo "<div id='reply_thread' style='display:inline; class='reply_thread' >\n";
 	$div_id=$t_id."_".$id;
-	echo "<div id='".$div_id."' style='display:inline';>\n";
+	echo "<div id='".$div_id."' style='display:inline;' class='reply'>\n";
 	echo "<a  class='ajax_link' onClick=\"javascript:addPost('".$div_id."')\" >".get_word_by_id(105);
 	echo "</a>\n";
 	
