@@ -300,6 +300,9 @@ Forum
 #reply_thread{
 	margin-bottom:15px;
 }
+.reply_div{
+	margin-top:25px;
+}
 .forum_title{
 	margin-top:15px;
 }
