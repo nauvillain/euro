@@ -35,7 +35,7 @@
 	$session_n="france2016";
 	$uploaddir="photos";
 	$tmp_uploaddir="tmp_photos";
-	$pot_admin=8; //Ranis is the pot race manager
+	$pot_admin=1; //Ranis is the pot race manager
 	$site_admin=1;//I am the site admin
 	$max_points_per_match=5;
 	$bonus_scorer=5;
@@ -85,5 +85,7 @@
 		10=>"https://en.wikipedia.org/wiki/Stade_Toulousain");
 
 	$archive_forum="900000";
+
+	$currency="Euros"	//currency of the money pool
 
 ?>

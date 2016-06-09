@@ -124,3 +124,16 @@ for($i=0;$i<$len;$i++){
 echo "</table></td></tr></table>\n";
 }
 
+function display_pot_numbers(){
+global $currency;
+		$query=mysql_query("SELECT count(*) FROM users WHERE money=1");
+		$total=mysql_result($query,0);
+		
+		$first=intval($total/100)*60;
+		$second=intval($total/30)*60;
+		$third=$total-$first-$second;
+
+		echo "<div class='pot_numbers'>Winner: $first $currency; Runner-up: $second $currency; Third place: $third $currency </div>\n";
+}
+
+
