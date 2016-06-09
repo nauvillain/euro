@@ -86,6 +86,7 @@
 
 	$archive_forum="900000";
 
-	$currency="Euros"	//currency of the money pool
+	$currency="Euros";	//currency of the money pool
+	$money_amount=10;
 
 ?>

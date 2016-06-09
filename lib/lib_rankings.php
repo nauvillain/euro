@@ -125,12 +125,13 @@ echo "</table></td></tr></table>\n";
 }
 
 function display_pot_numbers(){
-global $currency;
-		$query=mysql_query("SELECT count(*) FROM users WHERE bet_money=1");
+global $currency,$money_amount;
+		$query=mysql_query("SELECT count(*) FROM users WHERE bet_money=1") or die(mysql_error());
 		$total=mysql_result($query,0);
-		
-		$first=intval($total/100)*60;
-		$second=intval($total/30)*60;
+		$total=$total*$money_amount;
+
+		$first=intval($total/100*60);
+		$second=intval($total/100*30);
 		$third=$total-$first-$second;
 
 		echo "<div class='pot_numbers'>Winner: $first $currency; Runner-up: $second $currency; Third place: $third $currency </div>\n";
