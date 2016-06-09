@@ -134,7 +134,7 @@ global $currency,$money_amount;
 		$second=intval($total/100*30);
 		$third=$total-$first-$second;
 
-		echo "<div class='pot_numbers'>$tot Contestants; Winner: $first $currency; Runner-up: $second $currency; Third place: $third $currency </div>\n";
+		echo "<div class='pot_numbers'>Money pool : $tot Contestants <br/>Winner: $first $currency; Runner-up: $second $currency; Third place: $third $currency </div>\n";
 }
 
 
