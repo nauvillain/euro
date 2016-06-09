@@ -126,7 +126,7 @@ echo "</table></td></tr></table>\n";
 
 function display_pot_numbers(){
 global $currency;
-		$query=mysql_query("SELECT count(*) FROM users WHERE money=1");
+		$query=mysql_query("SELECT count(*) FROM users WHERE bet_money=1");
 		$total=mysql_result($query,0);
 		
 		$first=intval($total/100)*60;
