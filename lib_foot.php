@@ -1626,6 +1626,7 @@ function admin_links($login_id){
 		echo "<li><a href='last_accessed.php' style='color:gray;'>Last accessed</a></li>";
 		echo "<li><a href='list_translations.php' style='color:gray;'>List translations</a></li>";
 		echo "<li><a href='mark_top_scorer_adm.php' style='color:gray;'>Enter top scorer</a></li>";
+		echo "<li><a href='list_bet_times' style='color:gray;'>Bet times</a></li>";
 	//	echo "<li><a href='set_pot_race.php' style='color:gray;'>Pot race</a></li>";
 		//echo "<li><a href='set_team_players_list_flag.php' style='color:gray;'>Team players list flag</a></li>";
 		}

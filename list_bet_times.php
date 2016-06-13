@@ -11,7 +11,8 @@ echo "<a href='last_accessed.php?win=1'>no scorer or winner</a>\n";
 
 $res=mysql_query("SELECT * FROM bets WHERE DATE_SUB(NOW(),INTERVAL 12000 MINUTE)< time_entered ORDER BY time_entered desc") or die(mysql_error());	
 $num=mysql_num_rows($res);
-echo $num."<br/>";
+echo $num."<br/><br/><br/><br/>";
+echo "<table align='center'>\n";
 for($i=0;$i<$num;$i++){
 	$time=mysql_result($res,$i,'time_entered');
 	$player_id=mysql_result($res,$i,'player_id');
@@ -26,12 +27,18 @@ for($i=0;$i<$num;$i++){
 
 
 	if($arr['pick']==1) $pick=$team1;
-
 	if($arr['pick']==2) $pick="tie";
-
 	if($arr['pick']==3) $pick=$team2;
 
-	echo "$player - ".$team1."vs. $team2 for $pick- at $time <br/>";
+	$match_time=$arr['time'];
+	$match_date=$arr['date'];
 
-	}
+	$match_timestamp=strtotime($match_date." ".$match_time);
+	$bet_time=strtotime($time);
+
+	echo "
+	<tr><td>$player </td><td> ".$team1." vs. $team2 </td><td> $pick </td><td> $time </td><td> ".($match_timestamp-$bet_time)."</td></tr>";
+
+}
+echo "</table>\n";
 ?>
