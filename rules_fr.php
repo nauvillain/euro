@@ -14,6 +14,7 @@ echo "<tr><td>Demi-finales</td><td>".$coef_round['2']."</td></tr>\n";
 echo "<tr><td>Finales</td><td> ".$coef_round['1']."</td></tr>\n";
 ?>
 </table>
+<p>Les cotes sont limitées à <b><?php echo $max_odds;?></b> - pour éviter les extrêmes dûs au nombre de participants relativement petit.</p>
 
 <p>Avant le coup d'envoi du premier match, vous devez choisir un <b> Champion</b>. Vous recevez un bonus de 10 points en cas de pari correct.
 Pendant le second tour, si votre vainqueur final est toujours dans la compétition, vous <i> êtes autorisé </i> à parier contre celui-ci.</p>

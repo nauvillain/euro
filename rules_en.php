@@ -23,6 +23,7 @@ echo "<tr><td>Finals</td><td> ".$coef_round['1']."</td></tr>\n";
 ?>
 </table>
 </p>
+The odds are capped to <b><?php echo $max_odds; ?> </b> - to prevent occasional extreme odds that are a symptom of having a relatively low number of participants.
 </p>
 <p>Before the first round starts, you must choose a <b>Tournament Winner</b>. You will get 10 points bonus if your bet is correct. During the second round mddatches, if your winner is still in the competition, you <i>are allowed</i>to bet against your predicted final Winner.</p>
 <p>Before the first round starts, you must choose a <b>Tournament Top Scorer</b>. You will get 5 points bonus if your bet is correct.</p>

@@ -89,4 +89,5 @@
 	$currency="Euros";	//currency of the money pool
 	$money_amount=10;
 
+	$max_odds=15; //max points one can get
 ?>

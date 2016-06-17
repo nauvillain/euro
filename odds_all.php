@@ -61,6 +61,8 @@ for($i=1;$i<=3;$i++){
 
 if(!get_phase($match_id)||$i!=2) {
 	echo "<div id='odds'>\n";
+	
+	echo "<div class='odds_cap'>Max odds: $max_odds</div>\n";
 	$total=get_total_players($match_id);
 	$co=count($arr[$i]['id']);
 	if($total) $percent=$total/$co;

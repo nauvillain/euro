@@ -36,6 +36,7 @@ echo "<div id='odds'>\n";
 if($type=='v1' || $type=='v2') echo "List of players having bet on <h4>a victory for $winn</h4>";
 if ($type=='draw') echo "List of players having bet on <h4>a TIE</h4>";
 echo " for the match <h4><font color=red> $team_name1 vs. $team_name2 </font></h4><br>";
+	echo "<div class='odds_cap'>Max odds: $max_odds</div>\n";
 echo "<table><tr><td valign=top><table style='border:none;'>";
 for($i=0;$i<$num;$i++){
 	$pick=mysql_result($res,$i,'pick');

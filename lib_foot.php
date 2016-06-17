@@ -362,9 +362,13 @@ global $coef_round;
 		$round=$arr['round_id'];
 		$p=$coef_round[$round];
 		$coef=compute_coefficients($arr['odds1'],$arr['oddsD'],$arr['odds2'],$total);
+
+
 		if(isset($arr['pick'])){
 			$index=$arr['pick']-1;
-//			$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])*($arr["weight"]);		
+		//if $coef higher than the odds cap, make it the odds cap
+			$coef[$index]=cap_odds($coef[$index]);
+			//		$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])*($arr["weight"]);		
 			$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])*$coef[$index]*$p;		
 			update_hist_points($pts,$match_id,$p_id);	
 			}
@@ -1172,6 +1176,15 @@ function display_odds($o1,$oD,$o2,$match_id){
 			if($o2) $d2=round($total/$o2,2);	
 			else $d2='n/a';
 
+		
+			$d1=cap_odds($d1);
+			$dD=cap_odds($dD);
+			$d2=cap_odds($d2);
+		
+		
+		
+		
+		
 			$str1='total players';
 			$str2='players who picked this result';
 			$t1=$str1." ($total)/".$str2." ($o1)";
@@ -2034,4 +2047,14 @@ function get_3rd_place_groups($letter){
 	//print_r($col);	
 return($str);
 }
+
+function cap_odds($odds){
+global $max_odds;
+
+	if($odds>$max_odds) $odds=$max_odds;
+
+return $odds;
+
+}
+
 ?>

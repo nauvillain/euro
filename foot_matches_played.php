@@ -41,7 +41,7 @@ if($num){
 
 					echo "<td class='column_right'>".$t2."</td>\n";
 					echo "<td><img src='img/".$arr["code2"].".png' class='image_pad' alt='".$arr["code2"]."'/></td>\n";
-					echo "<td> ".f_bet_result(bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]))." ".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".round($coef[$pick_index]*$p,2):"&nbsp;-&nbsp;")."</td>\n";
+					echo "<td> ".f_bet_result(bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]))." ".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".cap_odds(round($coef[$pick_index]*$p,2)):"&nbsp;-&nbsp;")."</td>\n";
 		echo "<td>".$odds."</td>\n";
 					echo "</tr>\n";
 					//if($temp) echo "<font color=red>My bet:&nbsp;&nbsp".$arr["gt1"]."-".$arr["gt2"]."<img src='img/".$arr["code2"].".gif'></font><br>\n";
