@@ -99,11 +99,17 @@ function show_team($letter,$num){
 	$res=mysql_query("SELECT * FROM teams WHERE group_name='$letter' ORDER BY current_pos ASC LIMIT 1".($num?",$num":"")) or die(mysql_error());
 	$grp=mysql_fetch_array($res);
 //pts DESC,gf-ga DESC,gf 
-	 if(group_over($letter)){
+	if(group_over($letter)){
+		if($num==2){
+			$st['id']=find_best_third($letter);
+			$st['name']=get_team_name($st['id']);	
+		}
+		else {
 		
-		$st['id']=$grp['team_id'];
-		$st['name']=get_team_name($grp['team_id']);
-		$st['def']=1;
+			$st['id']=$grp['team_id'];
+			$st['name']=get_team_name($grp['team_id']);
+			$st['def']=1;
+			}
 		}
 	 else { 
 			 if($num==0) $st['name']= get_word_by_id(91)." ".$letter; 
