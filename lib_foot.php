@@ -2004,13 +2004,16 @@ function pick_to_bet($pick){
 }
 
 function show_gain($m_id,$login_id){
+	global $coef_round;
+
 
 	
 	$arr=get_match_details($m_id,$login_id);
+	$mult=$coef_round[$arr['round_id']];
 	$total=get_total_players();
 	$coef=compute_coefficients($arr['odds1'],$arr['oddsD'],$arr['odds2'],$total);
 	$pick_index=$arr['pick']-1;
-	echo "".f_pick($arr["pick"],$arr["code1"],$arr["code2"])."&nbsp;".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".round($coef[$pick_index],2)."&nbsp;<img src='img/icon_smile.gif' style='margin-bottom:-3px;'/>":"")."\n";
+	echo "".f_pick($arr["pick"],$arr["code1"],$arr["code2"])."&nbsp;".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".round($mult*$coef[$pick_index],2)."&nbsp;<img src='img/icon_smile.gif' style='margin-bottom:-3px;'/>":"")."\n";
 	
 }
 
