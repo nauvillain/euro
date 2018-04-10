@@ -6,11 +6,12 @@
 	
 	$web_path="/";	
 
-	$tournament_name="France 2016";
-	$tournament_type="big_euro"; //values are 'euro', 'worldcup' or 'big_euro'
+	$tournament_name="Russia 2018";
+	$tournament_type="worldcup"; //values are 'euro', 'worldcup' or 'big_euro'
 
-	$fr_m=36;
-	 $sr_m=15;
+	//world_cup
+	$fr_m=48;
+	 $sr_m=24;
 	 $sr_l=4;// rounds in the second phase - ex quarter finals: 3
 	 $inf="<img src='inf_small.jpg' alt=''/>";
 	 $matches_showed=4;
@@ -26,7 +27,7 @@
 	 $resp_group_matches=3;
 	 $PTS_W=10;
 	 $TOT_WEIGHTS=192;
-//	 $third_place_match=63;
+	 $third_place_match=63;
 	 $admin_id=1;
 	 $language_array=array("en","hu","fr");
 	 $language_meta=array("English","Hungarian","French");
@@ -73,16 +74,18 @@
 		"CDEF"=>array("C","D","F","E"));
 
 	$stadium=array(
-		1=>"https://en.wikipedia.org/wiki/Nouveau_Stade_de_Bordeaux",
-		2=>"https://en.wikipedia.org/wiki/Stade_Bollaert-Delelis",
-		3=>"https://en.wikipedia.org/wiki/Stade_Pierre-Mauroy",
-		4=>"https://en.wikipedia.org/wiki/Parc_Olympique_Lyonnais",
-		5=>"https://en.wikipedia.org/wiki/Stade_V%C3%A9lodrome",
-		6=>"https://en.wikipedia.org/wiki/Allianz_Riviera",
-		7=>"https://en.wikipedia.org/wiki/Parc_des_Princes",
-		8=>"https://en.wikipedia.org/wiki/Stade_de_France",
-		9=>"https://en.wikipedia.org/wiki/Stade_Geoffroy-Guichard",
-		10=>"https://en.wikipedia.org/wiki/Stade_Toulousain");
+		1=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5000437/index.html",
+		2=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5000569/index.html",
+		3=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5031304/index.html",
+		4=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5031302/index.html",
+		5=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5028773/index.html",
+		6=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5001165/index.html",
+		7=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=810/index.html",
+		8=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5001246/index.html",
+		9=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5000547/index.html",
+		10=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5030706/index.html",
+		11=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5031303/index.html",
+		12=>"http://www.fifa.com/worldcup/destination/stadiums/stadium=5031301/index.html");
 
 	$archive_forum="900000";
 
@@ -90,4 +93,5 @@
 	$money_amount=10;
 
 	$max_odds=15; //max points one can get
+
 ?>
