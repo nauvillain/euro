@@ -51,17 +51,17 @@ $fav_player=addslashes($fav_player);
  
 // Enter info into the Database.
 connect_to_eurodb();
- mysql_query("SET NAMES 'utf8'");
+ mysqli_query($link,"SET NAMES 'utf8'");
 
 $query="UPDATE users SET first_name=\"$first_name\", last_name=\"$last_name\", nickname=\"$nickname\", city=\"$city\", country=\"$country\", age=\"$age\",comments=\"$comments\",fav_team=\"$fav_team\",fav_player=\"$fav_player\", profile_edited=\"$profile_edited\",language='$user_language',last_login=\"now()\"  WHERE id=\"$login_id\"";
 
 //echo "query: $query <br>\n";
-$sql = mysql_query($query) or die(mysql_error());
+$sql = mysqli_query($link,$query) or die(mysql_error());
 if(!$sql){
     echo "There has been an error updating the changes. Please contact the webmaster.ID: ".$login_id;
 } else {
-	$res=mysql_query("select player from users where id=\"$login_id\"") or die(mysql_error());
-	$player=mysql_result($res,0,0);
+	$res=mysqli_query($link,"select player from users where id=\"$login_id\"") or die(mysql_error());
+	$player=mysqli_result($res,0,0);
 	set_language($user_language);
 	//echo $_SESSION['language'];
 	session_write_close();

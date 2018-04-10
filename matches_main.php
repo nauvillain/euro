@@ -1,7 +1,7 @@
 <?php
 
 function format_date($date){
-global $language,$language_array;
+global $language,$language_array,$link;
 	$loc=setloc();
 	setlocale(LC_ALL,$loc);
 	if($language=='en') return strftime("%a %b %d",strtotime($date));
@@ -13,7 +13,8 @@ global $language,$language_array;
 //echo "<div id='display_greetings'>";
 //echo "<p><a href='javascript:history.back()'>Back</a></p>";
 //echo "</div>\n";
-$grp=$_REQUEST['group'];
+if(isset($grp)) $grp=$_REQUEST['group'];
+else $grp="";
 //echo "<br/><div class='middle'><a href='http://www.marca.com/deporte/futbol/mundial/sudafrica-2010/calendario-english.html' target='new'>".get_word_by_id(150)."</a></div><br/>\n";
 echo "<div id='matches'>\n";
 if($grp!='') echo "<a href='matches.php' style='margin:0 0 0 280px;'>All matches</a>";
@@ -21,12 +22,12 @@ echo "<table align='center' >";
 
 connect_to_eurodb();
 $phase=get_current_phase();
-$m=mysql_query("SELECT * FROM matches ORDER BY id") or die(mysql_error());
-$num_m=mysql_num_rows($m);
+$m=mysqli_query($link,"SELECT * FROM matches ORDER BY id") or die(mysql_error($link));
+$num_m=mysqli_num_rows($m);
 
 //	echo "<div class='match_euro_day'>\n"; 
-	$flag_date=mysql_result($m,0,'date');
-	$descr=mysql_result($m,0,'descr');
+	$flag_date=mysqli_result($m,0,'date');
+	$descr=mysqli_result($m,0,'descr');
 	$dated=format_date($flag_date);
 //	echo "<div class='match_euro_day_border'>\n";
 	echo "<tr><td class='date_display'>".$dated." </td>";
@@ -35,7 +36,7 @@ $num_m=mysql_num_rows($m);
 	echo "</td>";
 for ($i=0;$i<$num_m;$i++){
 
-$match_id=mysql_result($m,$i,'id');
+$match_id=mysqli_result($m,$i,'id');
 $phase=get_phase($match_id);
 $arr=get_match_details($match_id,$login_id);
 $place=get_word_by_id($DB::qry("SELECT trans FROM places WHERE place_id='".$arr['place_id']."'",3));
@@ -54,10 +55,10 @@ if($flag_date!=$arr["date"]) {
 //echo "<div class='match_board'>\n";
 $flag_date=$arr["date"];
 
-$odds1=mysql_result($m,$i,'odds1');
-$odds2=mysql_result($m,$i,'odds2');
-$oddsD=mysql_result($m,$i,'oddsD');
-$short_desc=mysql_result($m,$i,'short_desc');
+$odds1=mysqli_result($m,$i,'odds1');
+$odds2=mysqli_result($m,$i,'odds2');
+$oddsD=mysqli_result($m,$i,'oddsD');
+$short_desc=mysqli_result($m,$i,'short_desc');
 
 	echo "<td class='mb_place_display' class='standardfont'>";
 	echo "<i>".$place.", ".substr($arr["time"],0,5)." </i>\n";
@@ -84,7 +85,7 @@ $short_desc=mysql_result($m,$i,'short_desc');
 echo "</td></tr></table>";
 echo "</div>\n";
 echo "<div id='final_round_chart'>\n";
-echo "<table border=0 cellspacing='1' cellpadding='1' frame='below'>\n";
+echo "<table border=0 cellspacing='3' cellpadding='5' frame='below'>\n";
 make_final_round_chart($tournament_type);
 echo "</table>\n";
 echo "</div>\n";

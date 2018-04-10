@@ -15,11 +15,11 @@ class table{
 	
 	$userlink='player_profile.php?id=';
 	
-		$count=mysql_num_fields($data);
+		$count=mysqli_num_fields($data);
 	
 		echo "\n\t<table>\n";
 		//create header
-		$arr=mysql_fetch_array($data,MYSQL_ASSOC);
+		$arr=mysqli_fetch_array($data,MYSQLI_ASSOC);
 		echo "\t<tr>\n";
 		if(isset($arr)){
 			foreach($arr as $key=>$val){
@@ -39,9 +39,9 @@ class table{
 			
 	
 	//reset pointer
-		if(isset($data)) mysql_data_seek($data,0); 
+		if(isset($data)) mysqli_data_seek($data,0); 
 			
-		while($arr=mysql_fetch_array($data,MYSQL_ASSOC)){
+		while($arr=mysqli_fetch_array($data,MYSQLI_ASSOC)){
 			echo "\t<tr>\n";
 			foreach($arr as $key=>$val){
 				if($key!='id'){
@@ -78,7 +78,7 @@ class table{
 	//reset pointer
 		mysql_data_seek($data,0); 
 			
-		while($arr=mysql_fetch_array($data,MYSQL_ASSOC)){
+		while($arr=mysql_fetch_array($data,MYSQLI_ASSOC)){
 			echo "\t<tr>\n";
 			foreach($arr as $key=>$val){
 				if($key!='id'){

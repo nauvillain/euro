@@ -44,7 +44,7 @@ connect_to_eurodb();
 $username=get_username($login_id);
 $nick=get_nick($login_id);
 sqlutf();
-mysql_query("INSERT INTO forum SET thread='$id',user_id='$login_id',user_name='$username',user_nick=\"".$nick."\",content=\"".$content."\"".($title?",title=\"".$title."\"":"")) or die(mysql_error());
+mysqli_query($link,"INSERT INTO forum SET thread='$id',user_id='$login_id',user_name='$username',user_nick=\"".$nick."\",content=\"".$content."\"".($title?",title=\"".$title."\"":"")) or die(mysqli_error($link));
 update_thread_timestamp($id);
 echo "The following reply has been posted:".$content ;
 ?>

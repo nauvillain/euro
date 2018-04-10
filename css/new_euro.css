@@ -1,8 +1,9 @@
 body {
-	width:1000px;
+	width:1200px;
 	margin:0 auto;
 	font:11px arial;
-	background:#2a2a2a url('../img/sdf.jpg') no-repeat;
+	/*background:#2a2a2a url('../img/sdf.jpg') no-repeat;*/
+	background:#2a2a2a url('../img/luz.jpg') no-repeat;
 	background-size:100%;
 }
 #content {
@@ -29,30 +30,29 @@ body {
 	width:380px;
 	right:20px;
 	text-align:right;
-	color:white;
+	color:black;
 	display:inline;
 	float:right;
 }
 #display_greetings a{
-	color:white;
+	color:black;
 }
 
 #menu_wrap {
 	float:left;
-	width:950px;
+	width:1199px;
 	margin:0;
 	opacity:0.9;
 /*	filter:alpha(opacity=90); /* For IE8 and earlier */
 	padding:10px 0 0 0;
-	width:999px;
 	background:#e1e1e1;
 }
-#menu {	width:850px;
+#menu {	width:1139px;
 	background:#e1e1e1;
 }
 #menu li{
 	display:block;
-	width:160px;
+	width:220px;
 	opacity:0.9;
 	float:left;
 	padding-bottom:0px;
@@ -72,7 +72,7 @@ body {
 	opacity:0.9;
 	/*filter:alpha(opacity=90); /* For IE8 and earlier */
 	float:left;
-	width:999px;
+	width:1199px;
 	background:#e1e1e1;
 	text-align:center;
 	min-height:400px;
@@ -101,7 +101,7 @@ body {
 }
 #played {
 	float:left;
-	width:470px;
+	width:570px;
 }
 .matches_played_table{
 	width:500px;
@@ -124,12 +124,12 @@ body {
 }
 #upcoming {
 	float:right;
-	width:480px;
+	width:580px;
 }
 .title_main{
 	margin:20px 120px 10px 106px;
 	font-weight:bold;	
-	width:140px;
+	width:310px;
 	font-size:13px;
 }
 
@@ -145,13 +145,13 @@ body {
 
 .foot_match_panel {
 	margin:0 auto;	
-	width:478px;
+	width:578px;
 	height:100px;
 	padding-top:10px;
 }
 .foot_match_board {
 	float:left;
-	width:345px;
+	width:545px;
 }
 .foot_mb_place_display {
 	width:150px;
@@ -159,29 +159,29 @@ body {
 }
 .foot_mb_team_display {
 	margin:0 auto;
-	width:380px;
 	height:15px;
 	padding-top:15px;
 }
 .foot_mb_team_display a{
 }
 .separator {
-	width:30px;	
+	width:50px;	
 	display:inline;
 	font:bold 15px lucida;
 }
 .team_name_left {
-	width:150px;
+	width:250px;
 	display:inline;
 	text-align:right;
+	margin-right:10px;
 }
 .team_name_right{
-	width:150px;
+	width:250px;
 	display:inline;
 	text-align:left;
 }
 .foot_mb_bet_display {
-	width:150px;
+	width:380px;
 	margin-bottom:10px;
 	height:30px;
 	float:right;
@@ -217,12 +217,12 @@ body {
 	height:13px;
 	width:120px;
 }
-.img_stadium p{
-	width:30px;
+.img_stadium a{
+	width:50px;
 	float:left;
 }
 .img_stadium img{
-	width:20px;
+	width:18px;
 }
 .image_pad{
 	display:inline;
@@ -231,7 +231,7 @@ body {
 	height:15px;
 }
 .divider img{
-	width:300px;
+	width:400px;
 }
 .divider_played {
 	width:400px;
@@ -446,6 +446,9 @@ a.ajax_link_cancel:hover {
 	font:bold 16px lucida,sans-serif;
 	text-align:center;
 	padding:10px 0 5px 0;
+}
+.cb_mb_teams_display img{
+	height:18px;
 }
 .pick{	
 	display:inline;
@@ -666,7 +669,7 @@ a.ajax_link_cancel:hover {
 #final_round_chart{
 	margin-top:100px;
 	float:right;
-	width:420px;
+	width:600px;
 }
 #matches{
 	float:left;

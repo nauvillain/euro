@@ -4,16 +4,18 @@ require 'php_header.php';
 connect_to_eurodb();
 $type=$_GET['type'];
 function create_user_tree($id,$type){
+global $link;
 global $admin_id;
 	echo "<table style='border-bottom:1px solid;border-right:1px solid;'>\n";
 	echo "<tr><td>\n";
 	echo "<a href='player_profile.php?id=$id'>".($type==1?get_player_name($id):get_player_full_name($id))."</a>";
 	echo "</td><td>\n";
-	$res=mysql_query("SELECT id FROM users WHERE contact='$id' and player='1'");
-	$count=mysql_num_rows($res);
+	mysqli_query($link,"SET NAMES 'utf8'");
+	$res=mysqli_query($link,"SELECT id FROM users WHERE contact='$id' and player='1'");
+	$count=mysqli_num_rows($res);
 	if($count){
 		for($i=0;$i<$count;$i++){
-			$new_id=mysql_result($res,$i,'id');
+			$new_id=mysqli_result($res,$i,'id');
 			if($new_id!=$admin_id) create_user_tree($new_id,$type);
 		}
 	}

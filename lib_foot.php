@@ -2,17 +2,35 @@
 require 'conf.php';
 function connect_to_eurodb()
 {
-  global $db_database, $db_username, $db_password, $db_hostname;
-  mysql_pconnect($db_hostname,$db_username,$db_password) or die(mysql_error());
-  mysql_select_db($db_database) or mysql_error("Error connecting to the database :(");
+  global $link,$db_database, $db_username, $db_password, $db_hostname;
+  $link=mysqli_connect($db_hostname,$db_username,$db_password) or die(mysqli_error());
+  mysqli_select_db($link,$db_database) or mysqli_error($link);
+}
+
+
+function mysqli_result($res,$row=0,$col=0){ 
+	    $numrows = mysqli_num_rows($res); 
+	        if ($numrows && $row <= ($numrows-1) && $row >=0){
+			        mysqli_data_seek($res,$row);
+				        $resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+				        if (isset($resrow[$col])){
+						            return $resrow[$col];
+							            }
+					    }
+	        return false;
+}
+
+function getIfSet(&$value, $default = null)
+{
+	    return isset($value) ? $value : $default;
 }
 
 
 function create_groups()
 {
 
-$result=mysql_query("SELECT * FROM euro_2008.teams ORDER BY team_id") or die(mysql_error());
-$num=mysql_num_rows($result);
+$result=mysqli_query($link,"SELECT * FROM euro_2008.teams ORDER BY team_id") or die(mysqli_error());
+$num=mysqli_num_rows($result);
 for ($i=0;$i<$num;$i++) {
 	$pld[$i]=0;
 	$ga[$i]=0;
@@ -21,23 +39,23 @@ for ($i=0;$i<$num;$i++) {
 	$wins[$i]=0;
 	$ties[$i]=0;
 	$defs[$i]=0;
-	$team[$i]=mysql_result($result,$i,"team_name");
-	$code[$i]=mysql_result($result,$i,"code");
+	$team[$i]=mysqli_result($result,$i,"team_name");
+	$code[$i]=mysqli_result($result,$i,"code");
 }
 
 
-$matches=mysql_query("SELECT id,t1, t2, g1, g2, played
-FROM matches WHERE played=1 ") or die(mysql_error());
-$num_matches_played=mysql_num_rows($matches);
+$matches=mysqli_query($link,"SELECT id,t1, t2, g1, g2, played
+FROM matches WHERE played=1 ") or die(mysqli_error());
+$num_matches_played=mysqli_num_rows($matches);
 
 //count the points for each team
 
 for($j=0;$j<$num_matches_played;$j++){
 
-    $team1_id=mysql_result($matches,$j,"t1")-1;
-    $team2_id=mysql_result($matches,$j,"t2")-1;
-    $goals1=mysql_result($matches,$j,"g1");
-    $goals2=mysql_result($matches,$j,"g2");
+    $team1_id=mysqli_result($matches,$j,"t1")-1;
+    $team2_id=mysqli_result($matches,$j,"t2")-1;
+    $goals1=mysqli_result($matches,$j,"g1");
+    $goals2=mysqli_result($matches,$j,"g2");
 
     $pld[$team1_id]+=1; $pld[$team2_id]+=1; $gf[$team1_id]+=$goals1;
     $gf[$team2_id]+=$goals2; $ga[$team1_id]+=$goals2;
@@ -94,10 +112,10 @@ return $array;
 
 function show_team($letter,$num){
 
+global $link;	
 	
-	
-	$res=mysql_query("SELECT * FROM teams WHERE group_name='$letter' ORDER BY current_pos ASC LIMIT 1".($num?",$num":"")) or die(mysql_error());
-	$grp=mysql_fetch_array($res);
+	$res=mysqli_query($link,"SELECT * FROM teams WHERE group_name='$letter' ORDER BY current_pos ASC LIMIT 1".($num?",$num":"")) or die(mysqli_error());
+	$grp=mysqli_fetch_array($res);
 //pts DESC,gf-ga DESC,gf 
 	if(group_over($letter)){
 		if($num==2){
@@ -151,17 +169,17 @@ function show_standings($grp){
 }
 
 function winner($match_id){
-
+global $link;
 $query="SELECT * FROM matches WHERE id='$match_id'";
-$sql=mysql_query($query) or die(mysql_error());
-if(mysql_num_rows($sql))$played=mysql_result($sql,0,"played");
+$sql=mysqli_query($link,$query) or die(mysqli_error($link));
+if(mysqli_num_rows($sql))$played=mysqli_result($sql,0,"played");
 
 if($played){
 
-	$goals1=mysql_result($sql,0,"g1");
-	$goals2=mysql_result($sql,0,"g2");
-	$team1=mysql_result($sql,0,"t1");
-	$team2=mysql_result($sql,0,"t2");
+	$goals1=mysqli_result($sql,0,"g1");
+	$goals2=mysqli_result($sql,0,"g2");
+	$team1=mysqli_result($sql,0,"t1");
+	$team2=mysqli_result($sql,0,"t2");
 
 	if($goals1>$goals2) return $team1;
 	if($goals2>$goals1) return $team2;
@@ -174,8 +192,8 @@ function find_team($team_id){
 if($team_id!="not played yet"){
 
 $query="SELECT team_id FROM teams WHERE team_id='$team_id'";
-$res=mysql_query($query) or die(mysql_error());
-$team=mysql_result($res,0);
+$res=mysqli_query($query) or die(mysqli_error());
+$team=mysqli_result($res,0);
 $team=get_team_name_link($team,0);
 return $team;
 }
@@ -183,13 +201,13 @@ else return "------------";
 }
 
 function get_player_name($id){
-
+global $link;
 if($id){
 
 $query="SELECT nickname,first_name FROM users WHERE id='$id'";
-$res=mysql_query($query) or mysql(die);
-$rez=mysql_result($res,0,"nickname");
-if(!strlen($rez)) $rez=mysql_result($res,0,"first_name");
+$res=mysqli_query($link,$query) or mysql(die);
+$rez=mysqli_result($res,0,"nickname");
+if(!strlen($rez)) $rez=mysqli_result($res,0,"first_name");
 if(!strlen($rez)) $rez=get_username($id);
 if(!strlen($rez)) $rez="-";
 return $rez;
@@ -197,21 +215,21 @@ return $rez;
 
 }
 function get_player_full_name($id){
-
+global $link;
 if($id){
 
 $query="SELECT first_name,last_name FROM users WHERE id='$id'";
-$res=mysql_query($query) or mysql(die);
-$last=mysql_result($res,0,"last_name");
-$rez=mysql_result($res,0,"first_name");
+$res=mysqli_query($link,$query) or mysql(die);
+$last=mysqli_result($res,0,"last_name");
+$rez=mysqli_result($res,0,"first_name");
 return $rez." ".$last;
 }
 }
 function check_uniqueness($field,$value){
 
 $query="SELECT * FROM players WHERE $field='$value'";
-$sql=mysql_query($query) or die(mysql_error());
-$num=mysql_num_rows($sql);
+$sql=mysqli_query($query) or die(mysqli_error());
+$num=mysqli_num_rows($sql);
 if ($num) return false;
 else return true;
 }
@@ -238,6 +256,7 @@ echo "</tr>";
 function display_win2($match_id,$stage){
 global $sr_l;
 $total=$sr_l+1;
+$i=0;
 echo "<tr>";
 for($i==0;$i<$total;$i++){
 
@@ -276,17 +295,18 @@ echo "</b></td>\n";
 echo "</tr>";
 }
 function match_info($match_id){
-connect_to_eurodb();
+	connect_to_eurodb();
+	global $link;
 $query="select time,date,place from matches where id='$match_id'";
-$res=mysql_query($query) or die(mysql_error());
-if(mysql_num_rows($res)){
-	$time=mysql_result($res,0,"time");
-	$date=mysql_result($res,0,"date");
-	$place=mysql_result($res,0,"place");
+$res=mysqli_query($link,$query) or die(mysqli_error());
+if(mysqli_num_rows($res)){
+	$time=mysqli_result($res,0,"time");
+	$date=mysqli_result($res,0,"date");
+	$place=mysqli_result($res,0,"place");
 }
 $query_place="select acronym from places where place_id='$place'";
-$res_place=mysql_query($query_place);
-if(mysql_num_rows($res_place)) $place=mysql_result($res_place,0,'acronym');
+$res_place=mysqli_query($link,$query_place);
+if(mysqli_num_rows($res_place)) $place=mysqli_result($res_place,0,'acronym');
 //$place=substr($place,0,5);
 $date=date("D M j",strtotime($date));
 $str=$date.", ".$place."";
@@ -296,15 +316,15 @@ return $str;
 function loser($match_id){
 
 $query="SELECT * FROM matches WHERE id='$match_id'";
-$sql=mysql_query($query) or die(mysql_error());
-$played=mysql_result($sql,0,"played");
+$sql=mysqli_query($query) or die(mysqli_error());
+$played=mysqli_result($sql,0,"played");
 
 if($played){
 
-$goals1=mysql_result($sql,0,"g1");
-$goals2=mysql_result($sql,0,"g2");
-$team1=mysql_result($sql,0,"t1");
-$team2=mysql_result($sql,0,"t2");
+$goals1=mysqli_result($sql,0,"g1");
+$goals2=mysqli_result($sql,0,"g2");
+$team1=mysqli_result($sql,0,"t1");
+$team2=mysqli_result($sql,0,"t2");
 
 if($goals1>$goals2) return $team2;
 if($goals2>$goals1) return $team1;
@@ -312,25 +332,27 @@ if($goals2>$goals1) return $team1;
 else return "not played yet";
 }
 function find_score($match_id){
+global $link;	
 connect_to_eurodb();
 $query="select g1,g2,played from matches where id='$match_id'";
-$res=mysql_query($query) or die(mysql_error());
-if(mysql_num_rows($res)){
-	$goals1=mysql_result($res,0,"g1");
-	$goals2=mysql_result($res,0,"g2");
-	$played=mysql_result($res,0,"played");
+$res=mysqli_query($link,$query) or die(mysqli_error($link));
+if(mysqli_num_rows($res)){
+	$goals1=mysqli_result($res,0,"g1");
+	$goals2=mysqli_result($res,0,"g2");
+	$played=mysqli_result($res,0,"played");
 }
 if($played)$str="(".$goals1."-".$goals2.")";
+else $str="";
 return $str;
 }
 
 function remaining_time($match_id){
-
+global $link;
 if (!$match_id) {
 	$query="select time,date,place from matches where id='1'";
-	$res=mysql_query($query);
-	$time=mysql_result($res,0,"time");
-	$date=mysql_result($res,0,"date");
+	$res=mysqli_query($link,$query);
+	$time=mysqli_result($res,0,"time");
+	$date=mysqli_result($res,0,"date");
 	$arr=date_parse($date);
 	$start=mktime(0,0,0,$arr['month'],$arr['day'],$arr['year']);
 	$res=ceil(($start-tournament_time())/86400);
@@ -339,9 +361,9 @@ if (!$match_id) {
 else	{
 	connect_to_eurodb();
 	$query="select time,date,place from matches where id='$match_id'";
-	$res=mysql_query($query) or die(mysql_error());
-	$time=mysql_result($res,0,"time");
-	$date=mysql_result($res,0,"date");
+	$res=mysqli_query($link,$query) or die(mysqli_error($link));
+	$time=mysqli_result($res,0,"time");
+	$date=mysqli_result($res,0,"date");
 	$now=time();
 	$match_date=$date+$time;
 	return date('m-d',$match_date-$now);
@@ -357,13 +379,13 @@ function init_points_array(){
 }
 
 function count_points($p_id){
-global $coef_round;
-	$res=mysql_query("SELECT * from matches WHERE played=1 ORDER BY id") or die(mysql_error());
-	$num=mysql_num_rows($res);
+global $coef_round,$link;
+	$res=mysqli_query($link,"SELECT * from matches WHERE played=1 ORDER BY id") or mysqli_error($link);
+	$num=mysqli_num_rows($res);
 	$pts=0;
 	$total=get_total_players();	
 	for($i=0;$i<$num;$i++){
-		$match_id=mysql_result($res,$i,'id');
+		$match_id=mysqli_result($res,$i,'id');
 		$arr=get_match_details($match_id,$p_id);
 		$round=$arr['round_id'];
 		$p=$coef_round[$round];
@@ -371,8 +393,10 @@ global $coef_round;
 
 
 		if(isset($arr['pick'])){
-			$index=$arr['pick']-1;
-		//if $coef higher than the odds cap, make it the odds cap
+			if(is_numeric($arr['pick'])) $index=$arr['pick']-1;
+			else $index=0;
+			//if $coef higher than the odds cap, make it the odds cap
+			
 			$coef[$index]=cap_odds($coef[$index]);
 			//		$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])*($arr["weight"]);		
 			$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])*$coef[$index]*$p;		
@@ -387,28 +411,29 @@ global $coef_round;
 	return $pts;
 }
 function update_hist_points($pts,$m_id,$p_id){
-
-	$res=mysql_query("SELECT id FROM history WHERE player_id='$p_id' AND match_id='$m_id'");
-	$id=mysql_result($res,0);
-	if(mysql_num_rows($res)) mysql_query("UPDATE history SET current_points='$pts' WHERE player_id='$p_id' and match_id='$m_id'") or die(mysql_error());	
-	else mysql_query("INSERT INTO history SET player_id='$p_id',match_id='$m_id',current_points='$pts'") or die(mysql_error());
+global $link;
+	$res=mysqli_query($link,"SELECT id FROM history WHERE player_id='$p_id' AND match_id='$m_id'");
+	$id=mysqli_result($res,0);
+	if(mysqli_num_rows($res)) mysqli_query($link,"UPDATE history SET current_points='$pts' WHERE player_id='$p_id' and match_id='$m_id'") or die(mysqli_error());	
+	else mysqli_query($link,"INSERT INTO history SET player_id='$p_id',match_id='$m_id',current_points='$pts'") or die(mysqli_error());
 		
 	
 
 }
 function no_matches_left(){
-	$res=mysql_query("select id from matches where played=0");
-	$num=mysql_num_rows($res);
+	global $link;
+	$res=mysqli_query($link,"select id from matches where played=0");
+	$num=mysqli_num_rows($res);
 	if(!$num) return 1;
 	else return 0;
 }
 function count_correct($p_id){
-
-	$res=mysql_query("SELECT * from matches WHERE played=1") or die(mysql_error());
-	$num=mysql_num_rows($res);
+global $link;
+	$res=mysqli_query($link,"SELECT * from matches WHERE played=1") or mysqli_error();
+	$num=mysqli_num_rows($res);
 	$pts=0;
 	for($i=0;$i<$num;$i++){
-		$match_id=mysql_result($res,$i,'id');
+		$match_id=mysqli_result($res,$i,'id');
 		$arr=get_match_details($match_id,$p_id);
 		$pts+=bet_result($arr["pick"],$arr["goals1"],$arr["goals2"]);		
 		}
@@ -416,13 +441,14 @@ function count_correct($p_id){
 	return $pts;
 }
 function starting_time($match_id){
+global $link;
 	connect_to_eurodb();
 
-	$upcoming=mysql_query("SELECT id,t1,t2,date,place, time FROM
+	$upcoming=mysqli_query($link,"SELECT id,t1,t2,date,place, time FROM
 			matches WHERE id=$match_id");
 
-	$time=mysql_result($upcoming,0,"time");
-	$date=mysql_result($upcoming,0,"date");
+	$time=mysqli_result($upcoming,0,"time");
+	$date=mysqli_result($upcoming,0,"date");
 	$date=date("l, F dS",strtotime($date));
 	$test=strtotime($date);
 	$test4=strtotime($time);
@@ -473,19 +499,19 @@ else {
 }
 
 function odds($match_id){
-
+global $link;
 connect_to_eurodb();
 
 $query="select * from bets where match_id='$match_id' and pick!='0'";
-$res=mysql_query($query) or die(mysql_error());
-$num_betters=mysql_num_rows($res);
+$res=mysqli_query($link,$query) or mysqli_error($link);
+$num_betters=mysqli_num_rows($res);
 //echo "betters:$num_betters";
 $m1=0;
 $m2=0;
 $mD=0;
 	for ($i=0;$i<$num_betters;$i++){
 
-		$pick=mysql_result($res,$i,'pick');
+		$pick=mysqli_result($res,$i,'pick');
 
 		if($pick==1) $m1++;
 		if($pick==2) $mD++;
@@ -526,7 +552,7 @@ if($m2) {
 
 	$query="UPDATE matches SET odds1='".$arr[0]."',odds2='".$arr[2]."',oddsD='".$arr[1]."' WHERE id='$match_id'";
 //	echo $query;
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or mysqli_error($link);
 	
 
 }
@@ -551,7 +577,8 @@ else $s=1;
 return($s);
 }
 function timestamp_access($login_id){
-mysql_query("UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$login_id'") or die (mysql_error());
+global $link;
+mysqli_query($link,"UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$login_id'") or die (mysqli_error($link));
 }
 function display_greetings($login_id){
 global $language_array,$language;
@@ -565,11 +592,11 @@ for($i=0;$i<sizeof($language_array);$i++) {
 	echo "\n</div>\n";
 }
 function display_total_users($login_id){
-global $language;
+global $language,$link;
 
 	echo "<div class='standardfont'>\n";
 	if(still_time(1)){
-		echo "<br/><b>".mysql_result(mysql_query("SELECT count(*) FROM users WHERE player=1"),0)." ".get_word_by_id(84)."</b><br/>\n";
+		echo "<br/><b>".mysqli_result(mysqli_query($link,"SELECT count(*) FROM users WHERE player=1"),0)." ".get_word_by_id(84)."</b><br/>\n";
 		$top_scorer=find_scorer($login_id);
 		$winner=find_winner_bet($login_id);
 		if($top_scorer) echo get_word_by_id(109).": ".$top_scorer;
@@ -596,11 +623,11 @@ global $language;
 	echo "\n</div>\n";
 }
 function get_user_info($key,$field){
+global $link;
+$us=mysqli_query($link,"select ".$field." from users where id=$key");
 
-$us=mysql_query("select ".$field." from users where id=$key");
-
-if(mysql_num_rows($us)) {
-	$t= mysql_result($us,0,$field);
+if(mysqli_num_rows($us)) {
+	$t= mysqli_result($us,0,$field);
 	return $t;
 }
 
@@ -615,17 +642,18 @@ function display_remaining_time(){
 }
 
 function get_total_players(){
-
-$tui=mysql_query("SELECT count(*) FROM users WHERE player=1");
-return(mysql_result($tui,0));
+global $link;
+$tui=mysqli_query($link,"SELECT count(*) FROM users WHERE player=1");
+return(mysqli_result($tui,0));
 
 }
 
 function display_ranking($login_id){
-$us=mysql_query("select * from users where id='$login_id'");
-$ranking=mysql_result($us,0,'current_ranking');
-$tui=mysql_query("SELECT count(*) FROM users WHERE player=1");
-$num_players_total=mysql_result($tui,0);
+global $link;
+$us=mysqli_query($link,"select * from users where id='$login_id'");
+$ranking=mysqli_result($us,0,'current_ranking');
+$tui=mysqli_query($link,"SELECT count(*) FROM users WHERE player=1");
+$num_players_total=mysqli_result($tui,0);
 if (!still_time(2)||is_played(1)) {
 	echo "<div id='ranking_links'> My current ranking (in points): $ranking&nbsp;/&nbsp;$num_players_total\n";
 		echo "<br/><a href='trends.php'>".get_word_by_id(153)."</a>";		
@@ -642,62 +670,81 @@ function display_top_left($login_id){
 }
 }
 function get_match_details($match_id,$login_id){
-	
-	$upcoming=mysql_query("SELECT id,t1,t2,g1,g2,date,place,descr,odds1,odds2,oddsD,time,played,no_tie,round_id FROM matches WHERE id='$match_id' ORDER BY id ASC") or die(mysql_error());
+global $link;	
+	$upcoming=mysqli_query($link,"SELECT id,t1,t2,g1,g2,date,place,descr,odds1,odds2,oddsD,time,played,no_tie,round_id FROM matches WHERE id='$match_id' ORDER BY id ASC") or die(mysqli_error());
 	if($upcoming) {
-		$team1=utf8_encode(mysql_result($upcoming,0,"t1"));
-		$rez1=mysql_query("SELECT team_name,code FROM teams WHERE
+		$team1=utf8_encode(mysqli_result($upcoming,0,"t1"));
+		$rez1=mysqli_query($link,"SELECT team_name,code FROM teams WHERE
 				$team1=teams.team_id");
-		if(mysql_num_rows($rez1)){
+		if(mysqli_num_rows($rez1)){
 			$arr["team1"]=get_team_name($team1);
-			$arr["code1"]=mysql_result($rez1,0,'code');
+			$arr["code1"]=mysqli_result($rez1,0,'code');
+		}
+		else {
+			$arr["team1"]="";
+			$arr["code1"]="";
 		}
 
-		$temp=mysql_query("SELECT pick,weight FROM bets WHERE match_id='$match_id'
-				AND player_id='$login_id'") or die(mysql_error());
-		$cond=mysql_num_rows($temp);
+		$temp=mysqli_query($link,"SELECT pick,weight FROM bets WHERE match_id='$match_id'
+				AND player_id='$login_id'") or die(mysqli_error());
+		$cond=mysqli_num_rows($temp);
 		if($cond){
-			//$arr["goals_team1"]=mysql_result($temp,0,"bgt1");
-			//$arr["goals_team2"]=mysql_result($temp,0,"bgt2");
-			$arr["pick"]=mysql_result($temp,0,"pick");
+			//$arr["goals_team1"]=mysqli_result($temp,0,"bgt1");
+			//$arr["goals_team2"]=mysqli_result($temp,0,"bgt2");
+			$arr["pick"]=mysqli_result($temp,0,"pick");
 	// token method: the weight is what the user wages
-	//		$arr["weight"]=mysql_result($temp,0,"weight");
+	//		$arr["weight"]=mysqli_result($temp,0,"weight");
 	// odds method: the weight is the odds.
 		}
+		else {
+			$arr['weight']="";
+			$arr['pick']="";
+		}
 
-		$team2=mysql_result($upcoming,0,"t2");
-		$rez2=mysql_query("SELECT team_name,code FROM teams WHERE
+		$team2=mysqli_result($upcoming,0,"t2");
+		$rez2=mysqli_query($link,"SELECT team_name,code FROM teams WHERE
 				$team2=teams.team_id");
-		if(mysql_num_rows($rez2)){
+		if(mysqli_num_rows($rez2)){
 			$arr["team2"]=get_team_name($team2);
-			$arr["code2"]=mysql_result($rez2,0,'code');
+			$arr["code2"]=mysqli_result($rez2,0,'code');
+		}
+		else {
+			$arr["team2"]="";
+			$arr["code2"]="";
 		}
 		
 		$arr["t_id1"]=$team1;
 		$arr["t_id2"]=$team2;
-		$arr["goals1"]=mysql_result($upcoming,0,"g1");
-		$arr["goals2"]=mysql_result($upcoming,0,"g2");
+		$arr["goals1"]=mysqli_result($upcoming,0,"g1");
+		$arr["goals2"]=mysqli_result($upcoming,0,"g2");
 		//$odds=odds($match_id);
-		$arr["odds1"]=mysql_result($upcoming,0,"odds1");
-		$arr["odds2"]=mysql_result($upcoming,0,"odds2");
-		$arr["oddsD"]=mysql_result($upcoming,0,"oddsD");
+		$arr["odds1"]=mysqli_result($upcoming,0,"odds1");
+		$arr["odds2"]=mysqli_result($upcoming,0,"odds2");
+		$arr["oddsD"]=mysqli_result($upcoming,0,"oddsD");
 	//get weight for the odds method	
 		if(isset($arr['pick']) )$arr["weight"]=get_match_odds($arr['pick'],$arr['odds1'],$arr['oddsD'],$arr['odds2']);
+		else $arr['pick']="";
 		
-		$arr["time"]=mysql_result($upcoming,0,"time");
-		$arr["played"]=mysql_result($upcoming,0,"played");
-		$round_id=mysql_result($upcoming,0,"round_id");
-		if($round_id) $arr["descr"]=mysql_result(mysql_query("SELECT descr FROM rounds WHERE round_id='$round_id'"),0,"descr");
+		$arr["time"]=mysqli_result($upcoming,0,"time");
+		$arr["played"]=mysqli_result($upcoming,0,"played");
+		$round_id=mysqli_result($upcoming,0,"round_id");
+		if($round_id) $arr["descr"]=mysqli_result(mysqli_query($link,"SELECT descr FROM rounds WHERE round_id='$round_id'"),0,"descr");
 		else $arr["descr"]='S1.';
 		$arr['round_id']=$round_id;
-		$arr["summary"]=mysql_result($upcoming,0,"descr");
-		$arr["no_tie"]=mysql_result($upcoming,0,"no_tie");
-		$arr["date"]=mysql_result($upcoming,0,"date");
+		$arr["summary"]=mysqli_result($upcoming,0,"descr");
+		$arr["no_tie"]=mysqli_result($upcoming,0,"no_tie");
+		$arr["date"]=mysqli_result($upcoming,0,"date");
 		$date=date("l, F dS",strtotime($arr["date"]));
-		$place_id=mysql_result($upcoming,0,"place");
-		$rezp=mysql_query("SELECT * from places WHERE place_id='$place_id'") or die(mysql_error());
-		$arr["place"]=mysql_result($rezp,0,'city');
-		$arr["place_id"]=mysql_result($rezp,0,'place_id');
+		$place_id=mysqli_result($upcoming,0,"place");
+		$rezp=mysqli_query($link,"SELECT * from places WHERE place_id='$place_id'") or die(mysqli_error());
+		if(mysqli_num_rows($rezp)){
+			$arr["place"]=mysqli_result($rezp,0,'city');
+			$arr["place_id"]=mysqli_result($rezp,0,'place_id');
+		}
+		else {
+			$arr["place"]='not set';
+			$arr["place_id"]=0;
+		}
 		$test=strtotime($arr["date"]);
 		$test4=strtotime($arr["time"]);	
 		$seconds_that_day=$test4-mktime(0,0,0,date('m',$test4),date('d',$test4),date('Y',$test4));
@@ -729,13 +776,13 @@ function get_match_odds($pick,$odds1,$oddsD,$odds2){
 
 
 function get_match_teams($match_id){
-	
-	$upcoming=mysql_query("SELECT id,t1,t2,g1,g2,played FROM matches WHERE id='$match_id' ORDER BY id ASC") or die(mysql_error());
-	$arr['team1']=mysql_result($upcoming,0,'t1');
-	$arr['team2']=mysql_result($upcoming,0,'t2');
-	$arr['goals1']=mysql_result($upcoming,0,"g1");
-	$arr['goals2']=mysql_result($upcoming,0,"g2");
-	$arr['played']=mysql_result($upcoming,0,"played");
+	global $link;
+	$upcoming=mysqli_query($link,"SELECT id,t1,t2,g1,g2,played FROM matches WHERE id='$match_id' ORDER BY id ASC") or die(mysqli_error());
+	$arr['team1']=mysqli_result($upcoming,0,'t1');
+	$arr['team2']=mysqli_result($upcoming,0,'t2');
+	$arr['goals1']=mysqli_result($upcoming,0,"g1");
+	$arr['goals2']=mysqli_result($upcoming,0,"g2");
+	$arr['played']=mysqli_result($upcoming,0,"played");
 
 	return($arr);
 }
@@ -882,12 +929,14 @@ break;
 	
 }
 function is_bet($match_id,$login_id) {
-$res=mysql_query("SELECT * FROM bets WHERE player_id='$login_id' AND match_id='$match_id'") or die (mysql_error());
-$num=mysql_num_rows($res);
+global $link;	
+$res=mysqli_query($link,"SELECT * FROM bets WHERE player_id='$login_id' AND match_id='$match_id'") or die (mysqli_error());
+$num=mysqli_num_rows($res);
 if($num) return 1;
 else return 0;}
 
 function fscore($val){
+global $link;
 if(empty($val)) $val="0";
 return $val;
 }
@@ -896,7 +945,7 @@ function set_res($match_id,$g1,$g2){
 	if($g2>$g1) $res=2;
 	if($g2==$g1) $res=0;
 
-	$wri=mysql_query("UPDATE matches SET (g1,g2,res) VALUES ($g1,$g2,$res)") or die(mysql_error());
+	$wri=mysqli_query($link,"UPDATE matches SET (g1,g2,res) VALUES ($g1,$g2,$res)") or die(mysqli_error());
 }
 function display_weight($weight,$rem_pts,$unbet,$last,$tot_matches){
 	if(!$weight) $weight=0;
@@ -955,13 +1004,14 @@ function display_weight_row($weight,$match_id,$class){
 	
 }
 function drop_down_euro_winner($team){
-	$res=mysql_query("SELECT team_id,team_name from teams ORDER by team_name") or die(mysql_error());
-	$num=mysql_num_rows($res);
+	global $link;
+	$res=mysqli_query($link,"SELECT team_id,team_name from teams ORDER by team_name") or die(mysqli_error($link));
+	$num=mysqli_num_rows($res);
 
 	echo "<select name='winning_team'>\n";
 	for ($i=0;$i<$num;$i++){
-		$team_id=mysql_result($res,$i,'team_id');
-		$team_name=mysql_result($res,$i,'team_name');
+		$team_id=mysqli_result($res,$i,'team_id');
+		$team_name=mysqli_result($res,$i,'team_name');
 		echo "<option  value='$team_id' ".($team_id==$team?"selected":"").">".get_team_name($team_id)."</option>\n";
 	}
 	echo "</select>\n";
@@ -981,15 +1031,16 @@ function display_checkbox($match_id,$played){
 	
 }
 function get_bet_details($res,$i){
-	$arrb["pick"]=mysql_result($res,$i,'pick');
-	$arrb["weight"]=mysql_result($res,$i,'weight');
-	$arrb["match_id"]=mysql_result($res,$i,'match_id');
-	$arrb["bet_id"]=mysql_result($res,$i,'bet_id');
+	$arrb["pick"]=mysqli_result($res,$i,'pick');
+	$arrb["weight"]=mysqli_result($res,$i,'weight');
+	$arrb["match_id"]=mysqli_result($res,$i,'match_id');
+	$arrb["bet_id"]=mysqli_result($res,$i,'bet_id');
 	return $arrb;
 	}
 function is_admin($id){
-	$res=mysql_query("SELECT id FROM users WHERE admin='1' AND id='$id'") or die(mysql_error());
-	return mysql_num_rows($res);
+	global $link;
+	$res=mysqli_query($link,"SELECT id FROM users WHERE admin='1' AND id='$id'") or die(mysqli_error());
+	return mysqli_num_rows($res);
 }
 function clear_pick_weight($match_id,$type,$text){
 	echo "<input type='button' value='$text'
@@ -997,68 +1048,72 @@ function clear_pick_weight($match_id,$type,$text){
 }
 function update_matches_2ndr($team1,$team2,$match_id){
 
-  
+  global $link;
    if($team1){
 	   $query="UPDATE matches SET t1='$team1' WHERE id='$match_id'";
   //echo "$query 2 ";
-   	   $res=mysql_query($query) or die(mysql_error());
+   	   $res=mysqli_query($link,$query) or die(mysqli_error($link));
 	   }
 
    if($team2){
 	   $query="UPDATE matches SET t2='$team2' WHERE id='$match_id'";
 	   //echo "$query 3 ";
-	   $res=mysql_query($query) or die(mysql_error());
+	   $res=mysqli_query($link,$query) or die(mysqli_error($link));
    }
 
 }
 
 function init_team_data(){
-	global $fr_m;
+	global $fr_m,$link;
 	$query="UPDATE teams SET winner=0,m_played=0,current_pos=0,W=0,D=0,L=0,gf=0,ga=0,pts=0 ";;
 //	echo $query.'<br/>';
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or die(mysqli_error($link));
 	$query="UPDATE groups SET over=0 ";;
 //	echo $query.'<br/>';
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or die(mysqli_error($link));
 	if($fr_m) {
 		$query="UPDATE matches SET t1=0,t2=0 WHERE id>'$fr_m' ";
 //		echo $query.'<br/>';
-		mysql_query($query) or die(mysql_error());
+		mysqli_query($link,$query) or die(mysqli_error($link));
 	}	
 		
 }
 function reset_matches_played(){
+	global $link;
 	$query="UPDATE matches SET played=0 ";
 //	echo $query.'<br/>';
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or die(mysqli_error($link));
 	$query="UPDATE users SET current_points=0,current_correct=0,current_incorrect=0,current_ranking=0 WHERE player=1";
 //	echo $query.'<br/>';
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or die(mysqli_error($link));
 }
 function reset_bets_and_users_rankings(){
+	global $link;
 	$query="DELETE from bets ";
 //	echo $query.'<br/>';
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or die(mysqli_error($link));
 	$query="UPDATE users SET current_points=0,current_correct=0,current_incorrect=0,bet_money=0,current_ranking=0,winner=0,top_scorer=0";
 //	echo $query.'<br/>';
-	mysql_query($query) or die(mysql_error());
+	mysqli_query($link,$query) or die(mysqli_error($link));
 }
 function update_team_data($id,$gf,$ga,$pts_v,$pts_d){
-
+global $link;
 	
 	if(!processed($id)){
 		$r=result_match($gf,$ga,$pts_v,$pts_d);
 		$query="UPDATE teams SET ".$r['rm']."=".$r['rm']."+1, gf=gf+".$gf.",ga=ga+".$ga."".($r['rp']?",pts=pts+".$r["rp"]:"").",m_played=m_played+1 WHERE team_id='$id'";
 	//	echo $query.'<br/>';
-		mysql_query($query) or die(mysql_error());
+		mysqli_query($link,$query) or die(mysqli_error($link));
 	}		
 }
 function processed($m_id){
-	$query=mysql_query("SELECT processed=processed+1 FROM matches WHERE id='$m_id'") or die(mysql_error());
-	return(mysql_result($query,0));
+	global $link;
+	$query=mysqli_query($link,"SELECT processed=processed+1 FROM matches WHERE id='$m_id'") or die(mysqli_error($link));
+	return(mysqli_result($query,0));
 }
 function set_processed($m_id){
-	mysql_query("UPDATE matches SET processed='1' WHERE id='$m_id'") or die(mysql_error());
+	global $link;
+	mysqli_query($link,"UPDATE matches SET processed='1' WHERE id='$m_id'") or die(mysqli_error($link));
 }
 function result_match($gf,$ga,$pts_v,$pts_d){
 	if($gf>$ga) {
@@ -1147,21 +1202,22 @@ global $groups;
 }
 
 function get_teams($group){
-	$q=mysql_query("SELECT * FROM teams WHERE group_name='".$group."' ORDER by current_pos") or die(mysql_error());
-	$ro=mysql_num_rows($q);
+	global $link;
+	$q=mysqli_query($link,"SELECT * FROM teams WHERE group_name='".$group."' ORDER by current_pos") or die(mysqli_error($link));
+	$ro=mysqli_num_rows($q);
 	
 	for($i=0;$i<$ro;$i++){
-		$arr_team[$i]['team']=mysql_result($q,$i,'team_name');
-		$arr_team[$i]['pld']=mysql_result($q,$i,'m_played');
-		$arr_team[$i]['W']=mysql_result($q,$i,'W');
-		$arr_team[$i]['D']=mysql_result($q,$i,'D');
-		$arr_team[$i]['L']=mysql_result($q,$i,'L');
-		$arr_team[$i]['gf']=mysql_result($q,$i,'gf');
-		$arr_team[$i]['ga']=mysql_result($q,$i,'ga');
+		$arr_team[$i]['team']=mysqli_result($q,$i,'team_name');
+		$arr_team[$i]['pld']=mysqli_result($q,$i,'m_played');
+		$arr_team[$i]['W']=mysqli_result($q,$i,'W');
+		$arr_team[$i]['D']=mysqli_result($q,$i,'D');
+		$arr_team[$i]['L']=mysqli_result($q,$i,'L');
+		$arr_team[$i]['gf']=mysqli_result($q,$i,'gf');
+		$arr_team[$i]['ga']=mysqli_result($q,$i,'ga');
 		$arr_team[$i]['gd']=$arr_team[$i]['gf']-$arr_team[$i]['ga'];
-		$arr_team[$i]['pts']=mysql_result($q,$i,'pts');
-		$arr_team[$i]['code']=mysql_result($q,$i,'code');
-		$arr_team[$i]['team_id']=mysql_result($q,$i,'team_id');	
+		$arr_team[$i]['pts']=mysqli_result($q,$i,'pts');
+		$arr_team[$i]['code']=mysqli_result($q,$i,'code');
+		$arr_team[$i]['team_id']=mysqli_result($q,$i,'team_id');	
 	}
 	$arr_team["count"]=$ro;	
 return $arr_team;
@@ -1221,8 +1277,9 @@ function compute_coefficients($o1,$oD,$o2,$total){
 			return($result);
 }
 function find_round($m){
-	$res=mysql_query("SELECT round_id FROM matches WHERE id='$m'") or die(mysql_error());
-	$round_id=mysql_result($res,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT round_id FROM matches WHERE id='$m'") or die(mysqli_error($link));
+	$round_id=mysqli_result($res,0);
 	if($round_id) return log($round_id)/log(2);	
 }
 function next_match($m,$ro){
@@ -1238,15 +1295,17 @@ function next_match($m,$ro){
 	return ($nt+$ind);
 }
 function get_current_phase(){
-	$query=mysql_query("SELECT round_id FROM matches WHERE played=0 ORDER by id") or die(mysql_error());
-	return mysql_result($query,0);
+	global $link;
+	$query=mysqli_query($link,"SELECT round_id FROM matches WHERE played=0 ORDER by id") or die(mysqli_error($link));
+	return mysqli_result($query,0);
 }
 function format_phase($m_id,$phase,$rank,$team,$code,$disp){
+	global $link;
 	//is being used by the display_matches function
 	//origin is either of the format A1:B2 or 25:26 which means winner match 25 / winner match 26
 	global $third_place_match,$sr_l;
-	$query=mysql_query("SELECT origin FROM matches WHERE id='$m_id'");
-	$or=mysql_result($query,0);
+	$query=mysqli_query($link,"SELECT origin FROM matches WHERE id='$m_id'");
+	$or=mysqli_result($query,0);
 	$ind=$rank-1;
 	$show['defined']=1;
 	if($phase==pow(2,$sr_l-1)){
@@ -1283,7 +1342,7 @@ function format_phase($m_id,$phase,$rank,$team,$code,$disp){
 			if($m_id==$third_place_match) $winn1=loser($str1);
 			else $winn1=winner($str1);
 		//get the flag code
-			$code=mysql_result(mysql_query("SELECT code FROM teams WHERE team_id='$winn1'"),0);
+			$code=mysqli_result(mysqli_query($link,"SELECT code FROM teams WHERE team_id='$winn1'"),0);
 			$show['str']=get_team_name_link($winn1,0);
 			if($disp) $show['code']=$code;
 		}
@@ -1304,9 +1363,9 @@ function submit_winners($m_id,$phase){
 	//is being used by the display_matches function
 	//is being used by the submit_matches page
 	//origin is either of the format A1:B2 or 25:26 which means winner match 25 / winner match 26
-	global $sr_l;
-	$query=mysql_query("SELECT origin FROM matches WHERE id='$m_id'");
-	$or=mysql_result($query,0);
+	global $sr_l,$link;
+	$query=mysqli_query($link,"SELECT origin FROM matches WHERE id='$m_id'");
+	$or=mysqli_result($query,0);
 	if($phase==pow(2,$sr_l-1)){
 		$str1=substr($or,0,1);
 		$str2=substr($or,3,1);
@@ -1321,7 +1380,7 @@ function submit_winners($m_id,$phase){
 		//get match number
 		$str1=substr($or,0,2);
 		$str2=substr($or,3,2);
-		if($winn1) $code=mysql_result(mysql_query("SELECT code FROM teams WHERE team_id='$winn1'"),0);
+		if($winn1) $code=mysqli_result(mysqli_query($link,"SELECT code FROM teams WHERE team_id='$winn1'"),0);
 		$show['str1']=winner($str1);
 		$show['str2']=winner($str2);
 		return $show;
@@ -1345,9 +1404,9 @@ function submit_losers($m_id,$phase){
 	//is being used by the submit_matches page
 	//currently used for the 3rd place match 
 	//origin is either of the format A1:B2 or 25:26 which means winner match 25 / winner match 26
-	global $sr_l;
-	$query=mysql_query("SELECT origin FROM matches WHERE id='$m_id'");
-	$or=mysql_result($query,0);
+	global $sr_l,$link;
+	$query=mysqli_query($link,"SELECT origin FROM matches WHERE id='$m_id'");
+	$or=mysqli_result($query,0);
 	if($phase==pow(2,$sr_l-1)){
 		$str1=substr($or,0,1);
 		$str2=substr($or,3,1);
@@ -1362,7 +1421,7 @@ function submit_losers($m_id,$phase){
 		//get match number
 		$str1=substr($or,0,2);
 		$str2=substr($or,3,2);
-		if($winn1) $code=mysql_result(mysql_query("SELECT code FROM teams WHERE team_id='$winn1'"),0);
+		if($winn1) $code=mysqli_result(mysqli_query($link,"SELECT code FROM teams WHERE team_id='$winn1'"),0);
 		$show['str1']=loser($str1);
 		$show['str2']=loser($str2);
 		return $show;
@@ -1378,17 +1437,20 @@ function display_matches($m_id,$phase,$rank,$team,$code){
 	return $str;
 }
 function get_phase($m){
-	$res=mysql_query("SELECT round_id FROM matches WHERE id='$m'") or die(mysql_error());
-	$phase= mysql_result($res,0,'round_id') ;
+	global $link;
+	$res=mysqli_query($link,"SELECT round_id FROM matches WHERE id='$m'") or die(mysqli_error());
+	$phase= mysqli_result($res,0,'round_id') ;
 	return $phase;
 }
 function get_group($m){
-	$res=mysql_query("SELECT group_name FROM teams WHERE team_id='$m'") or die(mysql_error());
-	$letter= mysql_result($res,0) ;
+	global $link;
+	$res=mysqli_query($link,"SELECT group_name FROM teams WHERE team_id='$m'") or die(mysqli_error());
+	$letter= mysqli_result($res,0) ;
 	return $letter;
 }
 function is_played($m){
-	return mysql_result(mysql_query("SELECT played FROM matches WHERE id='$m'"),0);
+	global $link;
+	return mysqli_result(mysqli_query($link,"SELECT played FROM matches WHERE id='$m'"),0);
 }
 function is_being_played($m){
     if(!still_time($m)&&!is_played($m)) $s=1;
@@ -1396,9 +1458,12 @@ function is_being_played($m){
     return $s;
 }
 function get_team_name($id){
+	global $link;
 	if($id) {
-		$res=mysql_query("SELECT trans FROM teams WHERE team_id='$id'");
-		$res2=get_team_translation(mysql_result($res,0,'trans'));
+		
+		mysqli_query($link,"SET NAMES 'utf8'");
+		$res=mysqli_query($link,"SELECT trans FROM teams WHERE team_id='$id'");
+		$res2=get_team_translation(mysqli_result($res,0,'trans'));
 		return $res2;
 	}
 }
@@ -1416,33 +1481,33 @@ function get_team_name_link_nobold($id){
 	return($str);
 }
 function get_team_translation($trans){
-global $language;
+global $language,$link;
 	$lang='word_'.$language;
 	$name='';
 	if($language) {
 		$query="SELECT ".$lang." FROM language where id='$trans'";
 //		echo $query;
-		$res=mysql_query($query) or die(mysql_error());
-		if(mysql_num_rows($res)) $name= mysql_result($res,0,0); 
+		$res=mysqli_query($link,$query) or die(mysqli_error($link));
+		if(mysqli_num_rows($res)) $name= mysqli_result($res,0,0); 
 		else $name='translation error';
 	}
 	return ($name);
 }
 function get_team($group,$pos){
-		
+		global $link;
 	if(($pos==1)||($pos==2)) {
-		$res=mysql_query("SELECT team_id FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysql_error());
-		$team=mysql_result($res,0);
+		$res=mysqli_query($link,"SELECT team_id FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysqli_error());
+		$team=mysqli_result($res,0);
 	}
 	if($pos==3) $team=find_best_third($group);
 	return $team;
 }
 function find_best_third($group){
-	global $big_euro_3rd_place;
+	global $big_euro_3rd_place,$link;
 	$temp=array("A"=>0,"B"=>1,"C"=>2,"D"=>3);
 
 	//collect teams in 3rd place
-	$result=mysql_query("SELECT group_name FROM teams WHERE current_pos=3 ORDER by pts DESC,(gf-ga) DESC,gf DESC") or die(mysql_error);
+	$result=mysqli_query($link,"SELECT group_name FROM teams WHERE current_pos=3 ORDER by pts DESC,(gf-ga) DESC,gf DESC") or die(mysqli_error);
 	while($row=mysql_fetch_array($result,MYSQL_NUM)){
 		if(strlen($combo)<4) $combo=$combo.$row[0];
 	}
@@ -1450,8 +1515,8 @@ function find_best_third($group){
 	$combo=sort_string($combo); //sort the groups in alphabetical order, like BCDF
 	//print_r($combo);
 	$ind=$big_euro_3rd_place[$combo][$temp[$group]]; // find the group that contains the 3rd that is qualified
-	$team=mysql_query("SELECT team_id FROM teams WHERE current_pos=3 and group_name='$ind'") or die(mysql_error);
-	$team_id=mysql_result($team,0);
+	$team=mysqli_query($link,"SELECT team_id FROM teams WHERE current_pos=3 and group_name='$ind'") or die(mysqli_error);
+	$team_id=mysqli_result($team,0);
 	return $team_id;
 
 	//
@@ -1463,38 +1528,42 @@ function sort_string($string){
 
 }
 function get_code($group,$pos){
+	global $link;
 		
-	$res=mysql_query("SELECT code FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysql_error());
-	return mysql_result($res,0,'code');
+	$res=mysqli_query($link,"SELECT code FROM teams WHERE group_name='$group' AND current_pos='$pos'") or die(mysqli_error());
+	return mysqli_result($res,0,'code');
 }
 function group_over($group){
-	$res=mysql_query("SELECT over FROM groups WHERE letter='$group'");
-	if(mysql_num_rows($res)) return mysql_result($res,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT over FROM groups WHERE letter='$group'");
+	if(mysqli_num_rows($res)) return mysqli_result($res,0);
 }
 //function last_match(){
 
-//	return mysql_result(mysql_query("SELECT id FROM matches WHERE id='$last_match'"),0);
+//	return mysqli_result(mysqli_query($link,"SELECT id FROM matches WHERE id='$last_match'"),0);
 //}
 function set_winner($team){
-	mysql_query("UPDATE teams SET winner=1 WHERE team_id='$team'") or die(mysql_error());
+	global $link;
+	mysqli_query($link,"UPDATE teams SET winner=1 WHERE team_id='$team'") or die(mysqli_error());
 }
 
 function get_picked_winner($login_id){
+	global $link;
 	$query="SELECT winner FROM users WHERE id='$login_id'";
-	$res=mysql_query($query) or die(mysql_error());
+	$res=mysqli_query($link,$query) or die(mysqli_error($link));
 
-	return mysql_result($res,0);
+	return mysqli_result($res,0);
 }
 
 function get_remaining_weights($login_id,$totalw,$m_id){
 	
-	global $max_points_per_match;
+	global $max_points_per_match,$link;
 	if(!$m_id){
-		$res=mysql_query("SELECT sum(bets.weight) FROM bets,matches WHERE bets.player_id='$login_id' AND matches.id=bets.match_id AND matches.played=1") or die(mysql_error());
-		$rem_w=mysql_result($res,0);
+		$res=mysqli_query($link,"SELECT sum(bets.weight) FROM bets,matches WHERE bets.player_id='$login_id' AND matches.id=bets.match_id AND matches.played=1") or die(mysqli_error());
+		$rem_w=mysqli_result($res,0);
 	
-		$res2=mysql_query("SELECT count(*) FROM matches where played=0");
-		$tp=mysql_result($res2,0);
+		$res2=mysqli_query($link,"SELECT count(*) FROM matches where played=0");
+		$tp=mysqli_result($res2,0);
 	
 		$mp=$max_points_per_match*$tp;	
 		$rem=min($mp,$totalw-$rem_w);
@@ -1502,50 +1571,53 @@ function get_remaining_weights($login_id,$totalw,$m_id){
 		return($rem);
 		}
 	else {
-		$res=mysql_query("SELECT sum(bets.weight) FROM bets,matches WHERE bets.player_id='$login_id' AND matches.id=bets.match_id") or die(mysql_error());
-		$rem_w=mysql_result($res,0);
+		$res=mysqli_query($link,"SELECT sum(bets.weight) FROM bets,matches WHERE bets.player_id='$login_id' AND matches.id=bets.match_id") or die(mysqli_error());
+		$rem_w=mysqli_result($res,0);
 		
-		$tm=mysql_result(mysql_query("SELECT count(*) FROM matches"),0);
+		$tm=mysqli_result(mysqli_query($link,"SELECT count(*) FROM matches"),0);
 		//return($totalw);
 		$rem_1=num_unbet_matches($login_id,$tm);	
 		return($totalw-$rem_w-$rem_1);	
 	}
 }
 function get_weight($login_id,$m_id){
-	$res=mysql_query("SELECT weight FROM bets where player_id='$login_id' AND match_id='$m_id'");
-	if(mysql_num_rows($res)) $weight=mysql_result($res,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT weight FROM bets where player_id='$login_id' AND match_id='$m_id'");
+	if(mysqli_num_rows($res)) $weight=mysqli_result($res,0);
 	else $weight=0;
 	return $weight;
 }
 function check_bets($p_id){
-	
-	$res=mysql_query("SELECT id FROM matches WHERE played=1");
-	$num_played=mysql_num_rows($res);
+	global $link;
+	$res=mysqli_query($link,"SELECT id FROM matches WHERE played=1");
+	$num_played=mysqli_num_rows($res);
 	for($i=0;$i<$num_played;$i++){
-		$m_id=mysql_result($res,$i,'id');
+		$m_id=mysqli_result($res,$i,'id');
 		$weight=get_weight($p_id,$m_id);
-		if(!$weight) mysql_query("INSERT INTO bets SET player_id='$p_id',match_id='$m_id',weight='1',pick='0'");
+		if(!$weight) mysqli_query($link,"INSERT INTO bets SET player_id='$p_id',match_id='$m_id',weight='1',pick='0'");
 	}
 }
 function matches_played(){
-
-	$res=mysql_query("SELECT count(*) FROM matches WHERE played=1");
-	if($res) return mysql_result($res,0);
+global $link;
+	$res=mysqli_query($link,"SELECT count(*) FROM matches WHERE played=1");
+	if($res) return mysqli_result($res,0);
 	else return 0;
 }
 function num_unbet_matches($login_id,$tot){
-		$res1=mysql_query("SELECT count(*) FROM matches,bets WHERE bets.player_id='$login_id' AND matches.id=bets.match_id") or die(mysql_error());
-		$bet=mysql_result($res1,0);
+	global $link;
+		$res1=mysqli_query($link,"SELECT count(*) FROM matches,bets WHERE bets.player_id='$login_id' AND matches.id=bets.match_id") or die(mysqli_error());
+		$bet=mysqli_result($res1,0);
 		$rem_1=$tot-$bet;
 		return $rem_1;
 }
 function is_new($login_id,$match_id){
-	$res=mysql_query("SELECT bet_id FROM bets WHERE match_id='$match_id' AND player_id='$login_id'");
-        if(mysql_num_rows($res)) return 0;
+	global $link;
+	$res=mysqli_query($link,"SELECT bet_id FROM bets WHERE match_id='$match_id' AND player_id='$login_id'");
+        if(mysqli_num_rows($res)) return 0;
 	else return 1;	
 }
 function display_drop_down_scorer($top){
-	
+	global $link;
 	echo "<table><tr><td>";
 	echo "<font color='red'>Top scorer:</font>    team";
 	echo "</td>\n";
@@ -1553,21 +1625,21 @@ function display_drop_down_scorer($top){
 	//check whether there is a top scorer
 	if ($top) {
 		//look for his team_id
-		$te=mysql_query("SELECT * FROM players WHERE id='$top'");
-		$cts=mysql_result($te,0,'id');
-		$team_ts=mysql_result($te,0,'team_id');
+		$te=mysqli_query($link,"SELECT * FROM players WHERE id='$top'");
+		$cts=mysqli_result($te,0,'id');
+		$team_ts=mysqli_result($te,0,'team_id');
 	}
 	echo "<select name='top_sc' size='1' onChange='redirect(this.options.selectedIndex)'>";
 	 
 	$query="SELECT * FROM teams ORDER BY team_name";
-	$res=mysql_query($query);
-	$num_teams=mysql_num_rows($res);
+	$res=mysqli_query($link,$query);
+	$num_teams=mysqli_num_rows($res);
 	//echo "num:$num_teams;";
 	//echo "fr:$first_code";
 
 	for($i=0;$i<$num_teams;$i++){
-		$team_name[$i]=mysql_result($res,$i,'team_name');
-		$team_id[$i]=mysql_result($res,$i,'team_id');
+		$team_name[$i]=mysqli_result($res,$i,'team_name');
+		$team_id[$i]=mysqli_result($res,$i,'team_id');
 		echo "<option ".($team_ts==$team_id[$i]?'selected':'')." value=1>".(get_team_name($team_id[$i]))."</option>\n";
 	}
 
@@ -1578,17 +1650,17 @@ function display_drop_down_scorer($top){
 	//if there is a top scorer, display it
 
 	if ($top) $first_id=$team_ts;
-	else $first_id=mysql_result($res,0,'id');
+	else $first_id=mysqli_result($res,0,'id');
 
 
 	$query="SELECT * FROM players WHERE team_id='$first_id' ORDER BY substring_index(TRIM(name), ' ', -1) ";
-	$resa=mysql_query($query);
-	$num_players=mysql_num_rows($resa);
+	$resa=mysqli_query($link,$query);
+	$num_players=mysqli_num_rows($resa);
 
 
 	for($i=0;$i<$num_players;$i++){
-		$player_name=mysql_result($resa,$i,'name');
-		$player_id=mysql_result($resa,$i,'id');
+		$player_name=mysqli_result($resa,$i,'name');
+		$player_id=mysqli_result($resa,$i,'id');
 		echo "<option ".($player_id==$top?"selected":"")." value='$player_id'>".($player_name)."</option>\n";
 	}
 	echo "\n</select>\n";
@@ -1596,17 +1668,19 @@ function display_drop_down_scorer($top){
 }
 
 function find_scorer($login_id){
-	$res=mysql_query("SELECT top_scorer FROM users WHERE id='$login_id'");
-	$top_id=mysql_result($res,0);
-	$res2=mysql_query("SELECT name FROM players WHERE id='$top_id'");
-	if(mysql_num_rows($res2)) return mysql_result($res2,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT top_scorer FROM users WHERE id='$login_id'");
+	$top_id=mysqli_result($res,0);
+	$res2=mysqli_query($link,"SELECT name FROM players WHERE id='$top_id'");
+	if(mysqli_num_rows($res2)) return mysqli_result($res2,0);
 	else return 0;
 }
 function find_winner_bet($login_id){
-	$res=mysql_query("SELECT winner FROM users WHERE id='$login_id'");
-	$top_id=mysql_result($res,0);
-	$res2=mysql_query("SELECT team_name FROM teams WHERE team_id='$top_id'");
-	if(mysql_num_rows($res2)) return mysql_result($res2,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT winner FROM users WHERE id='$login_id'");
+	$top_id=mysqli_result($res,0);
+	$res2=mysqli_query($link,"SELECT team_name FROM teams WHERE team_id='$top_id'");
+	if(mysqli_num_rows($res2)) return mysqli_result($res2,0);
 	else return 0;
 }
 function check_forum(){
@@ -1619,7 +1693,7 @@ function check_forum(){
 
 }
 function make_forum_link($arr,$text,$selected){
-
+$str="";
 	$res=count(array_intersect($arr,$selected));
 //	print_r($res);
 	if($res==count($arr)) $class="class='boldf'";
@@ -1646,6 +1720,7 @@ function admin_links($login_id){
 		echo "<li><a href='list_translations.php' style='color:gray;'>List translations</a></li>";
 		echo "<li><a href='mark_top_scorer_adm.php' style='color:gray;'>Enter top scorer</a></li>";
 		echo "<li><a href='list_bet_times.php' style='color:gray;'>Bet times</a></li>";
+		echo "<li><a href='enter_schedule.php' style='color:gray;'>Enter schedule</a></li>";
 	//	echo "<li><a href='set_pot_race.php' style='color:gray;'>Pot race</a></li>";
 		//echo "<li><a href='set_team_players_list_flag.php' style='color:gray;'>Team players list flag</a></li>";
 		}
@@ -1661,39 +1736,42 @@ if (($login_id==$pot_admin)||($login_id==$site_admin)) {
 
 }
 function get_username($id){
+	global $link;
 	if($id){
-	$res=mysql_query("SELECT username FROM users WHERE id='$id'");
-	return mysql_result($res,0);
+	$res=mysqli_query($link,"SELECT username FROM users WHERE id='$id'");
+	return mysqli_result($res,0);
 	}
 }
 function get_nick($id){
-	$res=mysql_query("SELECT nickname FROM users WHERE id='$id'");
-	return mysql_result($res,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT nickname FROM users WHERE id='$id'");
+	return mysqli_result($res,0);
 }
 function update_last_login($id){
-
-      $sql = mysql_query("UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$id'") or die (mysql_error());
+global $link;
+      $sql = mysqli_query($link,"UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$id'") or die (mysqli_error());
 }
 
 function get_random_profile($login_id){
-	
-	$sql=mysql_query("SELECT id,nickname FROM users WHERE player=1 and id<>'$login_id'");
-	$num=mysql_num_rows($sql);
+	global $link;
+	$sql=mysqli_query($link,"SELECT id,nickname FROM users WHERE player=1 and id<>'$login_id'");
+	$num=mysqli_num_rows($sql);
 	$ran=rand(0,$num-1);
-	$res['id']=mysql_result($sql,$ran,'id');
-	$res['nick']=mysql_result($sql,$ran,'nickname');
+	$res['id']=mysqli_result($sql,$ran,'id');
+	$res['nick']=mysqli_result($sql,$ran,'nickname');
 
 	return $res;
 }
 function display_bet_history($id){
-
-	$hist=mysql_query("SELECT * FROM matches ORDER by id ASC");
+	global $link;
+	$hist1=array();
+	$hist=mysqli_query($link,"SELECT * FROM matches ORDER by id ASC");
 	
-	$num_m=mysql_num_rows($hist);
+	$num_m=mysqli_num_rows($hist);
 	$total=get_total_players();
 	for($i=0;$i<$num_m;$i++){
 	
-		$m_id=mysql_result($hist,$i,'id');
+		$m_id=mysqli_result($hist,$i,'id');
 		if(is_played($m_id)||is_being_played($m_id)) {
 			$arr=get_match_details($m_id,$id);
 	//	echo $arr["team1"]." - ".$arr["team2"]." : ".bet_result($arr["pick"],$arr["goals1"],$arr["goals2"])."<br/>";		
@@ -1711,28 +1789,32 @@ function display_bet_history($id){
 		
 		}
 	}
+
 	if($num_m) return $hist1;
 	else return 0;
 }
 function bet_money($login_id){
-	$res=mysql_query("SELECT bet_money FROM users WHERE id='$login_id'");
-	return mysql_result($res,0);
+	global $link;
+	$res=mysqli_query($link,"SELECT bet_money FROM users WHERE id='$login_id'");
+	return mysqli_result($res,0);
 }
 function find_scorer_name($top_id){
+	global $link;
 
-	$res2=mysql_query("SELECT name FROM players WHERE id='$top_id'");
-	if(mysql_num_rows($res2)) return mysql_result($res2,0);
+	$res2=mysqli_query($link,"SELECT name FROM players WHERE id='$top_id'");
+	if(mysqli_num_rows($res2)) return mysqli_result($res2,0);
 }
 function drop_down_contact($contact){
-	$res=mysql_query("SELECT id,first_name,last_name from users WHERE player='1' ORDER by first_name") or die(mysql_error());
-	$num=mysql_num_rows($res);
+	global $link;
+	$res=mysqli_query($link,"SELECT id,first_name,last_name from users WHERE player='1' ORDER by first_name") or die(mysqli_error());
+	$num=mysqli_num_rows($res);
 	echo "<tr><td>";
 	echo "Contact</td><td>\n";
 	echo "<select name='contact'>\n";
 	for ($i=0;$i<$num;$i++){
-		$id=mysql_result($res,$i,'id');
-		$first_name=mysql_result($res,$i,'first_name');
-		$last_name=mysql_result($res,$i,'last_name');
+		$id=mysqli_result($res,$i,'id');
+		$first_name=mysqli_result($res,$i,'first_name');
+		$last_name=mysqli_result($res,$i,'last_name');
 		$name=$first_name." ".$last_name;
 		echo "<option  value='$id' ".($id==$contact?"selected":"").">".$name."</option>\n";
 	}
@@ -1742,14 +1824,14 @@ function drop_down_contact($contact){
 function parent_chain($id){
 //creates an array consisting of all the contacts
 //..until the admin_id contact, who is connected to all users ultimately
-global $admin_id;
+global $admin_id,$link;
 $stack=array();
 $stack[]=$id;
 //loop until it finds the admin_id
 do {
 	$query="SELECT contact FROM users WHERE id='$id' and player='1'";
-	$res=mysql_query($query) or die(mysql_error());
-	if($res) $id=mysql_result($res,0);
+	$res=mysqli_query($link,$query) or die(mysqli_error($link));
+	if($res) $id=mysqli_result($res,0);
 	array_push($stack,$id);
 } while ($id!=$admin_id);
 
@@ -1796,13 +1878,13 @@ global $language_array;
 return $word;
 }
 function get_word_array($word_id){
-global $language_array;
+global $language_array,$link;
 
 	if ($word_id) {
-		$res=mysql_query("SELECT * FROM language WHERE id='$word_id'");
+		$res=mysqli_query($link,"SELECT * FROM language WHERE id='$word_id'");
 		for($i=0;$i<sizeof($language_array);$i++){
 			$lan="word_".$language_array[$i];
-			$arr[$i]=mysql_result($res,0,$lan);
+			$arr[$i]=mysqli_result($res,0,$lan);
 		}
 
 	}
@@ -1810,29 +1892,32 @@ return $arr;
 }
 function get_word($language,$english_word) {
 //gets a word according to the set language session variable ; based on the english word
+global $link;
 	$la_q="SELECT word_".$language." FROM language WHERE LOWER(word_en) LIKE LOWER(\"".$english_word."\")";
 	//echo $la_q;
-	$la=mysql_query($la_q) or die(mysql_error());
+	$la=mysqli_query($link,$la_q) or die(mysqli_error($link));
 /*	
 	if($english_word=="all recipes") {
 		echo $la_q;
 		exit;
 	}
 */
-	if(mysql_num_rows($la)) $result=mysql_result($la,0,0);
+	if(mysqli_num_rows($la)) $result=mysqli_result($la,0,0);
 	if($result!="") return ($result);
 	else return $english_word;
 	
 }
 function get_word_by_id($id) {
 //gets a word according to the set language session variable ; based on the english word
-global $language;
+global $language,$link;
 	$la_q="SELECT word_".$language." FROM language WHERE id='$id' ";
-	//$la_q="SELECT word_en FROM language WHERE id='$id' ";
+$result="";
+$english_word="";
+//$la_q="SELECT word_en FROM language WHERE id='$id' ";
 	//echo $la_q;
-	mysql_query("SET NAMES 'utf8'");
-	$la=mysql_query($la_q) or die(mysql_error());
-	if(mysql_num_rows($la)) $result=mysql_result($la,0,0);
+	mysqli_query($link,"SET NAMES 'utf8'");
+	$la=mysqli_query($link,$la_q) or die(mysqli_error($link));
+	if(mysqli_num_rows($la)) $result=mysqli_result($la,0,0);
 	$result=str_replace("?","&#337;",$result);
 	if($result!="") return $result;
 	else return $english_word;
@@ -1855,7 +1940,8 @@ global $cookie_life,$session_n,$language_locale;
 	//setlocale(LC_ALL,$language_locale[$lan]);
 }
 function sqlutf(){
-	mysql_query("SET NAMES utf8");
+	global $link;
+	mysqli_query($link,"SET NAMES utf8");
 }
 function setloc(){
 global $language;
@@ -1870,19 +1956,22 @@ global $language;
 return $loc;	
 }
 function display_connected_users($login_id,$min){
+	global $link;
 if(is_admin($login_id)){
 	echo "connected: ";
-	$res=mysql_query("SELECT id,username FROM users WHERE DATE_SUB(NOW(),INTERVAL $min MINUTE)< last_log AND player=1 ORDER BY last_log desc") or die(mysql_error());
-	$num=mysql_num_rows($res);	
+	$res=mysqli_query($link,"SELECT id,username FROM users WHERE DATE_SUB(NOW(),INTERVAL $min MINUTE)< last_log AND player=1 ORDER BY last_log desc") or die(mysqli_error($link));
+	$num=mysqli_num_rows($res);	
 	if(is_admin($login_id)) echo "$num - ";
 	for($i=0;$i<$num;$i++){
-		if(!is_admin(mysql_result($res,$i,'id'))) echo mysql_result($res,$i,'username').", ";
+		if(!is_admin(mysqli_result($res,$i,'id'))) echo mysqli_result($res,$i,'username').", ";
 	}
 }
 	
 }
 function get_country_code($winner){
-global $DB;
+	global $link;
+	global $DB;
+	$code="";
 if($winner) {
 	$query="SELECT code FROM teams WHERE team_id=$winner";
 	$code=$DB::qry($query,3);
@@ -1901,26 +1990,27 @@ href='css/".$link."' />";
 }
 
 function get_ranking($id){
+	global $link;
 	if($id){
 	$query="SELECT current_ranking from users where id='$id'";
-	$res=mysql_query($query) or die(mysql_error());
-	$rank=mysql_result($res,0,'current_ranking');
+	$res=mysqli_query($link,$query) or die(mysqli_error());
+	$rank=mysqli_result($res,0,'current_ranking');
 	}
 return $rank;
 }
 
 function compute_bonus($login_id){	
-global $bonus_scorer,$bonus_final_winner;
+global $bonus_scorer,$bonus_final_winner,$link;
 
-	$fwq=mysql_query("select top_scorer,winner FROM users where id='$login_id'");
-	$topsc=mysql_result($fwq,0,'top_scorer');
-	$fw=mysql_result($fwq,0,'winner');
+	$fwq=mysqli_query($link,"select top_scorer,winner FROM users where id='$login_id'");
+	$topsc=mysqli_result($fwq,0,'top_scorer');
+	$fw=mysqli_result($fwq,0,'winner');
 //bonus scorer
-	$res=mysql_query("select * from players where top=1");
-	$num=mysql_num_rows($res);
+	$res=mysqli_query($link,"select * from players where top=1");
+	$num=mysqli_num_rows($res);
 	if($num){
 		for($i=0;$i<$num;$i++){
-			$cur=mysql_result($res,$i,'id');
+			$cur=mysqli_result($res,$i,'id');
 			if($cur==$topsc) $flag_scorer=1;
 		}		
 	}
@@ -1928,8 +2018,8 @@ global $bonus_scorer,$bonus_final_winner;
 
 //bonus final winner
 
-	$wq=mysql_query("select team_id from teams where winner=1");
-	$winner=mysql_result($wq,0,'team_id');
+	$wq=mysqli_query($link,"select team_id from teams where winner=1");
+	$winner=mysqli_result($wq,0,'team_id');
 	
 	if($fw==$winner) $bonus+=$bonus_final_winner;
 
@@ -1940,18 +2030,18 @@ return $bonus;
 	
 }
 function display_top_scorers() {
-	
+	global $link;
 	echo "<div id='display_top_scorers'>\n";	
-	$query=mysql_query("select * from matches where played=0") or die(mysql_error());
-	$num=mysql_num_rows($query);
+	$query=mysqli_query($link,"select * from matches where played=0") or die(mysqli_error());
+	$num=mysqli_num_rows($query);
 	if($num<3){
-		$res=mysql_query("select name from players where top=1");
-		$numsc=mysql_num_rows($res);
+		$res=mysqli_query($link,"select name from players where top=1");
+		$numsc=mysqli_num_rows($res);
 		if($num) $str="current";
 		else $str="final";
 		echo $str." top scorers: ";
 		for($i=0;$i<$numsc;$i++){
-			echo ($i?", ":"").mysql_result($res,$i,'name')."";
+			echo ($i?", ":"").mysqli_result($res,$i,'name')."";
 		}	
 	}
 	echo "<br/>(bonuses will be counted after the final)\n";
@@ -2013,21 +2103,21 @@ function show_gain($m_id,$login_id){
 	$total=get_total_players();
 	$coef=compute_coefficients($arr['odds1'],$arr['oddsD'],$arr['odds2'],$total);
 	$pick_index=$arr['pick']-1;
-	echo "".f_pick($arr["pick"],$arr["code1"],$arr["code2"])."&nbsp;".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".round($mult*$coef[$pick_index],2)."&nbsp;<img src='img/icon_smile.gif' style='margin-bottom:-3px;'/>":"")."\n";
+	echo "".f_pick($arr["pick"],$arr["code1"],$arr["code2"])."&nbsp;".(bet_result($arr["pick"],$arr['goals1'],$arr['goals2'])?"+".cap_odds(round($mult*$coef[$pick_index],2))."&nbsp;<img src='img/icon_smile.gif' style='margin-bottom:-3px;'/>":"")."\n";
 	
 }
 
 function graph_link($group_id,$type=0){
-
-	$query=mysql_query("SELECT member FROM usergroups WHERE user_id='$group_id'");
-	$num=mysql_num_rows($query);
+global $link;
+	$query=mysqli_query($link,"SELECT member FROM usergroups WHERE user_id='$group_id'");
+	$num=mysqli_num_rows($query);
 	$str="";
 	$key="key";
 	$flag=0;
 	if(($num==0)||$type) $str="key".$group_id."=".$group_id;
 	else {
 		for($i=0;$i<$num;$i++){
-			$id=mysql_result($query,$i,'member');
+			$id=mysqli_result($query,$i,'member');
 			$str.=($flag?"&":"").$key.$id."=".$id;
 			$flag=1;
 		}
@@ -2037,7 +2127,8 @@ function graph_link($group_id,$type=0){
 }
 
 function get_team_code($id){
-		$code=mysql_result(mysql_query("SELECT code FROM teams WHERE team_id='$id'"),0);
+	global $link;
+		$code=mysqli_result(mysqli_query($link,"SELECT code FROM teams WHERE team_id='$id'"),0);
 		return($code);
 }
 

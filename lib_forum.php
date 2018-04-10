@@ -3,7 +3,7 @@
 function display_threads($min,$sort){
 
 	$active=find_active_threads($min,$sort);
-	$num=mysql_num_rows($active);
+	$num=mysqli_num_rows($active);
 	if(!$num) return;
 	//echo "num:$num";
 	while($row=mysql_fetch_array($active)){
@@ -15,6 +15,7 @@ function display_threads($min,$sort){
 
 function display_threads_flat($min,$sort){
 global $archive_forum;
+	global $link;
 //	echo "brazil:$min";
 if($min){
 	if($min==$archive_forum){ 
@@ -32,16 +33,16 @@ else {
 
 }
 	$forum_query="SELECT * FROM forum ".$all.$limit."ORDER BY id $sort";
-	$m_sql=mysql_query($forum_query) or die(mysql_error());
+	$m_sql=mysqli_query($link,$forum_query) or mysqli_error($link);
 	//echo "query:$forum_query";
-	$num_rows=mysql_num_rows($m_sql);
+	$num_rows=mysqli_num_rows($m_sql);
 	for($i=0;$i<$num_rows;$i++){
 	//display_main_thread_flat($row['id'],$row['title'],0,$min);
-		$row_id=mysql_result($m_sql,$i,'id');
-		$row_last_mod=mysql_result($m_sql,$i,'last_mod');
-		$row_thread=mysql_result($m_sql,$i,'thread');
-		$row_user_id=mysql_result($m_sql,$i,'user_id');
-		$row_user_name=mysql_result($m_sql,$i,'user_name');
+		$row_id=mysqli_result($m_sql,$i,'id');
+		$row_last_mod=mysqli_result($m_sql,$i,'last_mod');
+		$row_thread=mysqli_result($m_sql,$i,'thread');
+		$row_user_id=mysqli_result($m_sql,$i,'user_id');
+		$row_user_name=mysqli_result($m_sql,$i,'user_name');
 		$parent_thread=find_parent_thread($row_id);
 		$str_post_date=format_date($row_last_mod);
 		$div_bold="<div class='forum_content_new dont-break-out'>\n";
@@ -53,12 +54,12 @@ else {
 			$re="Re: ";
 		}
 		//get parent title & author
-		$result=mysql_query("SELECT title,user_name FROM forum WHERE id='$parent_thread'") or die(mysql_error());
-		$thread_title=mysql_result($result,0,'title');
-		$thread_author=mysql_result($result,0,'user_name');
+		$result=mysqli_query($link,"SELECT title,user_name FROM forum WHERE id='$parent_thread'") or mysqli_error($link);
+		$thread_title=mysqli_result($result,0,'title');
+		$thread_author=mysqli_result($result,0,'user_name');
 		
 		echo "<div id='t_".$row_id."' name='titles_".$row_id."' class='forum_title' style='margin-top:18px;'>\n";
-		//" (".mysql_result($m_sql,0,'user_name').")";
+		//" (".mysqli_result($m_sql,0,'user_name').")";
 		//($new_items?", $new_items new":"").
 		echo " -- <div class='post_date_flat'>".$str_post_date."</div>";
 			//($parent_thread!=$row_id?"":get_word_by_id(107))." "
@@ -68,7 +69,7 @@ else {
 		echo "<div  name='contents_".$row_id."' class='forum_content_flat'>\n";
 		echo "<div class='$bold_class'>$re $thread_title </div>"; 
 		echo "[<a href='player_profile.php?id=".$row_user_id."'>".$row_user_name."</a>] \n";
-		$conttt=mysql_result($m_sql,$i,'content');
+		$conttt=mysqli_result($m_sql,$i,'content');
 		$conttt=str_replace('+',"&#43;",$conttt);
 		$conttt=str_replace('-',"&#45;",$conttt);
 		$conttt=str_replace('"',"&#34;",$conttt);
@@ -90,9 +91,10 @@ else {
 
 
 function find_parent_thread($id){
+	global $link;
 
-	$sql=mysql_query("SELECT thread FROM forum WHERE id='$id'") or die(mysql_error());
-	$thread=mysql_result($sql,0);
+	$sql=mysqli_query($link,"SELECT thread FROM forum WHERE id='$id'") or mysqli_error($link);
+	$thread=mysqli_result($sql,0);
 	if($thread==0) return($id);
 	else {
 		return find_parent_thread($thread);
@@ -105,6 +107,7 @@ function load_post($t_id){
 
 function find_active_threads($min,$sort){
 	global $archive_forum;
+	global $link;
 if($min){
 	if($min==$archive_forum){ 
 		$brazil = " < ";
@@ -122,34 +125,36 @@ else {
 }
 	$thread_query="SELECT id,content,title FROM forum ".$all.$limit." AND thread='0' ORDER BY id $sort";
 //	echo 'thread_query:'.$thread_query;
-	$m_sql=mysql_query($thread_query) or die(mysql_error());
+	$m_sql=mysqli_query($link,$thread_query) or mysqli_error($link);
 	return($m_sql);
 }
 function find_active_threads_old($min,$sort){
 	global $archive_forum;
+	global $link;
 	if($min==$archive_forum) {
 		$brazil=" DATE_SUB(NOW(),INTERVAL 500000 MINUTE) > last_mod AND";	
 	}
 	else $brazil="";
 	if($min!=0) $length=" DATE_SUB(NOW(),INTERVAL $min MINUTE) < last_mod AND";
 	else $length="";
-	$sql=mysql_query("SELECT id,content,title FROM forum WHERE".$brazil.$length." thread='0' ORDER BY last_mod $sort") or die(mysql_error());	
+	$sql=mysqli_query($link,"SELECT id,content,title FROM forum WHERE".$brazil.$length." thread='0' ORDER BY last_mod $sort") or mysqli_error($link);	
 	return($sql);
 }
 
 function display_main_thread($t_id,$title,$root,$min){
-	$m_sql=mysql_query("SELECT * FROM forum WHERE id='$t_id'") or die(mysql_error());
-	if($m_sql) $num_threads=mysql_num_rows($m_sql);
+	global $link;
+	$m_sql=mysqli_query($link,"SELECT * FROM forum WHERE id='$t_id'") or mysqli_error($link);
+	if($m_sql) $num_threads=mysqli_num_rows($m_sql);
 	else $num_threads=0;
 	//echo "<ul>\n";
-	$par_id=mysql_result($m_sql,0,'thread');
+	$par_id=mysqli_result($m_sql,0,'thread');
 	//count new items
 	$new_items=count_new_items($t_id,$min,0);
 //	if(!$par_id) $new_items--;
 	//find out whether it's new
 	$new=is_post_new($t_id,$min);
 	//display date
-	$post_date=mysql_result($m_sql,0,'last_mod');
+	$post_date=mysqli_result($m_sql,0,'last_mod');
 	$str_post_date=format_date($post_date);
 	if(!$par_id||$new||$new_items) $class_js="expanded";
 	else $class_js="trigger";
@@ -163,12 +168,12 @@ function display_main_thread($t_id,$title,$root,$min){
 		$div_bold_end="</div>";
 	}
 	//if it's a main thread, put a frame
-	$username=mysql_result($m_sql,0,'user_name');
-	$userid=mysql_result($m_sql,0,'user_id');
+	$username=mysqli_result($m_sql,0,'user_name');
+	$userid=mysqli_result($m_sql,0,'user_id');
 	if(!$par_id)echo "<div style='margin-bottom:15px;line-height:2em;'>\n";	
 	echo "<div id='t_$t_id' name='titles_$t_id' class='$class_js reply_div'>\n";
 	echo ($root?"Re:":"<span class='forum_thread_title'>".$title."</span>");
-	//" (".mysql_result($m_sql,0,'user_name').")";
+	//" (".mysqli_result($m_sql,0,'user_name').")";
 	//($new_items?", $new_items new":"").
 	echo " -- <div class='post_date'>".($par_id?"":get_word_by_id(107))." ".$str_post_date."</div>";
 	echo "</div>\n";
@@ -177,7 +182,7 @@ function display_main_thread($t_id,$title,$root,$min){
 	echo "<div  name='contents_$t_id' class='forum_content'>\n";
 	echo $div_bold;
 	echo "[<a href='player_profile.php?id=$userid'>$username</a>] \n";
-	$conttt=mysql_result($m_sql,0,'content');
+	$conttt=mysqli_result($m_sql,0,'content');
 	$conttt=str_replace('+',"&#43;",$conttt);
 	$conttt=str_replace('-',"&#45;",$conttt);
 	$conttt=str_replace('"',"&#34;",$conttt);
@@ -186,14 +191,14 @@ function display_main_thread($t_id,$title,$root,$min){
 	
 	echo urldecode(nl2br($conttt));
 	echo $div_bold_end;
-	$id=mysql_result($m_sql,0,'id');
+	$id=mysqli_result($m_sql,0,'id');
 	//display actions linked to the post
 	display_options($par_id,$id);
-	$sql=mysql_query("SELECT * FROM forum WHERE thread='$t_id'") or die(mysql_error());
-	$num_threads=mysql_num_rows($sql);
+	$sql=mysqli_query($link,"SELECT * FROM forum WHERE thread='$t_id'") or mysqli_error($link);
+	$num_threads=mysqli_num_rows($sql);
 	if($num_threads) {
 		for($i=0;$i<$num_threads;$i++) {	
-			$id=mysql_result($sql,$i,'id');
+			$id=mysqli_result($sql,$i,'id');
 			echo "<div>\n";
 			 display_main_thread($id,$title,1,$min);
 			echo "</div>\n";
@@ -283,29 +288,31 @@ require_once("dbcontroller.php");
 	echo "</div>\n";
 }
 function update_thread_timestamp($id){
+	global $link;
 
 	if($id) {
-		$t_id=mysql_result(mysql_query("SELECT thread FROM forum WHERE id='$id'"),0);
+		$t_id=mysqli_result(mysqli_query($link,"SELECT thread FROM forum WHERE id='$id'"),0);
 		if($t_id<>'0') {
-			//mysql_query("UPDATE forum SET mo='1' WHERE id='$id'") or die(mysql_error());
+			//mysqli_query($link,"UPDATE forum SET mo='1' WHERE id='$id'") or mysqli_error($link);
 			update_thread_timestamp($t_id);
 			}
-		else mysql_query("UPDATE forum SET mo=mo+1 WHERE id='$id'") or die(mysql_error());
+		else mysqli_query($link,"UPDATE forum SET mo=mo+1 WHERE id='$id'") or mysqli_error($link);
 	}
 	else return;
 }
 
 function count_new_items($id,$min,$count){
 	
+	global $link;
 
-	$sql=mysql_query("SELECT last_mod FROM forum WHERE id='$id'") or die(mysql_error());
+	$sql=mysqli_query($link,"SELECT last_mod FROM forum WHERE id='$id'") or mysqli_error($link);
 	$count+=is_post_new($id,$min);
 	//add the children if it's also a thread
-	$sql=mysql_query("SELECT last_mod,id FROM forum WHERE thread='$id'") or die(mysql_error());
-	$num=mysql_num_rows($sql);
+	$sql=mysqli_query($link,"SELECT last_mod,id FROM forum WHERE thread='$id'") or mysqli_error($link);
+	$num=mysqli_num_rows($sql);
 	if($num){
 		for($i=0;$i<$num;$i++){
-			$new_id=mysql_result($sql,$i,'id');
+			$new_id=mysqli_result($sql,$i,'id');
 			//$count+=is_post_new($new_id,$min);
 			//if the thread is new too, or if it's the last post, count it
 			return count_new_items($new_id,$min,$count);
@@ -357,8 +364,9 @@ global $language;
 	return $u;
 }
 function is_post_new($id,$min){
-	$sql=mysql_query("SELECT last_mod FROM forum WHERE id='$id'") or die(mysql_error());
-	$phpdate=strtotime(mysql_result($sql,0,'last_mod'));
+	global $link;
+	$sql=mysqli_query($link,"SELECT last_mod FROM forum WHERE id='$id'") or mysqli_error($link);
+	$phpdate=strtotime(mysqli_result($sql,0,'last_mod'));
 	if((time()-$phpdate)<$min*60) return 1;
 	else return;
 	

@@ -1,9 +1,9 @@
 <?php
 require 'lib/lib_rankings.php';
-
-$played=mysql_query("SELECT *  FROM matches WHERE played=1  ORDER BY
+global $link;
+$played=mysqli_query($link,"SELECT *  FROM matches WHERE played=1  ORDER BY
 		id DESC") or die(mysql_error());
-if($played) $num=mysql_num_rows($played);
+if($played) $num=mysqli_num_rows($played);
 //show matches played
 $prev_matches=$matches_showed;
 if($num<$matches_showed) $prev_matches=$num;
@@ -26,7 +26,7 @@ if($num){
 	echo "\n<table class='matches_played_table'>";
 	for ($i = 0; $i <$prev_matches; $i++) { 
 
-		$match_id=mysql_result($played,$i,"id");
+		$match_id=mysqli_result($played,$i,"id");
 		$arr=get_match_details($match_id,$login_id);
 		$coef=compute_coefficients($arr['odds1'],$arr['oddsD'],$arr['odds2'],$total);
 		$t1=get_team_name_link($arr['t_id1'],4);

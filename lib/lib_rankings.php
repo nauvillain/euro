@@ -85,6 +85,7 @@ $title[5]="Rankings by lost points/wrong bet";
 }
 
 function display_rank_table($ftable,$login_id){
+global $link;
 $len=sizeof($ftable);
 $j=1;
 $group_flag=0;
@@ -101,8 +102,8 @@ for($i=0;$i<$len;$i++){
         $p_id=$ftable[$i]['p_id'];
         $code=get_country_code($ftable[$i]['winner']);
 
-        $member_query=mysql_query("SELECT id FROM usergroups WHERE user_id='$login_id' AND member='$p_id'");
-        if(mysql_num_rows($member_query)) {
+        $member_query=mysqli_query($link,"SELECT id FROM usergroups WHERE user_id='$login_id' AND member='$p_id'");
+        if(mysqli_num_rows($member_query)) {
                 $member=1;
                 $group_flag=1;
         }
@@ -125,9 +126,9 @@ echo "</table></td></tr></table>\n";
 }
 
 function display_pot_numbers(){
-global $currency,$money_amount;
-		$query=mysql_query("SELECT count(*) FROM users WHERE bet_money=1") or die(mysql_error());
-		$tot=mysql_result($query,0);
+global $currency,$money_amount,$link;
+		$query=mysqli_query($link,"SELECT count(*) FROM users WHERE bet_money=1") or die(mysqli_error($link)());
+		$tot=mysqli_result($query,0);
 		$total=$tot*$money_amount;
 
 		$first=intval($total/100*60);

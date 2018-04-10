@@ -6,23 +6,23 @@ require 'javascript_form.php';
 
 echo "<div id='foot_main'>";
 connect_to_eurodb();
-$result=mysql_query("SELECT * FROM users  WHERE id='$login_id'") or die(mysql_error());
-if(!mysql_num_rows($result)){
+$result=mysqli_query($link,"SELECT * FROM users  WHERE id='$login_id'") or die(mysql_error());
+if(!mysqli_num_rows($result)){
     echo "Strange error: there is no user with this id anymore. Maybe you were deleted from the database\n";
     require 'foot_foot.php';
     exit;
 }
 //$row=mysql_fetch_array($result);
-$first_name=mysql_result($result,0,"first_name");
-$last_name=mysql_result($result,0,"last_name");
-$nickname=mysql_result($result,0,"nickname");
-$country=mysql_result($result,0,"country");
-$city=mysql_result($result,0,"city");
-$comments=mysql_result($result,0,"comments");
-$age=mysql_result($result,0,"age");
-$fav_player=mysql_result($result,0,"fav_player");
-$fav_team=mysql_result($result,0,"fav_team");
-$user_language=mysql_result($result,0,"language");
+$first_name=mysqli_result($result,0,"first_name");
+$last_name=mysqli_result($result,0,"last_name");
+$nickname=mysqli_result($result,0,"nickname");
+$country=mysqli_result($result,0,"country");
+$city=mysqli_result($result,0,"city");
+$comments=mysqli_result($result,0,"comments");
+$age=mysqli_result($result,0,"age");
+$fav_player=mysqli_result($result,0,"fav_player");
+$fav_team=mysqli_result($result,0,"fav_team");
+$user_language=mysqli_result($result,0,"language");
 
 ?>
 <div style='margin:25px';>

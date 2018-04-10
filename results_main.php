@@ -11,32 +11,34 @@ connect_to_eurodb();
 $loc=setloc();
 setlocale(LC_ALL,$loc);
 
-$m=mysql_query("SELECT * FROM matches WHERE played=1 ORDER BY id") or die(mysql_error());
-$num_m=mysql_num_rows($m);
+$m=mysqli_query($link,"SELECT * FROM matches WHERE played=1 ORDER BY id") or mysqli_error($link);
+$num_m=mysqli_num_rows($m);
 if($num_m){
 	echo "<div class='euro_day'>\n"; 
-	$flag_date=mysql_result($m,0,'date');
-	$descr=mysql_result($m,0,'descr');
-	$place_id=mysql_result($m,0,"place");
-	$rezp=mysql_query("SELECT * from places WHERE place_id='$place_id'") or die(mysql_error());
-	$place=mysql_result($rezp,0,'city');
-	$time=mysql_result($m,0,"time");
+	$flag_date=mysqli_result($m,0,'date');
+	$descr=mysqli_result($m,0,'descr');
+	$place_id=mysqli_result($m,0,"place");
+	$rezp=mysqli_query($link,"SELECT * from places WHERE place_id='$place_id'") or mysqli_error($link);
+	$place=mysqli_result($rezp,0,'city');
+	$time=mysqli_result($m,0,"time");
 	if($language=='en')	$dated=strftime("%A %B %e",strtotime($flag_date));
 	else	$dated=strftime("%A %e %B",strtotime($flag_date));
 }
 	if($num_m) {
 		echo "<div class='date_display'><div style='float:left;max-width=300px;'>".$dated;
 		echo "</div>";
-		echo "<div>&nbsp;".mysql_result($m,0,"descr")."</div></div>";
+		echo "<div>&nbsp;".mysqli_result($m,0,"descr")."</div></div>";
 		echo "<table class='euro_day_border'>\n";
 	}
 	else echo "<div class='middle'>".get_word_by_id(89).".</div>";
 	//set the locale$loc=setloc();
 for ($i=0;$i<$num_m;$i++){
 
-$match_id=mysql_result($m,$i,'id');
+$match_id=mysqli_result($m,$i,'id');
 $arr=get_match_details($match_id,$login_id);
 $phase=get_phase($match_id);
+$first=getIfSet($first);
+$temp_summary=getIfSet($temp_summary);
 if($flag_date!=$arr["date"]||($temp_summary!=$arr["summary"]&&$first)) {
 	echo "</table>";
 	echo "</div>\n<div class='euro_day'>"; 
@@ -53,9 +55,9 @@ if($flag_date!=$arr["date"]||($temp_summary!=$arr["summary"]&&$first)) {
 	}
 echo "<tr class='match_board'>\n";
 	$flag_date=$arr["date"];
-$odds1=mysql_result($m,$i,'odds1');
-$odds2=mysql_result($m,$i,'odds2');
-$oddsD=mysql_result($m,$i,'oddsD');
+$odds1=mysqli_result($m,$i,'odds1');
+$odds2=mysqli_result($m,$i,'odds2');
+$oddsD=mysqli_result($m,$i,'oddsD');
 
 
 

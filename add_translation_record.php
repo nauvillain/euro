@@ -2,6 +2,8 @@
 require 'lib_foot.php';
 require 'config/config_foot.php';
 require 'session_language.php';
+
+global $link;
 //languages are defined in the language array in conf.php; 
 //the language table must have the same languages
 // Define post fields into simple variables
@@ -20,12 +22,12 @@ if(!$id){
 	// construct the list of language fields, like word_fr,word_en...
 	$query="INSERT INTO language SET ".$str;
 //	echo $query;
-	$sql = mysql_query($query) or die(mysql_error());
+	$sql = mysqli_query($link,$query) or die(mysql_error());
 }
 else {
 	
 	$query="UPDATE language SET ".$str." WHERE language.id=$id";
- 	$re=mysql_query($query);	
+ 	$re=mysqli_query($link,$query);	
 	if($re) {
 			header("location:list_translations.php");
 			exit;

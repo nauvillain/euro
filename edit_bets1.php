@@ -6,8 +6,8 @@ echo "</script>\n";
 //echo "</noscript>\n";
 //require 'auth_bets1.php';
 connect_to_eurodb();
-$res=mysql_query("SELECT * FROM matches ORDER BY id");
-$num_first=mysql_num_rows($res);
+$res=mysqli_query($link,"SELECT * FROM matches ORDER BY id");
+$num_first=mysqli_num_rows($res);
 function display_weight_info($language){
  
 		switch($language){
@@ -29,12 +29,12 @@ function display_weight_info($language){
 
 }
 
-$bets=mysql_query("SELECT *  FROM bets WHERE player_id='$login_id' ORDER by match_id ASC") or die(mysql_error());
+$bets=mysqli_query($link,"SELECT *  FROM bets WHERE player_id='$login_id' ORDER by match_id ASC") or die(mysqli_error($link)());
 
-$pl=mysql_query("SELECT id FROM matches WHERE played=1 ORDER BY id");
-$num_played=mysql_num_rows($pl);
+$pl=mysqli_query($link,"SELECT id FROM matches WHERE played=1 ORDER BY id");
+$num_played=mysqli_num_rows($pl);
 $bet_weights=0;
-//for($i=0;$i<$num_played;$i++)	$bet_weights+=mysql_result($bets,$i,'weight');
+//for($i=0;$i<$num_played;$i++)	$bet_weights+=mysqli_result($bets,$i,'weight');
 
 ?>
 <script type="text/javascript">
@@ -51,7 +51,7 @@ var elm_id=id.substring(6);
 	$str="";
 	$str="";
 	for($i=0;$i<$num_first;$i++){
-		$match_id=mysql_result($res,$i,'id');
+		$match_id=mysqli_result($res,$i,'id');
 		if(is_played($match_id)||is_being_played($match_id))	{
 			//echo "weight[$match_id]=document.getElementById('weight".$match_id."').innerHTML - 0;\n";
 			echo "match[$match_id]=1;\n";
@@ -120,25 +120,25 @@ if(still_time(1)) echo "<br><b><i>".remaining_time(0)." day".(remaining_time(0)=
 
 //take matches that correspond to the first round
 
-$res=mysql_query("SELECT * FROM matches ORDER BY id");
-$num_first=mysql_num_rows($res);
+$res=mysqli_query($link,"SELECT * FROM matches ORDER BY id");
+$num_first=mysqli_num_rows($res);
 
 //check if player has entered any bets
 //if he has but hasn't entered them all
 //take the top scorer & World Cup Winner
 echo "<div id='display_greetings'><a href='javascript:history.back()'> Back</a></div>";
-$top=mysql_query("SELECT winner,top_scorer FROM users WHERE
-id='$login_id'") or die(mysql_error());
-if(mysql_num_rows($top))  $winner_id=mysql_result($top,0,'winner');
-if (mysql_num_rows($top)) {
+$top=mysqli_query($link,"SELECT winner,top_scorer FROM users WHERE
+id='$login_id'") or die(mysqli_error($link)());
+if(mysqli_num_rows($top))  $winner_id=mysqli_result($top,0,'winner');
+if (mysqli_num_rows($top)) {
 	$query="SELECT team_name FROM teams WHERE team_id='$winner_id'";
 //	echo $query;
-	$winn=mysql_query($query) or die(mysql_error);
-	if(mysql_num_rows($winn)) $winner=mysql_result($winn,0,'team_name');
+	$winn=mysqli_query($link,$query) or die(mysqli_error($link));
+	if(mysqli_num_rows($winn)) $winner=mysqli_result($winn,0,'team_name');
 	}
 if(!$winner_id) $winner="None chosen yet";
 //find top_scorer
-$top_sc=mysql_result($top,0,'top_scorer');
+$top_sc=mysqli_result($top,0,'top_scorer');
 echo "<form name='form1' method='post' onsubmit=\"javascript:return checkForm(this)\"  action='submit_bets1.php' >";
 if(still_time(1)&&!is_played(1)){
 	echo "<p class='red'> ".$tournament_name." winner:<b> ";
@@ -158,17 +158,17 @@ var group=new Array(groups)
 
 	for (i=0; i<groups; i++) group[i]=new Array();
 	<?php
-		$teams=mysql_query("SELECT team_id FROM teams ORDER BY team_name");
-		$num_teams=mysql_num_rows($teams);
+		$teams=mysqli_query($link,"SELECT team_id FROM teams ORDER BY team_name");
+		$num_teams=mysqli_num_rows($teams);
 		for($i=0;$i<$num_teams;$i++){
-			$tmp_team_id=mysql_result($teams,$i,'team_id');
+			$tmp_team_id=mysqli_result($teams,$i,'team_id');
 			$query="SELECT * from players WHERE players.team_id='".$tmp_team_id."' ORDER BY substring_index(TRIM(name), ' ', -1)";
-			$resc=mysql_query($query);
-			if($resc) $num_scorers=mysql_num_rows($resc);
+			$resc=mysqli_query($link,$query);
+			if($resc) $num_scorers=mysqli_num_rows($resc);
 			else $num_scorers=0;
 			for($j=0;$j<$num_scorers;$j++){
-				$scorer_name=mysql_result($resc,$j,'name');
-				$scorer_id=mysql_result($resc,$j,'id');
+				$scorer_name=mysqli_result($resc,$j,'name');
+				$scorer_id=mysqli_result($resc,$j,'id');
 				if($scorer_id==$top_sc) $defSelected='true';
 				else $defSelected='false';
 				echo "group[$i][".($j+0)."]=new Option(\"".$scorer_name."\",'$scorer_id');\n";
@@ -194,7 +194,7 @@ echo "<div id='bets_table_edit'>\n";
 echo "<table>\n";
 for($i=0;$i<$num_first;$i++){
 
-	$match_id=mysql_result($res,$i,"id");
+	$match_id=mysqli_result($res,$i,"id");
 	$arr=get_match_details($match_id,$login_id);
 	echo "<tr id='$match_id' class='bet_match_row'>\n";
 	echo "<td class='bet_desc'>".substr($arr["descr"],0,1)."</td>\n";
@@ -233,8 +233,8 @@ for($i=0;$i<$num_first;$i++){
 	}
 //show what has been entered so far
 
-$rem=mysql_query("SELECT id FROM matches WHERE played=0 ORDER BY id") or die(mysql_error());
-$rem_matches=mysql_num_rows($rem);
+$rem=mysqli_query($link,"SELECT id FROM matches WHERE played=0 ORDER BY id") or die(mysqli_error($link)());
+$rem_matches=mysqli_num_rows($rem);
 
 }
 		echo "<tr>";

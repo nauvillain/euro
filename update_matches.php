@@ -6,10 +6,7 @@ require 'js/all_checkboxes.js';
 
 connect_to_eurodb();
 echo "<div id='foot_main'>";
-if(!is_admin($login_id)){
-	echo "Sorry, for admin purposes only!";	
-	break;
-	}
+if(is_admin($login_id)){
 
 
 
@@ -18,17 +15,17 @@ and the rest of them; show the radio buttons confirming they were
 played*/
 
 
-$res=mysql_query("SELECT round_id FROM
-matches WHERE played=0 ORDER BY id") or die(mysql_error());
-$num=mysql_num_rows($res);
+$res=mysqli_query($link,"SELECT round_id FROM
+matches WHERE played=0 ORDER BY id") or mysqli_error($link);
+$num=mysqli_num_rows($res);
 
 /*See how many matches have been played
 and show the matches up to the end of the corresponding round*/
 
-$phase=mysql_result($res,0,'round_id');
+$phase=mysqli_result($res,0,'round_id');
 
-$res=mysql_query("SELECT * from matches WHERE round_id='$phase' ORDER by id") or die(mysql_error());
-$num=mysql_num_rows($res);
+$res=mysqli_query($link,"SELECT * from matches WHERE round_id='$phase' ORDER by id") or mysqli_error($link);
+$num=mysqli_num_rows($res);
 echo " <form name='update_matches' method='post' action='submit_matches.php'>";
 echo "<input type='submit' name='Submit' value='Submit' style='float:right;'>";
 ?>
@@ -44,7 +41,7 @@ echo "<table>\n";
 for ($i=0;$i<$num;$i++) {
 
 
-$match_id=mysql_result($res,$i,'id');
+$match_id=mysqli_result($res,$i,'id');
 $arr=get_match_details($match_id,$login_id);
 	echo "<tr class='bet_match_row'>\n";
 	echo "<td class='bet_desc'>".$arr["descr"]."</td>";
@@ -70,4 +67,6 @@ $arr=get_match_details($match_id,$login_id);
       <input type="hidden" name="phase" value="<?php echo $phase;?>" style='float:right;'>
       <input type="submit" name="Submit" value="Submit" style='float:right;'>
 </form>
-
+<?php
+};
+?>

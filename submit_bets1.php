@@ -8,14 +8,14 @@ require 'conf.php';
 connect_to_eurodb();
 
 function bets_on(){
-
+global $link;
 	$query="SELECT id FROM matches";
-	$res=mysql_query($query) or die(mysql_error());
-	$num=mysql_num_rows($res);
+	$res=mysqli_query($link,$query) or die(mysql_error());
+	$num=mysqli_num_rows($res);
 	$result="";
 	$flag="";
 	for($i=0;$i<$num;$i++){
-		$m_id=mysql_result($res,$i,'id');
+		$m_id=mysqli_result($res,$i,'id');
 		if(still_time($m_id)&&(!is_played($m_id))) $result.=$flag.$m_id;
 		$flag=",";
 	}
@@ -23,7 +23,7 @@ function bets_on(){
 }
 
 //$query="DELETE FROM bets WHERE player_id='$login_id'";
-//$sql=mysql_query($query) or die(mysql_error());
+//$sql=mysqli_query($link,$query) or die(mysql_error());
 /*if (!$sql){
    echo "Sorry! There has been a problem with saving your bets. Please
    go <a href='javascript:history.back()'>back</a> to re-enter them. If the problem persists, please contact
@@ -37,9 +37,9 @@ $sum=0;
 $rem_weights=get_remaining_weights($login_id,$TOT_WEIGHTS,0);
 //echo "sum:$sum,rem:$rem_weights";
 //break;
-$rem_matches=mysql_result(mysql_query("SELECT count(*) FROM matches where played=0"),0);
+$rem_matches=mysqli_result(mysqli_query($link,"SELECT count(*) FROM matches where played=0"),0);
 $bets_on=bets_on();
-$del=mysql_query("DELETE FROM bets WHERE match_id IN (".$bets_on.") AND player_id='$login_id'");
+$del=mysqli_query($link,"DELETE FROM bets WHERE match_id IN (".$bets_on.") AND player_id='$login_id'");
 $match_counter=0;
 while(list($key,$val)=each($_POST)){
 //	${$key} = $val;
@@ -80,21 +80,21 @@ while(list($key,$val)=each($_POST)){
 		//echo $key."<br>";
 		$query="SELECT * FROM bets WHERE match_id=$id AND player_id=$login_id";
 		//echo $query;
-		$sql=mysql_query($query) or die(mysql_error());
-		$tot=mysql_num_rows($sql);
+		$sql=mysqli_query($link,$query) or die(mysql_error());
+		$tot=mysqli_num_rows($sql);
 		//echo "tot:$tot";
 		//if(($sum<=$TOT_WEIGHTS)&&($cond!="x")){
 		if(($sum<=$TOT_WEIGHTS)&&($cond!="x")){
 			if(!$tot){
 				$query="INSERT INTO bets SET $col=$val,match_id=$id,player_id=$login_id";
 				//echo $query;
-				$sql=mysql_query($query) or die(mysql_error());
+				$sql=mysqli_query($link,$query) or die(mysql_error());
 			}
 
 			else{
 				if(still_time($id)){
 					$query="UPDATE bets SET $col=$val WHERE match_id=$id AND player_id=$login_id";
-					$sql=mysql_query($query) or die(mysql_error());
+					$sql=mysqli_query($link,$query) or die(mysql_error());
 				}
 			}
 		}
@@ -109,11 +109,11 @@ while(list($key,$val)=each($_POST)){
 		$query="UPDATE users SET winner='$val' WHERE
 			id='$login_id'";
 	
-		$player=mysql_query($query) or die(mysql_error()); 
+		$player=mysqli_query($link,$query) or die(mysql_error()); 
 	}
 	if($key=='stage2') {
 		$query="UPDATE users SET top_scorer='$val' WHERE id='$login_id'";
-		mysql_query($query) or die(mysql_error());
+		mysqli_query($link,$query) or die(mysql_error());
 	}
 	
 
@@ -124,33 +124,33 @@ while(list($key,$val)=each($_POST)){
 		
 //		echo $key."-".$val.":".$weight[$key]."<br/>";
 		if($weight[$key]!=1) {
-			mysql_query("UPDATE bets SET weight='0' WHERE match_id='$key' and player_id='$login_id'");
+			mysqli_query($link,"UPDATE bets SET weight='0' WHERE match_id='$key' and player_id='$login_id'");
 		}
 		if($pick[$key]!=1) {
-			mysql_query("UPDATE bets SET pick='0' WHERE match_id='$key' and player_id='$login_id'");
+			mysqli_query($link,"UPDATE bets SET pick='0' WHERE match_id='$key' and player_id='$login_id'");
 		}
 		
 	}
 //update odds
 check_empty_weights($login_id);
 function check_empty_weights($login_id){
-
+global $link;
 	if($login_id){
 		$query="SELECT * FROM bets WHERE player_id='$login_id'";
-		$res=mysql_query($query) or die(mysql_error());
-		$num=mysql_num_rows($res);
+		$res=mysqli_query($link,$query) or die(mysql_error());
+		$num=mysqli_num_rows($res);
 		if($num){
 			for($i=0;$i<$num;$i++){	
-				$pick=mysql_result($res,$i,'pick');
-				$weight=mysql_result($res,$i,'weight');
+				$pick=mysqli_result($res,$i,'pick');
+				$weight=mysqli_result($res,$i,'weight');
 				if($pick&&!$weight) {
-					$id=mysql_result($res,$i,'match_id');
-					mysql_query("UPDATE bets SET weight=1 WHERE player_id='$login_id' and match_id='$id'") or die(mysql_error());
+					$id=mysqli_result($res,$i,'match_id');
+					mysqli_query($link,"UPDATE bets SET weight=1 WHERE player_id='$login_id' and match_id='$id'") or die(mysql_error());
 
 				}
 				if($weight&&!$pick){
-					$id=mysql_result($res,$i,'match_id');
-					mysql_query("DELETE FROM bets WHERE player_id='$login_id' and match_id='$id'") or die(mysql_error());	
+					$id=mysqli_result($res,$i,'match_id');
+					mysqli_query($link,"DELETE FROM bets WHERE player_id='$login_id' and match_id='$id'") or die(mysql_error());	
 				}
 			}
 		}

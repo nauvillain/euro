@@ -18,7 +18,7 @@ function addPost(id) {
 		}
 		var newPost = document.createElement('textarea');
 		newPost.name = id+'_new';
-		newPost.cols=65;
+		newPost.cols=95;
 		newPost.rows=4;
 		newPost.maxLength=2000;
 		newPost.id = id+ '_new';
