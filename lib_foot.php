@@ -1,5 +1,6 @@
 <?php
 require 'conf.php';
+#comment
 function connect_to_eurodb()
 {
   global $db_database, $db_username, $db_password, $db_hostname;
