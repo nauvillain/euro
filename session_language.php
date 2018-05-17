@@ -1,5 +1,5 @@
 <?php
-//requires conf.php 
+require 'conf.php';
 session_name($session_n);
 //session_start(); 
 //cehck session language first - if there is a session variable called language, take its value 

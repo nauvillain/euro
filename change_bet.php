@@ -28,11 +28,11 @@ if ($res!=0&&!is_played($match_id)){
 
 	echo "<div class='cb_match_board'>\n";
 	
-	echo "<div class='cb_mb_teams_display'><img src='img/".$arr["code1"].".gif'>&nbsp;".get_team_name_link($arr["t_id1"],1);
+	echo "<div class='cb_mb_teams_display'><img src='img/".$arr["code1"].".png'>&nbsp;".get_team_name_link($arr["t_id1"],1);
 	display_pick($arr["pick"],$arr_pick,$arr['no_tie']);
 //	echo "	&nbsp; - &nbsp;";
 	echo get_team_name_link($arr["t_id2"],1)."&nbsp;
-	<img src='img/".$arr["code2"].".gif'>\n</div>";
+	<img src='img/".$arr["code2"].".png'>\n</div>";
 	$tot_matches=$fr_m+$sr_m;
 //	display_weight($arr["weight"],$rem_pts,$unbet,$newb,$tot_matches);
 

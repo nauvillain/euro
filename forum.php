@@ -19,9 +19,12 @@ echo "<script type='text/javascript' src='js/domcollapse.js'></script>\n";
 echo "<div id='foot_main'>";
 //echo "<div id='sa_menu_title' style='top:-30px;left:275px;'><img src='img/forum.gif'/></div>\n";
 
-$minutes=$_GET['minutes'];
-$chrono=$_GET['type'];
-$sort=$_GET['sort'];
+$minutes=getIfSet($_GET['minutes']);
+$chrono=getIfSet($_GET['type']);
+$sort=getIfSet($_GET['sort']);
+//$minutes=$_GET['minutes'];
+//$chrono=$_GET['type'];
+//$sort=$_GET['sort'];
 
 $selected=array('minutes'=>$minutes,'type'=>$chrono,'sort'=>$sort);
 
@@ -56,7 +59,7 @@ if(!$sort){
 	echo "&nbsp;   &nbsp;";
 	echo "&nbsp;   &nbsp;";
 	$arr=array('minutes'=>$minutes,'type'=>'threads','sort'=>$sort);
-	make_forum_link($arr,get_word_by_id(210),$selected);
+	make_forum_link($arr,get_word_by_id(212),$selected);
 	echo "&nbsp;  / &nbsp;";
 	$arr=array('minutes'=>$minutes,'type'=>'flat','sort'=>$sort);
 	make_forum_link($arr,get_word_by_id(211),$selected);

@@ -4,25 +4,27 @@ require 'config/config_foot.php';
 require 'lib_foot.php';
 require 'conf.php';
 
+
 $username=$_POST['username'];
 $password=$_POST['password'];
 $public=$_POST['public'];
 $url=$_REQUEST['url'];
 function verify_password($username,$password)
 {
+global $link;
   connect_to_eurodb();
 
-  $query=sprintf("select id,username, password,player,sweet from users  where username='%s' and password=password('%s')",mysql_real_escape_string($username),mysql_real_escape_string($password));
+  $query=sprintf("select id,username, password,player,sweet from users  where username='%s' and password=password('%s')",mysqli_real_escape_string($link,$username),mysqli_real_escape_string($link,$password));
  // echo $query;
  // break;
-  $rez=mysql_query($query) or die(mysql_error());
-  if(mysql_num_rows($rez)==1){
+  $rez=mysqli_query($link,$query) or die(mysql_error());
+  if(mysqli_num_rows($rez)==1){
       $login_id;
 
-      $login_id=mysql_result($rez,0,"id");
+      $login_id=mysqli_result($rez,0,"id");
       $_SESSION["login_id"]=$login_id;
       
-      $sql = mysql_query("UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$login_id'") or die (mysql_error());
+      $sql = mysqli_query($link,"UPDATE users SET last_login=\"".date("d M Y H:i",time())."\" WHERE id='$login_id'") or die (mysql_error());
 
       return $login_id;	
   }else{	
@@ -31,19 +33,20 @@ function verify_password($username,$password)
 }
 
 function is_player($id){
-
+global $link;
   connect_to_eurodb();
 
-  $rez=mysql_query("select player,sweet,language from users  where id=$id") or die(mysql_error());
+  $rez=mysqli_query($link,"select player,sweet,language from users  where id=$id") or die(mysql_error());
 
-  $arr['player']=mysql_result($rez,0,'player');
-  $arr['sweet']=mysql_result($rez,0,'sweet');
-  $arr['language']=mysql_result($rez,0,'language');
+  $arr['player']=mysqli_result($rez,0,'player');
+  $arr['sweet']=mysqli_result($rez,0,'sweet');
+  $arr['language']=mysqli_result($rez,0,'language');
   return $arr;
 }
 function admin($id){
-	$res=mysql_query("SELECT id FROM users WHERE admin='1' AND id='$id'") or die(mysql_error());
-	return mysql_num_rows($res);
+	global $link;
+	$res=mysqli_query($link,"SELECT id FROM users WHERE admin='1' AND id='$id'") or die(mysql_error());
+	return mysqli_num_rows($res);
 }
 
 //*****************

@@ -23,12 +23,12 @@ else {
 		echo "<div id='graph_members'>\n";
 		echo "<table>\n";
 		$group=$_REQUEST['group'];
-		$query=mysql_query("SELECT member FROM usergroups WHERE user_id='$group'");
-		$num=mysql_num_rows($query);
+		$query=mysqli_query($link,"SELECT member FROM usergroups WHERE user_id='$group'");
+		$num=mysqli_num_rows($query);
 		echo "<tr><td><a href='set_user_group.php?id=$id'>Set my group</a>&nbsp;</td></tr>\n";
 		for($i=0;$i<$num;$i++){
 			echo "<tr><td>\n";
-			$val=mysql_result($query,$i,'member');
+			$val=mysqli_result($query,$i,'member');
 			$key='key'.$val;
 			if(isset($_REQUEST[$key])) {
 				$checked=1;
@@ -60,11 +60,11 @@ else {
 		echo "<td>\n";
 		echo "<table valign=top>\n";
 
-		$query=mysql_query("SELECT id FROM users WHERE player=1 ORDER by nickname");
-		$num=mysql_num_rows($query);
+		$query=mysqli_query($link,"SELECT id FROM users WHERE player=1 ORDER by nickname");
+		$num=mysqli_num_rows($query);
 		$td_count=0;
 		for($i=0;$i<$num;$i++){
-			$val=mysql_result($query,$i,'id');
+			$val=mysqli_result($query,$i,'id');
 			$key='key'.$val;
 			if(isset($_REQUEST[$key])) {
 				$checked=1;

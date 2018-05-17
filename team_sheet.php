@@ -4,13 +4,13 @@ require 'php_header.php';
 css("team_sheetcss.css");
 
 function display_history($team_id){
-global $login_id;
+global $login_id,$link;
 	$query="SELECT * FROM matches WHERE (t1='$team_id' or t2='$team_id') and played=1 ORDER by id";
-	$res=mysql_query($query) or die(mysql_error());
-	$num=mysql_num_rows($res);
+	$res=mysqli_query($link,$query) or die(mysql_error($link));
+	$num=mysqli_num_rows($res);
 	echo "<table>\n";
 	for($i=0;$i<$num;$i++){
-		$match_id=mysql_result($res,$i,'id');
+		$match_id=mysqli_result($res,$i,'id');
 		$ma=get_match_details($match_id,$login_id);
 		display_match_item($ma);
 	}
@@ -62,6 +62,7 @@ function display($text,$class,$team_id,$side){
 }
 
 function show_flag($code){
+global $link;	
 	echo "<img src='img/".$code.".png' class='team_sheet_title'/>\n";
 }
 ?>
@@ -72,7 +73,7 @@ $team_id=$_REQUEST['id'];
 ?>
 <div id='main_hist' class='middle'>
 <?php
-	mysql_set_charset(utf8);
+	mysqli_set_charset($link,'utf8');
 	show_flag(get_country_code($team_id));
 	echo team_link($team_id);
 	?>

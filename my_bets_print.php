@@ -11,18 +11,18 @@ connect_to_eurodb();
 echo "<div style='width:500px;margin:0 auto;'>";
 //take matches that correspond to the first round
 
-$res=mysql_query("SELECT * FROM matches ORDER BY id");
-$num_first=mysql_num_rows($res);
-echo "<h2>Euro 2012</h2>";
+$res=mysqli_query($link,"SELECT * FROM matches ORDER BY id");
+$num_first=mysqli_num_rows($res);
+echo "<h2>$tournament_name</h2>";
 //check if player has entered any bets
 //if he has but hasn't entered them all
 //take the top scorer & World Cup Winner
-$top=mysql_query("SELECT winner FROM users WHERE
+$top=mysqli_query($link,"SELECT winner FROM users WHERE
 id='$login_id'") or die(mysql_error());
-$winner_id=mysql_result($top,0,'winner');
+$winner_id=mysqli_result($top,0,'winner');
 if ($top) {
-	$winn=mysql_query("SELECT team_id FROM teams WHERE team_id=$winner_id");
-	$winner=get_team_name(mysql_result($winn,0));
+	$winn=mysqli_query($link,"SELECT team_id FROM teams WHERE team_id=$winner_id");
+	$winner=get_team_name(mysqli_result($winn,0));
 	}
 if(!$winner_id) $winner="None chosen yet";
 echo "<p><font color=red>".get_word_by_id(91)." :<b> ".$winner."</b></font></p>";
@@ -32,7 +32,7 @@ echo "<table>\n";
 
 for($i=0;$i<$num_first;$i++){
 
-	$match_id=mysql_result($res,$i,"id");
+	$match_id=mysqli_result($res,$i,"id");
 	$arr=get_match_details($match_id,$login_id);
 	
 	echo "<tr class='bet_match_row'>\n";

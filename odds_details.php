@@ -15,18 +15,18 @@ if($type=='v2') $showp=3;
 
 
 $q="SELECT * FROM bets WHERE match_id=$match_id";
-$res=mysql_query($q);
-$num=mysql_num_rows($res);
+$res=mysqli_query($link,$q);
+$num=mysqli_num_rows($res);
 
 $m="SELECT t1,t2 FROM matches where id=$match_id";
-$resm=mysql_query($m);
-$team1=mysql_result($resm,0,'t1');
-$team2=mysql_result($resm,0,'t2');
+$resm=mysqli_query($link,$m);
+$team1=mysqli_result($resm,0,'t1');
+$team2=mysqli_result($resm,0,'t2');
 
-$rest=mysql_query("SELECT team_name FROM teams WHERE team_id=$team1");
-$team_name1=mysql_result($rest,0,0);
-$rest=mysql_query("SELECT team_name FROM teams WHERE team_id=$team2");
-$team_name2=mysql_result($rest,0,0);
+$rest=mysqli_query($link,"SELECT team_name FROM teams WHERE team_id=$team1");
+$team_name1=mysqli_result($rest,0,0);
+$rest=mysqli_query($link,"SELECT team_name FROM teams WHERE team_id=$team2");
+$team_name2=mysqli_result($rest,0,0);
 
 if ($type=='v1') $winn=$team_name1;
 else $winn=$team_name2;
@@ -38,10 +38,11 @@ if ($type=='draw') echo "List of players having bet on <h4>a TIE</h4>";
 echo " for the match <h4><font color=red> $team_name1 vs. $team_name2 </font></h4><br>";
 	echo "<div class='odds_cap'>Max odds: $max_odds</div>\n";
 echo "<table><tr><td valign=top><table style='border:none;'>";
+$k=0;
 for($i=0;$i<$num;$i++){
-	$pick=mysql_result($res,$i,'pick');
-	$weight=mysql_result($res,$i,'weight');
-	$p_id=mysql_result($res,$i,'player_id');
+	$pick=mysqli_result($res,$i,'pick');
+	$weight=mysqli_result($res,$i,'weight');
+	$p_id=mysqli_result($res,$i,'player_id');
 	$nick[$i]=substr(get_player_name($p_id),0,30)." (".get_ranking($p_id).")";
 	$gp[$i]=$pick;
 	$gw[$i]=$weight;

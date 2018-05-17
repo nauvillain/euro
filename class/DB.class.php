@@ -6,11 +6,11 @@
         protected static $DB_Conn;
 
         protected function __construct($database, $hostname, $hostport, $username, $password)
-        {
+	{
             self::$DB_Name = $database;
-            self::$DB_Conn = mysql_connect($hostname . ":" . $hostport, $username, $password);
+            self::$DB_Conn = mysqli_connect($hostname . ":" . $hostport, $username, $password);
             if (!self::$DB_Conn) { die('Critical Stop Error: Database Error<br />' . mysql_error()); }
-            mysql_select_db(self::$DB_Name, self::$DB_Conn);
+            mysqli_select_db(self::$DB_Conn,self::$DB_Name);
         }
 
         private function __clone() {}
@@ -38,20 +38,21 @@
         }
 
         public function qry($sql, $return_format = 0)
-        {
-            $query = mysql_query($sql, self::$DB_Conn) OR die(mysql_error());
+	{
+	    global $link;
+            $query = mysqli_query($link,$sql) OR die(mysqli_error($link));
             switch ($return_format)
             {
                 case 1:
-                    $query = mysql_fetch_row($query);
+                    $query = mysqli_fetch_row($query);
                     return $query;
                     break;
                 case 2:
-                    $query = mysql_fetch_array($query);
+                    $query = mysqli_fetch_array($query);
                     return $query;
                     break;
                 case 3:
-                    $query = mysql_fetch_row($query);
+                    $query = mysqli_fetch_row($query);
                     $query = $query[0];
                     return $query;
                 default:

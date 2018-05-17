@@ -1,5 +1,5 @@
 <?php
-session_name("brazil");
+session_name("russia");
 session_start();
 if (!isset($_SESSION['count_sessions'])) {
    $_SESSION['count_sessions'] = 0;

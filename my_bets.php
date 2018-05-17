@@ -12,19 +12,19 @@ echo "<div id='display_greetings'><a href='my_bets_print.php' target='content'>-
 
 //take matches that correspond to the first round
 
-$res=mysql_query("SELECT * FROM matches ORDER BY id");
-$num_first=mysql_num_rows($res);
+$res=mysqli_query($link,"SELECT * FROM matches ORDER BY id");
+$num_first=mysqli_num_rows($res);
 
 //check if player has entered any bets
 //if he has but hasn't entered them all
 //take the top scorer & World Cup Winner
 echo "<div ><a href='edit_bets1.php'>".get_word_by_id(94)."</a></div>";
-$top=mysql_query("SELECT winner FROM users WHERE
-id='$login_id'") or die(mysql_error());
-$winner_id=mysql_result($top,0,'winner');
+$top=mysqli_query($link,"SELECT winner FROM users WHERE
+id='$login_id'") or die(mysqli_error($link)());
+$winner_id=mysqli_result($top,0,'winner');
 if ($top) {
-	$winn=mysql_query("SELECT team_id FROM teams WHERE team_id=$winner_id");
-	if(mysql_num_rows($winn)) $winner=get_team_name(mysql_result($winn,0));
+	$winn=mysqli_query($link,"SELECT team_id FROM teams WHERE team_id=$winner_id");
+	if(mysqli_num_rows($winn)) $winner=get_team_name(mysqli_result($winn,0));
 	}
 if(!$winner_id) $winner="None chosen yet";
 echo "<p><font color=red> ".get_word_by_id(91).":<b> ".$winner."</b>";
@@ -34,8 +34,7 @@ echo "<div id='bets_table'>\n";
 echo "<table>\n";
 
 for($i=0;$i<$num_first;$i++){
-
-	$match_id=mysql_result($res,$i,"id");
+	$match_id=mysqli_result($res,$i,"id");
 	$arr=get_match_details($match_id,$login_id);
 	
 	echo "<tr class='bet_match_row'>\n";

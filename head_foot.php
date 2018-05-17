@@ -23,13 +23,17 @@ echo "<body>\n";
 
 }
 
-gen_header_full("css/new_euro.css","Euro 2016 Picks","favicon.ico","France 2016","France Euro 2016");
+gen_header_full("css/new_euro.css",$tournament_name,"favicon.ico",$tournament_name,"France Euro 2016");
 
 
 ?>
 <div id="content">
 <div id="pagetop" >
-<a href="index.php">FRANCE 2016</a>
+<a href="index.php">
+<?php
+echo $tournament_name;
+?>
+</a>
 </div>
 
 <?php

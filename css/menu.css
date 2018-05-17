@@ -50,7 +50,7 @@ background-repeat:repeat;*/
 	border-style: solid;
 	border-color: #ccc #888 #555 #bbb;
 	margin: 0;
-	color: #000;
+	color: #fff;
 /*	text-transform: uppercase;*/
 }
 
@@ -177,12 +177,12 @@ div#menu ul ul ul li:hover ul
 	display: block;
 	margin: 0;
 	padding: 2px 3px;
-	color:white;
+	color:black;
+	float:right;
 }
 
 
 #pagetop h2 {
-	color: #fff;
 	background: #000;
 	text-transform: uppercase;
 }

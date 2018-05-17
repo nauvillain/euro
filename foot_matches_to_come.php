@@ -1,11 +1,11 @@
 <?php
 require 'lib/lib_bonus.php';
-
+global $link;
 echo "<div class='title_main'><a href='matches.php'>".toUpper(get_word_by_id(33))."\n</a></div>\n";
-$upcoming=mysql_query("SELECT id,t1,t2,date,place,odds1,odds2,oddsD, time FROM
+$upcoming=mysqli_query($link,"SELECT id,t1,t2,date,place,odds1,odds2,oddsD, time FROM
 		matches WHERE played=0  ORDER BY
 		id ASC");
-$num=mysql_numrows($upcoming);
+$num=mysqli_num_rows($upcoming);
 if ($num<$matches_showed) $matches_showed=$num;
 if ($num==0) {
 	echo "<br/><br/><div class='foot_match_board'>No more matches...</div>";
@@ -14,7 +14,7 @@ if ($num==0) {
 	display_championship_top_scorers();
 }
 for ($i = 0; $i <$matches_showed; $i++) { 
-	$match_id=mysql_result($upcoming,$i,'id');
+	$match_id=mysqli_result($upcoming,$i,'id');
 	$arr=get_match_details($match_id,$login_id);
 	$t1=get_team_name_link($arr['t_id1'],0);
 	$t2=get_team_name_link($arr['t_id2'],0);
