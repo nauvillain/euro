@@ -1,4 +1,3 @@
-
 <?php 
 function display_ranks($rank,$title,$display,$login_id){
 /*$title[0]="Rankings";
@@ -127,7 +126,7 @@ echo "</table></td></tr></table>\n";
 
 function display_pot_numbers(){
 global $currency,$money_amount,$link;
-		$query=mysqli_query($link,"SELECT count(*) FROM users WHERE bet_money=1") or die(mysqli_error($link)());
+		$query=mysqli_query($link,"SELECT count(*) FROM users WHERE bet_money=1") or mysqli_error($link);
 		$tot=mysqli_result($query,0);
 		$total=$tot*$money_amount;
 

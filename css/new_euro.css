@@ -47,6 +47,11 @@ body {
 	padding:10px 0 0 0;
 	background:#e1e1e1;
 }
+#login_content{
+	width:1200px;
+	position:absolute;
+	top:100px;
+}
 #menu {	width:1139px;
 	background:#e1e1e1;
 }
@@ -515,10 +520,6 @@ a.ajax_link_cancel:hover {
 .teams_table {
 	width:115px;
 }
-#team_content{
-	float:left;
-	width:900px
-}
 #team_name{
 	font:26px lucida;
 	float:left;
@@ -741,9 +742,10 @@ a.ajax_link_cancel:hover {
 	float:right;
 }
 #main_login {
-	width:300px;
 	margin:0 auto;
-	top:200px;
+	width:400px;
+	background:#c25959;
+	padding:19px;
 }
 .login {
 	width:100px;
@@ -754,14 +756,12 @@ a.ajax_link_cancel:hover {
 	height:40px;
 }
 .players_list{
-	float:left;
-	width:200px;
 	margin-left:30px;
 }
 #main_login input {
 	font:11px lucida,sans-serif;
 	color:#7D0508;
-	float:right;
+	margin:10px;
 }
 #main_login td {
 	font:bold 11px lucida,sans-serif;
@@ -894,30 +894,34 @@ a.ajax_link_cancel:hover {
 }
 #team_content{
 	float:left;
-	width:900px
+	width:1000px
 }
 #team_name{
 	font:36px lucida;
 	float:right;
 	width:350px;
 	height:50px;
-	color:white;
 	margin-right:240px;
 	margin-top:50px;
 }
 .players_list{
-	width:500px;
+	width:450px;
 	float:right;
+	margin-top:50px;
 }
 .players_list table{
 	float:right;
-	margin-right:200px;
+	margin-right:100px;
+	border-spacing:10px;
 }
-.players_list td{
+.players_list td,th{
 	font:14px lucida;
 	background:#2a2a2a;
-	color:white;
+	background:#e1e1e1;
 	padding:5px;
+}
+.players_list th{
+	font: 18px lucida;
 }
 /*likes*/
 .like_unlike {

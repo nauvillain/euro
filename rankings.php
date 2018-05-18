@@ -37,7 +37,7 @@ $sql_query="SELECT id,first_name,nickname,city,top_scorer,winner,current_points,
 if($group) $sql_query=$sql_query." AND id IN (SELECT member FROM usergroups WHERE user_id='$login_id')";
 
 $res=mysqli_query($link,$sql_query);
-$num=mysqli_num_rows($res) or die(mysqli_error($link)());
+$num=mysqli_num_rows($res) or mysqli_error($link);
 
 $num_m=mysqli_result(mysqli_query($link,"SELECT count(*) FROM matches WHERE played=1"),0);
 if ($group==0&&$num==0) echo "No players registered yet!";

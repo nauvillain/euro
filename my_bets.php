@@ -20,7 +20,7 @@ $num_first=mysqli_num_rows($res);
 //take the top scorer & World Cup Winner
 echo "<div ><a href='edit_bets1.php'>".get_word_by_id(94)."</a></div>";
 $top=mysqli_query($link,"SELECT winner FROM users WHERE
-id='$login_id'") or die(mysqli_error($link)());
+id='$login_id'") or mysqli_error($link);
 $winner_id=mysqli_result($top,0,'winner');
 if ($top) {
 	$winn=mysqli_query($link,"SELECT team_id FROM teams WHERE team_id=$winner_id");

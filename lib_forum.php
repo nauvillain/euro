@@ -6,7 +6,7 @@ function display_threads($min,$sort){
 	$num=mysqli_num_rows($active);
 	if(!$num) return;
 	//echo "num:$num";
-	while($row=mysql_fetch_array($active)){
+	while($row=mysqli_fetch_array($active)){
 		 display_main_thread($row['id'],$row['title'],0,$min);
 	}
 	return 1;

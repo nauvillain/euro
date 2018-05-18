@@ -15,7 +15,7 @@ connect_to_eurodb();
 echo "<div id='foot_main'>\n";
 sqlutf();
 if ($id){
-	$sq=mysql_query("SELECT id FROM users WHERE username='$username'");
+	$sq=mysqli_query($link,"SELECT id FROM users WHERE username='$username'");
 //	if(mysql_result($sq,0,'id')) {
 //		echo "username taken!";
 //		$id=mysql_result($sq,0);
@@ -23,10 +23,10 @@ if ($id){
 
 	$query="UPDATE users SET username='".$username."'".($pw!=""?",password=password(\"".$pw."\")":"").",contact='$contact'".($email?",email='$email'":"").",language='$language',player='$player' WHERE id='$id'";
 	echo $query;
-	$result=mysql_query($query);
+	$result=mysqli_query($link,$query);
 	$name="SELECT username from users WHERE id='$id'";
-	$n=mysql_result(mysql_query($name),0);
-	echo "Player added - <br/>username =$n<br/>password=$pw<br/>http://euro.zitaoravecz.net/<br/>id=$id";
+	$n=mysqli_result(mysqli_query($link,$name),0);
+	echo "Player added - <br/>username =$n<br/>password=$pw<br/>https://worldcup.homeip.net/<br/>id=$id";
 
  }
  else echo "No id provided!";

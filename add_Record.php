@@ -24,19 +24,19 @@ else{
 	// Enter info into the Database.
 	connect_to_eurodb();
 	$query="SELECT * FROM users WHERE (nickname= '$nickname' OR username='$username') AND player=1";
-	$rez=mysql_query($query) or die(mysql_error());
+	$rez=mysqli_query($link,$query) or mysqli_error($link);
 	$num=mysql_num_rows($rez);
 	if($num==0){
 		$query="INSERT INTO users SET first_name=\"$first_name\",last_name=\"$last_name\", nickname=\"$nickname\",city=\"$city\", username=\"$username\", password=password(\"$password\"), sweet=\"$sweet\", zincou=\"$zincou\", player=\"$player\",email=\"$email\", contact='$contact' ";
 
 		//echo "query: $query <br>\n";
-		$sql = mysql_query($query);
+		$sql = mysqli_query($link,$query);
 		if(!$sql){
 			echo 'There has been an error updating the
 			changes. Please contact the webmaster.';
 		} 
 	else {
-	     echo "The user ".$username." (".$nickname." from ".$city."), password: $password  has been added.<br>http://euro.zitaoravecz.net/";
+	     echo "The user ".$username." (".$nickname." from ".$city."), password: $password  has been added.<br>https://worldcup.homeip.net/";
 	     }
 	}
 	else{

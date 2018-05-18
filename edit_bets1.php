@@ -29,7 +29,7 @@ function display_weight_info($language){
 
 }
 
-$bets=mysqli_query($link,"SELECT *  FROM bets WHERE player_id='$login_id' ORDER by match_id ASC") or die(mysqli_error($link)());
+$bets=mysqli_query($link,"SELECT *  FROM bets WHERE player_id='$login_id' ORDER by match_id ASC") or mysqli_error($link);
 
 $pl=mysqli_query($link,"SELECT id FROM matches WHERE played=1 ORDER BY id");
 $num_played=mysqli_num_rows($pl);
@@ -128,7 +128,7 @@ $num_first=mysqli_num_rows($res);
 //take the top scorer & World Cup Winner
 echo "<div id='display_greetings'><a href='javascript:history.back()'> Back</a></div>";
 $top=mysqli_query($link,"SELECT winner,top_scorer FROM users WHERE
-id='$login_id'") or die(mysqli_error($link)());
+id='$login_id'") or mysqli_error($link);
 if(mysqli_num_rows($top))  $winner_id=mysqli_result($top,0,'winner');
 if (mysqli_num_rows($top)) {
 	$query="SELECT team_name FROM teams WHERE team_id='$winner_id'";
@@ -233,7 +233,7 @@ for($i=0;$i<$num_first;$i++){
 	}
 //show what has been entered so far
 
-$rem=mysqli_query($link,"SELECT id FROM matches WHERE played=0 ORDER BY id") or die(mysqli_error($link)());
+$rem=mysqli_query($link,"SELECT id FROM matches WHERE played=0 ORDER BY id") or mysqli_error($link);
 $rem_matches=mysqli_num_rows($rem);
 
 }

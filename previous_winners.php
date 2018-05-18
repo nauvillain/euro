@@ -6,6 +6,7 @@
 //<li>&nbsp;</li>
 //<li><img src='photos/winner.jpg'  alt='previous winners!'/></li>
 ?>
+<li><a href='player_profile.php?id=174'>Margarita (2016)</a></li>
 <li><a href='player_profile.php?id=163'>Pawel (2014)</a></li>
 <p>---------------</p>
 <li><a href='player_profile.php?id=130'>Milie (2012)</a></li>

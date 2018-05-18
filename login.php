@@ -21,15 +21,15 @@ require 'header_foot.php';
 <form  id="form1" method="post" action="login1.php?url=<?php echo $url;?>">
  <p>Please enter your username and password!</p>
 	  <div class="line">
-		<div class='login left'>
+		<div class='login'>
 			Username
 		</div>
-		<div class='login '>
+		<div class='login'>
 			<input type="text" name="username" class="left login big centre"/>
 		</div>
 	  </div>
 	  <div class="line">
-        <div class='login left'>
+        <div class='login'>
 			Password
 		</div>
 	    <div class='login'>

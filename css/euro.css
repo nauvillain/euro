@@ -258,11 +258,10 @@ body
 	color:#7D0508;
 }
 
-#main_login{
+#main_login, #main_login form{
 	position:relative;
 	width:300px;
-	margin: 0 auto;
-	padding:10px;
+	padding-top:100px;
 	text-align:center;
 }
 #main_login input {

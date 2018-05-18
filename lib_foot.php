@@ -3,7 +3,7 @@ require 'conf.php';
 function connect_to_eurodb()
 {
   global $link,$db_database, $db_username, $db_password, $db_hostname;
-  $link=mysqli_connect($db_hostname,$db_username,$db_password) or die(mysqli_error());
+  $link=mysqli_connect($db_hostname,$db_username,$db_password) or die(mysqli_error($link));
   mysqli_select_db($link,$db_database) or mysqli_error($link);
 }
 

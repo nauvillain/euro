@@ -61,7 +61,7 @@ function get_match_feed($xmlUrl){
 }	
 
 function set_latest_query_timestamp(){
-	mysqli_query("UPDATE rss_queries SET timestamp=FROM_UNIXTIME(".time().")")or die(mysqli_error($link)());
+	mysqli_query("UPDATE rss_queries SET timestamp=FROM_UNIXTIME(".time().")")or mysqli_error($link);
 }
 function new_result($next_match,$match_feed){
 //check if there is a new result in the feed	
@@ -138,7 +138,7 @@ global $pts_victory,$pts_draw;
 
 		//update matches 		
 			$query="UPDATE matches SET played='".$played."',g1='".$g1."',g2='".$g2."' WHERE id='".$match_id."'";
-			$q=mysqli_query($query) or die(mysqli_error($link)());
+			$q=mysqli_query($query) or mysqli_error($link);
 			
 			if($match_id==1) init_team_data($fr_m);
 		//update team data	
@@ -151,24 +151,24 @@ global $pts_victory,$pts_draw;
 				$letter=get_group($det["team1"]);
 				$test=0; //test whether no matches are left in the group
 				//rank the teams
-				$q=mysqli_query("SELECT team_id,pts,gf,ga,m_played FROM teams WHERE group_name='".$letter."' ORDER by pts DESC,(gf-ga) DESC,gf DESC") or die(mysqli_error($link)());
+				$q=mysqli_query("SELECT team_id,pts,gf,ga,m_played FROM teams WHERE group_name='".$letter."' ORDER by pts DESC,(gf-ga) DESC,gf DESC") or mysqli_error($link);
 				$ra=mysqli_num_rows($q);
 				for($k=0;$k<$ra;$k++){
 					$team_id=mysqli_result($q,$k,'team_id');
-					$assign=mysqli_query("UPDATE teams SET current_pos='".($k+1)."' WHERE team_id='$team_id'") or die(mysqli_error($link)());
+					$assign=mysqli_query("UPDATE teams SET current_pos='".($k+1)."' WHERE team_id='$team_id'") or mysqli_error($link);
 					$flag=mysqli_result($q,$k,'m_played');
 					if($flag!=3) $test++;
 				
 				}
 				//if all matches played, set group over to 1
 				if(!$test) {
-					mysqli_query("UPDATE groups SET over=1 WHERE letter='".$letter."'") or die(mysqli_error($link)());
+					mysqli_query("UPDATE groups SET over=1 WHERE letter='".$letter."'") or mysqli_error($link);
 					check_group($letter);
 				}
 				//if groups over, start filling in the next round data
 				if (($match_id>($fr_m-6))&&($match_id<$fr_m+1)) {
 					$next_phase=$trans_round;
-					$trans=mysqli_query("SELECT id FROM matches WHERE round_id='$next_phase'") or die(mysqli_error($link)());
+					$trans=mysqli_query("SELECT id FROM matches WHERE round_id='$next_phase'") or mysqli_error($link);
 					for($k=0;$k<$next_phase;$k++){
 						$m=mysqli_result($trans,$k,'id');
 						$teams=submit_winners($m,$next_phase);
@@ -185,7 +185,7 @@ global $pts_victory,$pts_draw;
 			if ($match_id>$fr_m) {
 				$next_phase=$phase/2;
 //				echo "last phase:m:".$val['m_id']."<br/>";
-				$trans=mysqli_query("SELECT id FROM matches WHERE round_id='$next_phase'") or die(mysqli_error($link)());
+				$trans=mysqli_query("SELECT id FROM matches WHERE round_id='$next_phase'") or mysqli_error($link);
 				if($phase!=1){	
 					for($k=0;$k<$next_phase;$k++){
 						$m=mysqli_result($trans,$k,'id');
@@ -239,7 +239,7 @@ function check_group($group){
 			$team2=mysqli_result($res,'team_id',1);	
 			$pos1=mysqli_result($res,'current_pos',1);	
 			$pos2=mysqli_result($res,'current_pos',1);	
-			$match_query=mysqli_query("SELECT id FROM matches WHERE (t1='$team1' AND team2='$team2') OR (t2='$team1' AND t1='$team2') AND id<'$fr_m'") or die(mysqli_error($link)());
+			$match_query=mysqli_query("SELECT id FROM matches WHERE (t1='$team1' AND team2='$team2') OR (t2='$team1' AND t1='$team2') AND id<'$fr_m'") or mysqli_error($link);
 			$arr=get_match_details(mysqli_result($match_query,0));	
 		//once the match has been identified, get the goals info; if one team won over the other, and the positions aren't set accordingly, switch them	
 			$g1=$arr['goals1'];
@@ -326,7 +326,7 @@ function compare_data($next,$feed){
 	if($match) return($res);	
 }
 function get_next_match_info($next_match){
-	$upcoming=mysqli_query("SELECT t1,t2 FROM matches WHERE id='$next_match'") or die(mysqli_error($link)());
+	$upcoming=mysqli_query("SELECT t1,t2 FROM matches WHERE id='$next_match'") or mysqli_error($link);
 	if($upcoming) {
 		$a['t1']=get_english_team_name(mysqli_result($upcoming,0,"t1"));
 		$a['t2']=get_english_team_name(mysqli_result($upcoming,0,"t2"));
