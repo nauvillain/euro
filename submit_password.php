@@ -7,24 +7,25 @@ require 'conf.php';
   connect_to_eurodb();
 
 
-$new_password=$_POST['new_password'];
-$new_password1=$_POST['new_password1'];
-$old_password=$_POST['old_password'];
+$new_password=getIfSet($_POST['new_password']);
+$new_password1=getIfSet($_POST['new_password1']);
+$old_password=getIfSet($_POST['old_password']);
 
 
 if($new_password!=$new_password1){
   echo "Passwords don't match. Please go <a href=\"javascript:history.back()\">back</a> and complete again.\n";
   exit;
 }
-$query=sprintf("SELECT username,password FROM users WHERE id='%s' and password=password('%s')",$login_id,mysql_real_escape_string($old_password));
+$query=sprintf("SELECT username,password FROM users WHERE id='%s' and password=password('%s')",$login_id,mysqli_real_escape_string($link,$old_password));
 //echo $query;
+//echo "pass.".$old_password;
 
-$result=mysql_query($query) or die(mysql_error());
-if(mysql_num_rows($result)==0){
+$result=mysqli_query($link,$query) or mysqli_error($link);
+if(mysqli_num_rows($result)==0){
   echo "The old password is not correct. Please go <a href=\"javascript:history.back()\">back</a> and complete again.\n";
   exit;
 }	
-$rez=mysql_query("update users set password=password('$new_password') where id='$login_id'") or die(mysql_error());
+$rez=mysqli_query($link,"update users set password=password('$new_password') where id='$login_id'") or mysqli_error($link);
 if($rez){
 	echo "Your password has been changed. <br><a href=\"javascript:close();\">Close</a> this window.\n";}
 else{

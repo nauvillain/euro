@@ -6,7 +6,7 @@ require 'conf.php';
 require 'config/config_foot.php';
 
 connect_to_eurodb();
-mysql_query("UPDATE users SET bet_money=0") or die (mysql_error());
+mysqli_query($link,"UPDATE users SET bet_money=0") or mysqli_error($link);
 
 while(list($key,$val)=each($_POST)){
 //		echo $val."<br>";
@@ -14,7 +14,7 @@ while(list($key,$val)=each($_POST)){
 	if(($val!="")&&($key!='Submit')){
 		$id=substr($key,1);
 		
-		mysql_query("UPDATE users SET bet_money=1 WHERE id='$id'");	
+		mysqli_query($link,"UPDATE users SET bet_money=1 WHERE id='$id'");	
 		}
 }
 header("Location:pot_race_group_saved.php");

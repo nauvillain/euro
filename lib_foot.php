@@ -1039,7 +1039,7 @@ function get_bet_details($res,$i){
 	}
 function is_admin($id){
 	global $link;
-	$res=mysqli_query($link,"SELECT id FROM users WHERE admin='1' AND id='$id'") or die(mysqli_error());
+	$res=mysqli_query($link,"SELECT id FROM users WHERE admin='1' AND id='$id'") or mysqli_error($link);
 	return mysqli_num_rows($res);
 }
 function clear_pick_weight($match_id,$type,$text){
@@ -1467,6 +1467,16 @@ function get_team_name($id){
 		return $res2;
 	}
 }
+function get_all_team_name($id){
+	global $link;
+	if($id) {
+		
+		mysqli_query($link,"SET NAMES 'utf8'");
+		$res=mysqli_query($link,"SELECT team_name FROM all_teams WHERE team_id='$id'");
+		$res2=mysqli_result($res,0,'team_name');
+		return $res2;
+	}
+}
 function get_team_name_link($id,$class_type){
 	if($class_type==0) $string="team_display_normal";
 	if($class_type==1) $string="team_display_big";
@@ -1721,6 +1731,8 @@ function admin_links($login_id){
 		echo "<li><a href='mark_top_scorer_adm.php' style='color:gray;'>Enter top scorer</a></li>";
 		echo "<li><a href='list_bet_times.php' style='color:gray;'>Bet times</a></li>";
 		echo "<li><a href='enter_schedule.php' style='color:gray;'>Enter schedule</a></li>";
+		echo "<li><a href='enter_qualifiers_score.php' style='color:gray;'>Enter qualifier score</a></li>";
+		echo "<li><a href='enter_all_team_adm.php' style='color:gray;'>Enter qualifier team</a></li>";
 	//	echo "<li><a href='set_pot_race.php' style='color:gray;'>Pot race</a></li>";
 		//echo "<li><a href='set_team_players_list_flag.php' style='color:gray;'>Team players list flag</a></li>";
 		}

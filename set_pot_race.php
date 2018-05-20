@@ -4,10 +4,10 @@ require 'php_header.php';
 
 connect_to_eurodb();
 function display_user_list(){
-global $login_id;
+global $login_id,$link;
 
-	$res=mysql_query("SELECT id,bet_money FROM users where player='1' ORDER by first_name");
-	$count=mysql_num_rows($res);
+	$res=mysqli_query($link,"SELECT id,bet_money FROM users where player='1' ORDER by first_name");
+	$count=mysqli_num_rows($res);
 	echo "<table class='user_groups'>\n";
 	echo "<tr><td><table>\n";
 	$k=0;
@@ -15,8 +15,8 @@ global $login_id;
 	for($i=0;$i<$count;$i++){
 		$k+=1;
 		echo "<tr>\n<td class='table_right'>";
-		$id=mysql_result($res,$i,'id');
-		$pot=mysql_result($res,$i,'bet_money');//if the person is already in the user group, mark as checked
+		$id=mysqli_result($res,$i,'id');
+		$pot=mysqli_result($res,$i,'bet_money');//if the person is already in the user group, mark as checked
 		echo get_player_full_name($id)."<input type='checkbox' name='v$id' ".($pot?"checked":"")." style='float:right;'>";
 		echo "</td></tr>";
 		if($k==$columns) {

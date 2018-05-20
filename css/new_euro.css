@@ -520,10 +520,6 @@ a.ajax_link_cancel:hover {
 .teams_table {
 	width:115px;
 }
-#team_name{
-	font:26px lucida;
-	float:left;
-}
 #team_details{
 	position:relative;
 	float:left;
@@ -807,7 +803,7 @@ a.ajax_link_cancel:hover {
 	position:relative;
 	height:100px;
 	font-size:12px;
-	width:1000px;
+	width:1200px;
 }
 #big_table {
 	top:0px;
@@ -897,7 +893,7 @@ a.ajax_link_cancel:hover {
 	width:1000px
 }
 #team_name{
-	font:36px lucida;
+	font:40px lucida;
 	float:right;
 	width:350px;
 	height:50px;

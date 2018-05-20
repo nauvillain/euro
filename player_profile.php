@@ -89,7 +89,7 @@ if($player==1){
 				<tr>";
 		  	echo "<tr><td>\n";
 			if(file_exists('photos/'.$id.'.jpg')) {
-				echo "<img src='photos/$id.jpg'>";
+				echo "<img src='photos/$id.jpg' width=150px;>";
 				echo "<br/>\n";
 				if($login_id==$id) echo "<a href='upload_image.php'>Change it</a>\n";
 			}

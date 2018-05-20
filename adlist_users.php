@@ -8,7 +8,7 @@ if(is_admin($login_id)){
 	$num=mysqli_num_rows($res);
 
 	if ($num==0) echo "No users registered yet!";
-	//echo "<table border='0' bordercolor=grey>\n";
+	echo "<table border='0' bordercolor=grey>\n";
 
 
 	for($i=0;$i<$num;$i++){
@@ -18,13 +18,13 @@ if(is_admin($login_id)){
 	  $player=mysqli_result($res,$i,"player");
 	  if($nickname=="") $nickname=$first_name;
 
-	  //  echo "<tr>\n";
-	  //  echo "<td>\n".$p_id;
-	  //  echo "</td>";
-	    echo "<a href='ad_user_profile.php?id=".$p_id."' class='user_name'>&nbsp;".$first_name.($player?"+":"")."\n</a>&nbsp;&nbsp;&nbsp;&nbsp;"; 
-	  //  echo "</tr>\n";
+	  if($i % 8== 0) echo "<tr>\n";
+	  echo "<td>\n".$p_id;
+	  echo "</td>";
+	  echo "<td><a href='ad_user_profile.php?id=".$p_id."' class='user_name'>&nbsp;".$first_name.($player?"+":"")."\n</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>"; 
+	  if(($i+1) % 8 == 0) echo "</tr>\n";
 	}
-
+	echo "</table>\n";
 
 }
 ?>
