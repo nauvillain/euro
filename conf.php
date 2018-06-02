@@ -33,7 +33,7 @@
 	 $language_meta=array("English","Hungarian","French");
 	 $language_locale=array('en'=>"en_US.utf8",'hu'=>"hu_HU.utf8",'fr'=>"fr_FR.utf8");
 	$cookie_life=40*86400;
-	$session_n="france2016";
+	$session_n="russia";
 	$uploaddir="/volume1/web/russia/photos";
 	$tmp_uploaddir="tmp_photos";
 	$pot_admin=1; //Ranis is the pot race manager
