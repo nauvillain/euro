@@ -181,6 +181,20 @@ var group=new Array(groups)
 </script>
 
 <?php
+		switch($language){
+			case 'en':
+      		echo "<input id='bet_submit' type='submit' name='Submit' value='Submit'>
+		</td><td></td>\n";
+			break;
+			case 'fr':
+      		echo "<input type='submit' name='Submit' value='Valider'>
+		</td><td></td>\n";
+			break;
+			case 'hu';
+      		echo "<input type='submit' name='Submit' value='Elküld'>
+		</td><td></td>\n";
+			break;
+		}
 function bet_color($pick,$cell){
 		if($cell==1) $num=1;
 		else $num=2;

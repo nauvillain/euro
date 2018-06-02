@@ -35,11 +35,11 @@ if(is_admin($login_id)){
 	<form name='form1' style='position:absolute;width:1200px;' method='post' onLoad=\"document.getElementById('g1').focus()\"  action='submit_qualifiers_score_adm.php'>
 
 	<?php
-		function drop_down($team,$selected){
+		function drop_down($team,$selected,$auto){
 			global $link;
 			$res=mysqli_query($link,"SELECT team_id,team_name from all_teams ORDER by team_name") or mysqli_error($link);
 			$num=mysqli_num_rows($res);
-			echo "<select name='$team'>\n";
+			echo "<select name='$team' $auto>\n";
 			for ($i=0;$i<$num;$i++){
 				$team_id=mysqli_result($res,$i,'team_id');
 				$team_name=mysqli_result($res,$i,'team_name');
@@ -60,10 +60,10 @@ if(is_admin($login_id)){
 			$t2=get_team_id('t2',$match_id);
 		}
 
-		drop_down('t1',$t1);
+		drop_down('t1',$t1,"autofocus");
 		echo "<input name='g1' id='g1' size=1>\n";
 		echo "<input name='g2' id='g2' size=1>\n";
-		drop_down('t2',$t2);
+		drop_down('t2',$t2,"");
 		echo "<input type='hidden' name='last_team' value='$team_id'>\n";
 	?>
 

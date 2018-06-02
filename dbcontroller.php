@@ -8,7 +8,7 @@ class DBController {
 
 	private $password = "husi!chou";
 
-	private $database = "france";
+	private $database = "russia18";
 
 	
 

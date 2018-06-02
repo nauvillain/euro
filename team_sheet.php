@@ -65,6 +65,50 @@ function show_flag($code){
 global $link;	
 	echo "<img src='img/".$code.".png' class='team_sheet_title'/>\n";
 }
+
+function display_qualifiers($team_id){
+	global $link;
+	
+	sqlutf();
+	echo "<div class='team_qualifiers'>";
+	echo "<table>";
+	if(isset($team_id)){
+		$rest=mysqli_query($link,"SELECT count(*) FROM teams");
+		$num_teams=mysqli_result($rest,0);
+		
+		$res=mysqli_query($link,"SELECT * FROM qualifiers WHERE t1='$team_id' OR t2='$team_id' ORDER BY id desc ");
+		$num=mysqli_num_rows($res);
+		//echo $num."<br/>";
+
+		for($i=0;$i<$num;$i++){
+			$t1=mysqli_result($res,$i,'t1');
+			$g1=mysqli_result($res,$i,'g1');
+			$t2=mysqli_result($res,$i,'t2');
+			$g2=mysqli_result($res,$i,'g2');
+
+			echo "<tr><td>".get_all_team_name_link($t1,$num_teams)."</td><td>".$g1." - ".$g2."</td><td>".get_all_team_name_link($t2,$num_teams)."</td><tr/>";
+			}
+	}
+	echo "</table>";
+	echo "</div>\n";
+
+}
+
+function get_all_team_name_link($team_id,$num_teams){
+
+		if($team_id<$num_teams) {
+			$team_link1="<a href='team_sheet.php?id=$team_id'>";
+			$team_link2="</a>";
+		}
+		else $team_link1=$team_link2="";
+		
+		$team_name1=get_all_team_name($team_id);
+
+		$result=$team_link1.$team_name1.$team_link2;
+		
+		return $result;
+	
+}
 ?>
 <div id='foot_main'>
 <?php
@@ -84,6 +128,9 @@ $team_id=$_REQUEST['id'];
 	<?php
 	display_history($team_id);
 	display_all_groups(get_group($team_id));
+	echo "<h2> Qualifiers </h2>\n";
+	display_qualifiers($team_id);
+	echo "</div>\n";
 	echo "<div id='team_ranking_all'>";
 	$gp=array(get_group($team_id));
 	$gr=array_diff($groups,$gp);

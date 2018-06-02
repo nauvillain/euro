@@ -21,8 +21,8 @@
 	 $pts_victory=3;
 	 $pts_draw=1;
 	 $trans_round=pow(2,$sr_l-1);
-	 //$groups=array("A","B","C","D","E","F","G","H"); //world cup
-	 $groups=array("A","B","C","D","E","F"); //big_euro
+	$groups=array("A","B","C","D","E","F","G","H"); //world cup
+	// $groups=array("A","B","C","D","E","F"); //big_euro
 //	 $groups=array("A","B","C","D"); //euro
 	 $resp_group_matches=3;
 	 $PTS_W=10;

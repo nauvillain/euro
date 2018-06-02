@@ -19,11 +19,17 @@ if(is_admin($login_id)){
 	</form><br/>";
 	$res=mysqli_query($link,"SELECT team_id,team_name from all_teams ORDER by team_id DESC") or mysqli_error($link);
 	$num=mysqli_num_rows($res);
-	for ($i=0;$i<10;$i++){
+	echo "<table><tr>\n";
+	for ($i=0;$i<$num;$i++){
+		if($i % 10 == 0) echo "<td><table>\n";
+		echo "<tr><td>\n";
 		$team_id=mysqli_result($res,$i,'team_id');
 		$team_name=mysqli_result($res,$i,'team_name');
 		echo "$team_name<br/>";
+		echo "</td></tr>\n";
+		if($i % 10 == 9) echo "</table></td>\n";
 	}
+	echo "</tr></table>\n";
 	echo "</div>\n";
 	}
 ?>

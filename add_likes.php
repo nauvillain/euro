@@ -1,8 +1,8 @@
 <?php
 require 'auth_foot.php';
+require_once 'lib_foot.php';
 require_once("dbcontroller.php");
 $db_handle = new DBController();
-
 if(!empty($_POST["id"])) {
 
 
@@ -13,7 +13,6 @@ if(!empty($_POST["id"])) {
 			$query = "INSERT INTO likes (user_id,post_id) VALUES ('$login_id','".$_POST["id"]."')";
 
 			$result = $db_handle->insertQuery($query);
-
 			if(!empty($result)) {
 				
 				$query ="select id FROM post_meta WHERE post_id='" . $_POST["id"] . "'";

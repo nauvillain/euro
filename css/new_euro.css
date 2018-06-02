@@ -491,6 +491,23 @@ a.ajax_link_cancel:hover {
 #team_ranking img{
 	vertical-align:middle;
 }
+.team_qualifiers table{
+	width:285px;
+        border:1px solid;
+       	border-color:#7D0508;
+	border-spacing:0px;
+	background:#f9f5f2;
+	font:11px lucida,sans-serif;
+}
+.team_qualifiers td {
+	padding:2px;
+        border-bottom:1px solid;
+        border-right:1px solid;
+       	border-color:#7D0508;
+}
+.team_qualifiers img{
+	vertical-align:middle;
+}
 /*teams*/
 
 #teams_list{
@@ -795,7 +812,7 @@ a.ajax_link_cancel:hover {
 	display:block;
 	background:#e1e1e1;
 	font: bold 22px lucida,sans-serif;
-	height:120px;
+	height:115px;
 }
 
 #teams_list{
@@ -898,12 +915,12 @@ a.ajax_link_cancel:hover {
 	width:350px;
 	height:50px;
 	margin-right:240px;
-	margin-top:50px;
+	margin-top:20px;
 }
 .players_list{
 	width:450px;
 	float:right;
-	margin-top:50px;
+	margin-top:20px;
 }
 .players_list table{
 	float:right;

@@ -592,15 +592,15 @@ for($i=0;$i<sizeof($language_array);$i++) {
 	echo "\n</div>\n";
 }
 function display_total_users($login_id){
-global $language,$link;
+global $language,$link,$currency;
 
 	echo "<div class='standardfont'>\n";
 	if(still_time(1)){
 		echo "<br/><b>".mysqli_result(mysqli_query($link,"SELECT count(*) FROM users WHERE player=1"),0)." ".get_word_by_id(84)."</b><br/>\n";
 		$top_scorer=find_scorer($login_id);
 		$winner=find_winner_bet($login_id);
-		if($top_scorer) echo get_word_by_id(109).": ".$top_scorer;
-		if($winner) echo "<br/> ".get_word_by_id(91).": ".$winner;
+		if($top_scorer) echo "<br/>".get_word_by_id(109).":<b> ".$top_scorer."</b>";
+		if($winner) echo "<br/> ".get_word_by_id(91).":<b> ".$winner."</b>";
 		if($top_scorer&&$winner) {
 			echo "<p/><a href='edit_bets1.php'>".get_word_by_id(108)."</a></i><br/><br/>";
 		}
@@ -608,7 +608,7 @@ global $language,$link;
 			echo "<br/><i>".get_word_by_id(151)."&nbsp;";
 			echo "<a href='edit_bets1.php'>".get_word_by_id(152)."</a></i><br/><br/>";
 		}
-	echo "<br>Money pool - 10 € - via Paypal to vilnico@gmail.com, or in person, before the start of the tournament";
+	echo "<br>Money pool - 10 ".$currency." - via Paypal to vilnico@gmail.com, or in person, before the start of the tournament";
 /*	switch($language) {
 			case 'en': echo "This <a href='pronosafter.xls'>Excel sheet</a> can help you see who'd qualify according to your picks\n";
 			break; 
@@ -1188,7 +1188,6 @@ echo "<table cellspacing=0px>\n
 </tr>
 </table>
 <br>
-</div>
 <?php
 	}
 
